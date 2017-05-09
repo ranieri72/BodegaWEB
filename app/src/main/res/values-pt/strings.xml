@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Bodega Olinda</string>
+    <string name="estoque">Estoque</string>
+    <string name="preco">R$</string>
+    <string name="nome">Nome</string>
+    <string name="categoria">Categoria</string>
+    <string name="subcategoria">Subcategoria</string>
+    <string name="editar">Alterar</string>
+    <string name="salvar">Salvar</string>
+    <string name="detalhes">Detalhes</string>
+    <string name="produtos">Produtos</string>
+</resources>
