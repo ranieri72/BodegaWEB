@@ -63,7 +63,7 @@ public class ProdutosDAO {
         BodegaHelper helper = new BodegaHelper(mContext);
         SQLiteDatabase db = helper.getReadableDatabase();
 
-        Cursor cursor = db.rawQuery("SELECT p._id, p.nome, p.estoque, p.preco, c._id AS cID, c.nome AS cNome, s._id AS sID, s.nome AS sNome" +
+        Cursor cursor = db.rawQuery("SELECT p.*, c._id AS cID, c.nome AS cNome, s._id AS sID, s.nome AS sNome" +
                 " FROM produtos AS p, categorias AS c, subCategorias AS s" +
                 " WHERE p.idCategoria = c._id AND c.idSubCategoria = s._id AND p._id = ?", new String[]{String.valueOf(produto.getId())});
 
@@ -72,6 +72,8 @@ public class ProdutosDAO {
             produto.setId(cursor.getLong(cursor.getColumnIndex(ProdutosContract._ID)));
             produto.setNome(cursor.getString(cursor.getColumnIndex(ProdutosContract.NOME)));
             produto.setEstoque(cursor.getInt(cursor.getColumnIndex(ProdutosContract.ESTOQUE)));
+            produto.setNovoEstoque(cursor.getInt(cursor.getColumnIndex(ProdutosContract.NOVOESTOQUE)));
+            produto.setAlterado((cursor.getInt(cursor.getColumnIndex(ProdutosContract.ALTERADO))) == 1);
             produto.setPreço(cursor.getDouble(cursor.getColumnIndex(ProdutosContract.PRECO)));
 
             produto.getCategoria().setId(cursor.getLong(cursor.getColumnIndex("cID")));
@@ -89,7 +91,7 @@ public class ProdutosDAO {
         BodegaHelper helper = new BodegaHelper(mContext);
         SQLiteDatabase db = helper.getReadableDatabase();
 
-        Cursor cursor = db.rawQuery("SELECT p._id, p.nome, p.estoque, p.preco, c._id AS cID, c.nome AS cNome, s._id AS sID, s.nome AS sNome" +
+        Cursor cursor = db.rawQuery("SELECT p.*, c._id AS cID, c.nome AS cNome, s._id AS sID, s.nome AS sNome" +
                 " FROM produtos AS p, categorias AS c, subCategorias AS s" +
                 " WHERE p.idCategoria = c._id AND c.idSubCategoria = s._id", null);
 
@@ -101,6 +103,8 @@ public class ProdutosDAO {
             produto.setId(cursor.getLong(cursor.getColumnIndex(ProdutosContract._ID)));
             produto.setNome(cursor.getString(cursor.getColumnIndex(ProdutosContract.NOME)));
             produto.setEstoque(cursor.getInt(cursor.getColumnIndex(ProdutosContract.ESTOQUE)));
+            produto.setNovoEstoque(cursor.getInt(cursor.getColumnIndex(ProdutosContract.NOVOESTOQUE)));
+            produto.setAlterado((cursor.getInt(cursor.getColumnIndex(ProdutosContract.ALTERADO))) == 1);
             produto.setPreço(cursor.getDouble(cursor.getColumnIndex(ProdutosContract.PRECO)));
 
             produto.getCategoria().setId(cursor.getLong(cursor.getColumnIndex("cID")));
@@ -120,7 +124,7 @@ public class ProdutosDAO {
         BodegaHelper helper = new BodegaHelper(mContext);
         SQLiteDatabase db = helper.getReadableDatabase();
 
-        Cursor cursor = db.rawQuery("SELECT p._id, p.nome, p.estoque, p.preco, c._id AS cID, c.nome AS cNome FROM produtos AS p, categorias AS c" +
+        Cursor cursor = db.rawQuery("SELECT p.*, c._id AS cID, c.nome AS cNome FROM produtos AS p, categorias AS c" +
                 " WHERE p.idCategoria = c._id AND c.idSubCategoria = ? ORDER BY c.ordem ASC, p.nome ASC", new String[]{String.valueOf(subCategoria.getId())});
 
         List<Produtos> lista = new ArrayList<>();
@@ -131,6 +135,8 @@ public class ProdutosDAO {
             produto.setId(cursor.getLong(cursor.getColumnIndex(ProdutosContract._ID)));
             produto.setNome(cursor.getString(cursor.getColumnIndex(ProdutosContract.NOME)));
             produto.setEstoque(cursor.getInt(cursor.getColumnIndex(ProdutosContract.ESTOQUE)));
+            produto.setNovoEstoque(cursor.getInt(cursor.getColumnIndex(ProdutosContract.NOVOESTOQUE)));
+            produto.setAlterado((cursor.getInt(cursor.getColumnIndex(ProdutosContract.ALTERADO))) == 1);
             produto.setPreço(cursor.getDouble(cursor.getColumnIndex(ProdutosContract.PRECO)));
 
             produto.getCategoria().setId(cursor.getLong(cursor.getColumnIndex("cID")));
@@ -149,6 +155,8 @@ public class ProdutosDAO {
         values.put(ProdutosContract._ID, produto.getId());
         values.put(ProdutosContract.NOME, produto.getNome());
         values.put(ProdutosContract.ESTOQUE, produto.getEstoque());
+        values.put(ProdutosContract.NOVOESTOQUE, produto.getNovoEstoque());
+        values.put(ProdutosContract.ALTERADO, produto.isAlterado());
         values.put(ProdutosContract.PRECO, produto.getPreço());
         values.put(ProdutosContract.CATEGORIA, produto.getCategoria().getId());
 

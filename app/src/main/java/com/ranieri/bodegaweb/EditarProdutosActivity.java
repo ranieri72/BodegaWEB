@@ -77,8 +77,9 @@ public class EditarProdutosActivity extends AppCompatActivity {
                     Log.v("Editar Produto", "onClick - Salvar");
 
                     produto.setNome(mEdtNome.getText().toString());
-                    produto.setEstoque(Integer.parseInt(mEdtEstoque.getText().toString()));
+                    produto.setNovoEstoque(Integer.parseInt(mEdtEstoque.getText().toString()));
                     produto.setPreço(Double.parseDouble(mEdtPreco.getText().toString()));
+                    produto.setAlterado(true);
 
                     mDAO = new ProdutosDAO(EditarProdutosActivity.this);
                     mDAO.atualizar(produto);

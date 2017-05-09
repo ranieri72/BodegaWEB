@@ -8,6 +8,8 @@ public class Produtos implements Parcelable {
     private long id;
     private String nome;
     private int estoque;
+    private int novoEstoque;
+    private boolean alterado;
     private double preço;
     private Categorias categoria;
 
@@ -19,6 +21,8 @@ public class Produtos implements Parcelable {
         id = in.readLong();
         nome = in.readString();
         estoque = in.readInt();
+        novoEstoque = in.readInt();
+        alterado = in.readByte() != 0;
         preço = in.readDouble();
         categoria = in.readParcelable(Categorias.class.getClassLoader());
     }
@@ -45,6 +49,8 @@ public class Produtos implements Parcelable {
         dest.writeLong(id);
         dest.writeString(nome);
         dest.writeInt(estoque);
+        dest.writeInt(novoEstoque);
+        dest.writeByte((byte) (alterado ? 1 : 0));
         dest.writeDouble(preço);
         dest.writeParcelable(categoria, flags);
     }
@@ -80,4 +86,12 @@ public class Produtos implements Parcelable {
     public Categorias getCategoria() { return categoria; }
 
     public void setCategoria(Categorias categoria) { this.categoria = categoria; }
+
+    public int getNovoEstoque() { return novoEstoque; }
+
+    public void setNovoEstoque(int novoEstoque) { this.novoEstoque = novoEstoque; }
+
+    public boolean isAlterado() { return alterado; }
+
+    public void setAlterado(boolean alterado) { this.alterado = alterado; }
 }

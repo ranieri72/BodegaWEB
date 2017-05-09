@@ -103,6 +103,8 @@ public class ListaSubCategoriasActivity extends AppCompatActivity {
         }
 
         for (Produtos p: listaProdutos) {
+            p.setNovoEstoque(p.getEstoque());
+            p.setAlterado(false);
             produtosDAO.inserir(p);
         }
     }

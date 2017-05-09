@@ -11,6 +11,8 @@ public interface ProdutosContract extends BaseColumns {
 
     String NOME = "nome";
     String ESTOQUE = "estoque";
+    String NOVOESTOQUE = "novoestoque";
+    String ALTERADO = "alterado";
     String PRECO = "preco";
     String CATEGORIA = "idCategoria";
 }

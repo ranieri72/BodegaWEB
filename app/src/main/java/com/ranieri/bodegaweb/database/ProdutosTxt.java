@@ -10,6 +10,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,10 +24,73 @@ public class ProdutosTxt {
     private InputStreamReader inputreader;
     private BufferedReader buffreader;
     private Context context;
+    private OutputStreamWriter outputStreamWriter;
+
+    public void writeRawTextFile(List<Produtos> lista, Context ctx) {
+        context = ctx;
+        List<Produtos> listaMovimentacoes = new ArrayList<>();
+        List<Produtos> listaItensPedidos = new ArrayList<>();
+
+        for (Produtos p : lista) {
+            if (p.getEstoque() > p.getNovoEstoque()) {
+                listaMovimentacoes.add(p);
+                continue;
+            }
+            if (p.getEstoque() < p.getNovoEstoque()) {
+                listaItensPedidos.add(p);
+            }
+        }
+        if (!listaMovimentacoes.isEmpty()) {
+            writeMovimentacoes(listaMovimentacoes);
+        }
+        if (!listaItensPedidos.isEmpty()) {
+            writeItensPedidos(listaItensPedidos);
+        }
+    }
+
+    private void writeMovimentacoes(List<Produtos> lista) {
+        try {
+            outputStreamWriter = new OutputStreamWriter(context.openFileOutput("movimentacoes_estoque.txt", Context.MODE_PRIVATE));
+            String sqlInsert = "INSERT INTO negocio.itentradaprateleira (idproduto, qtd, hora, data, idunidmedida, perda) VALUES (";
+            String sqlValues;
+            for (Produtos p : lista) {
+                sqlValues = String.valueOf(p.getId()) + ", ";
+                sqlValues += (p.getEstoque() - p.getNovoEstoque()) + ", ";
+                sqlValues += "CURRENT_TIME, ";
+                sqlValues += "CURRENT_DATE, ";
+                sqlValues += "1, ";
+                sqlValues += "true);";
+                outputStreamWriter.write(sqlInsert + sqlValues);
+            }
+            outputStreamWriter.close();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void writeItensPedidos(List<Produtos> lista) {
+        try {
+            outputStreamWriter = new OutputStreamWriter(context.openFileOutput("itens_pedido.txt", Context.MODE_PRIVATE));
+            String sqlInsert = "INSERT INTO negocio.itenspedido (precounit, qtd, idproduto, idpedido, idunidmedida) VALUES (";
+            String sqlValues;
+            for (Produtos p : lista) {
+                sqlValues = "0, ";
+                sqlValues += (p.getNovoEstoque() - p.getEstoque()) + ", ";
+                sqlValues += String.valueOf(p.getId()) + ", ";
+                sqlValues += ", ";
+                sqlValues += "1);";
+                outputStreamWriter.write(sqlInsert + sqlValues);
+            }
+            outputStreamWriter.close();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     public List<Produtos> readRawTextFile(Context ctx){
         context = ctx;
-
         List<Produtos> lista = readProdutoId();
 
         lista = readProdutoNome(lista);
@@ -44,7 +108,7 @@ public class ProdutosTxt {
         buffreader = new BufferedReader(inputreader);
         String line;
 
-        List<Produtos> lista = new ArrayList<Produtos>();
+        List<Produtos> lista = new ArrayList<>();
         Produtos produto;
 
         try {

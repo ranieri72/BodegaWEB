@@ -1,12 +1,13 @@
 <resources>
     <string name="app_name">Bodega Olinda</string>
-    <string name="estoque">Quantity</string>
+    <string name="estoque">Current</string>
+    <string name="novoestoque">Current amount</string>
     <string name="preco">R$</string>
     <string name="nome">Name</string>
     <string name="categoria">Category</string>
     <string name="subcategoria">Subcategory</string>
     <string name="editar">Alter</string>
     <string name="salvar">Save</string>
-    <string name="detalhes">Detail</string>
+    <string name="detalhes">Details</string>
     <string name="produtos">Products</string>
 </resources>
