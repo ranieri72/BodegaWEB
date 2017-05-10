@@ -14,6 +14,7 @@ public class DetalProdutosActivity extends AppCompatActivity {
 
     TextView mTxtNome;
     TextView mTxtEstoque;
+    TextView mTxtNovoEstoque;
     TextView mTxtPreco;
     TextView mTxtCategoria;
     TextView mTxtSubCategoria;
@@ -34,6 +35,7 @@ public class DetalProdutosActivity extends AppCompatActivity {
 
         mTxtNome = (TextView)findViewById(R.id.txt_nome);
         mTxtEstoque = (TextView)findViewById(R.id.txt_estoque);
+        mTxtNovoEstoque = (TextView)findViewById(R.id.txt_novo_estoque);
         mTxtPreco = (TextView)findViewById(R.id.txt_preco);
         mTxtCategoria = (TextView)findViewById(R.id.txt_categoria);
         mTxtSubCategoria = (TextView)findViewById(R.id.txt_subcategoria);
@@ -72,6 +74,7 @@ public class DetalProdutosActivity extends AppCompatActivity {
     private void definirTextView() {
         mTxtNome.setText(produto.getNome());
         mTxtEstoque.setText(String.valueOf(produto.getEstoque()));
+        mTxtNovoEstoque.setText(String.valueOf(produto.getNovoEstoque()));
         mTxtPreco.setText(String.valueOf(produto.getPreço()));
         mTxtCategoria.setText(produto.getCategoria().getNome());
         mTxtSubCategoria.setText(produto.getCategoria().getSubCategoria().getNome());

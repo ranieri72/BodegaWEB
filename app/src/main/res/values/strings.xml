@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Bodega Olinda</string>
-    <string name="estoque">Current</string>
+    <string name="estoque">Amount</string>
     <string name="novoestoque">Current amount</string>
     <string name="preco">R$</string>
     <string name="nome">Name</string>

@@ -24,6 +24,8 @@ public class BodegaHelper extends SQLiteOpenHelper {
                 ProdutosContract._ID + " INTEGER PRIMARY KEY, " +
                 ProdutosContract.NOME + " TEXT NOT NULL, " +
                 ProdutosContract.ESTOQUE + " INTEGER NOT NULL, " +
+                ProdutosContract.NOVOESTOQUE + " INTEGER NOT NULL, " +
+                ProdutosContract.ALTERADO + " INTEGER NOT NULL, " +
                 ProdutosContract.PRECO + " REAL NOT NULL, " +
                 ProdutosContract.CATEGORIA + " INTEGER NOT NULL); ";
 

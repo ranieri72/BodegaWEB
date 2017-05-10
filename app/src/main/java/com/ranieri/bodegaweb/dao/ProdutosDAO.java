@@ -38,6 +38,19 @@ public class ProdutosDAO {
         return produto;
     }
 
+    public void inserirLista(List<Produtos> lista){
+        BodegaHelper helper = new BodegaHelper(mContext);
+        SQLiteDatabase db = helper.getWritableDatabase();
+
+        for (Produtos p : lista) {
+            p.setNovoEstoque(p.getEstoque());
+            p.setAlterado(false);
+            ContentValues values = valuesFromProdutos(p);
+            long id = db.insert(ProdutosContract.TABLE_NAME, null, values);
+        }
+        db.close();
+    }
+
     public int atualizar(Produtos produto){
         BodegaHelper helper = new BodegaHelper(mContext);
         SQLiteDatabase db = helper.getWritableDatabase();

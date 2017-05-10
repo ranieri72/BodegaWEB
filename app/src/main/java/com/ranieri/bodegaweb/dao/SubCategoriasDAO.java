@@ -36,6 +36,17 @@ public class SubCategoriasDAO {
         return subCategoria;
     }
 
+    public void inserirLista(List<SubCategorias> lista){
+        BodegaHelper helper = new BodegaHelper(mContext);
+        SQLiteDatabase db = helper.getWritableDatabase();
+
+        for (SubCategorias s : lista) {
+            ContentValues values = valuesFromSubCategorias(s);
+            db.insert(SubCategoriasContract.TABLE_NAME, null, values);
+        }
+        db.close();
+    }
+
     public List<SubCategorias> listar(){
         BodegaHelper helper = new BodegaHelper(mContext);
         SQLiteDatabase db = helper.getReadableDatabase();
@@ -50,7 +61,7 @@ public class SubCategoriasDAO {
     }
 
     private List<SubCategorias> valuesFromCursor(Cursor cursor) {
-        List<SubCategorias> lista = new ArrayList<SubCategorias>();
+        List<SubCategorias> lista = new ArrayList<>();
         SubCategorias subCategoria;
 
         while (cursor.moveToNext()){

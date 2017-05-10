@@ -37,6 +37,17 @@ public class CategoriasDAO {
         return categoria;
     }
 
+    public void inserirLista(List<Categorias> lista){
+        BodegaHelper helper = new BodegaHelper(mContext);
+        SQLiteDatabase db = helper.getWritableDatabase();
+
+        for (Categorias c : lista) {
+            ContentValues values = valuesFromCategorias(c);
+            db.insert(CategoriasContract.TABLE_NAME, null, values);
+        }
+        db.close();
+    }
+
     public List<Categorias> listarPorSubCategoria(SubCategorias subCategoria){
         BodegaHelper helper = new BodegaHelper(mContext);
         SQLiteDatabase db = helper.getReadableDatabase();
@@ -52,7 +63,7 @@ public class CategoriasDAO {
     }
 
     private List<Categorias> valuesFromCursor(Cursor cursor) {
-        List<Categorias> lista = new ArrayList<Categorias>();
+        List<Categorias> lista = new ArrayList<>();
 
         while (cursor.moveToNext()){
             categoria = new Categorias();

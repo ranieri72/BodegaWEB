@@ -37,9 +37,9 @@ public class ListaSubCategoriasActivity extends AppCompatActivity {
 
         if (extras != null) {
             produto = (Produtos) extras.get("produto");
-            setTitle(getResources().getString(R.string.produtos));
-        } else {
             setTitle(getResources().getString(R.string.categoria));
+        } else {
+            setTitle(getResources().getString(R.string.produtos));
         }
 
         mDAO = new SubCategoriasDAO(this);
@@ -94,18 +94,8 @@ public class ListaSubCategoriasActivity extends AppCompatActivity {
         List<Categorias> listaCategorias = categoriasTxt.readRawTextFile(this);
         List<SubCategorias> listaSubCategorias = subCategoriasTxt.readRawTextFile(this);
 
-        for (SubCategorias s: listaSubCategorias) {
-            mDAO.inserir(s);
-        }
-
-        for (Categorias c: listaCategorias) {
-            categoriasDAO.inserir(c);
-        }
-
-        for (Produtos p: listaProdutos) {
-            p.setNovoEstoque(p.getEstoque());
-            p.setAlterado(false);
-            produtosDAO.inserir(p);
-        }
+        mDAO.inserirLista(listaSubCategorias);
+        categoriasDAO.inserirLista(listaCategorias);
+        produtosDAO.inserirLista(listaProdutos);
     }
 }
