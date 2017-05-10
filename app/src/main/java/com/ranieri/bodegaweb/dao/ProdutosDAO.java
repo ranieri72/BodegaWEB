@@ -163,6 +163,33 @@ public class ProdutosDAO {
         return lista;
     }
 
+    public List<Produtos> listarAlterado(){
+        BodegaHelper helper = new BodegaHelper(mContext);
+        SQLiteDatabase db = helper.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery("SELECT p.*, c._id AS cID FROM produtos AS p, categorias AS c" +
+                " WHERE p.idCategoria = c._id AND p.alterado = 1", null);
+
+        List<Produtos> lista = new ArrayList<>();
+
+        while (cursor.moveToNext()){
+            produto = new Produtos();
+
+            produto.setId(cursor.getLong(cursor.getColumnIndex(ProdutosContract._ID)));
+            produto.setNome(cursor.getString(cursor.getColumnIndex(ProdutosContract.NOME)));
+            produto.setEstoque(cursor.getInt(cursor.getColumnIndex(ProdutosContract.ESTOQUE)));
+            produto.setNovoEstoque(cursor.getInt(cursor.getColumnIndex(ProdutosContract.NOVOESTOQUE)));
+            produto.setAlterado((cursor.getInt(cursor.getColumnIndex(ProdutosContract.ALTERADO))) == 1);
+            produto.setPreço(cursor.getDouble(cursor.getColumnIndex(ProdutosContract.PRECO)));
+            produto.getCategoria().setId(cursor.getLong(cursor.getColumnIndex("cID")));
+            lista.add(produto);
+        }
+
+        cursor.close();
+        db.close();
+        return lista;
+    }
+
     private ContentValues valuesFromProdutos(Produtos produto) {
         ContentValues values = new ContentValues();
         values.put(ProdutosContract._ID, produto.getId());

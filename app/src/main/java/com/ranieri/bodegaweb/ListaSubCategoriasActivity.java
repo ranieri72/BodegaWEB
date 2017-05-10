@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -24,7 +26,9 @@ import java.util.List;
 public class ListaSubCategoriasActivity extends AppCompatActivity {
 
     SubCategoriasDAO mDAO;
+    ProdutosDAO produtosDAO;
     Produtos produto;
+    ProdutosTxt produtosTxt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,12 +86,35 @@ public class ListaSubCategoriasActivity extends AppCompatActivity {
         }
     };
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.action_gerar_sql:
+                gerarSQL();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void gerarSQL() {
+        produtosTxt = new ProdutosTxt();
+        produtosDAO = new ProdutosDAO(this);
+        List<Produtos> lista = produtosDAO.listarAlterado();
+        produtosTxt.writeRawTextFile(lista, this);
+    }
+
     private void preencherBanco() {
-        ProdutosTxt produtosTxt = new ProdutosTxt();
+        produtosTxt = new ProdutosTxt();
         CategoriasTxt categoriasTxt = new CategoriasTxt();
         SubCategoriasTxt subCategoriasTxt = new SubCategoriasTxt();
 
-        ProdutosDAO produtosDAO = new ProdutosDAO(this);
+        produtosDAO = new ProdutosDAO(this);
         CategoriasDAO categoriasDAO = new CategoriasDAO(this);
 
         List<Produtos> listaProdutos = produtosTxt.readRawTextFile(this);

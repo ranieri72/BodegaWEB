@@ -7,12 +7,17 @@ import com.ranieri.bodegaweb.model.Categorias;
 import com.ranieri.bodegaweb.model.Produtos;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.List;
+
+import static android.content.Context.MODE_APPEND;
+import static android.content.Context.MODE_PRIVATE;
 
 /**
  * Created by ranie on 28 de abr.
@@ -25,6 +30,7 @@ public class ProdutosTxt {
     private BufferedReader buffreader;
     private Context context;
     private OutputStreamWriter outputStreamWriter;
+    private FileOutputStream fileOut;
 
     public void writeRawTextFile(List<Produtos> lista, Context ctx) {
         context = ctx;
@@ -50,7 +56,9 @@ public class ProdutosTxt {
 
     private void writeMovimentacoes(List<Produtos> lista) {
         try {
-            outputStreamWriter = new OutputStreamWriter(context.openFileOutput("movimentacoes_estoque.txt", Context.MODE_PRIVATE));
+            //outputStreamWriter = new OutputStreamWriter(context.openFileOutput("movimentacoes_estoque.txt", MODE_PRIVATE));
+            fileOut = context.openFileOutput("movimentacoes_estoque.txt", MODE_APPEND);
+            outputStreamWriter = new OutputStreamWriter(fileOut);
             String sqlInsert = "INSERT INTO negocio.itentradaprateleira (idproduto, qtd, hora, data, idunidmedida, perda) VALUES (";
             String sqlValues;
             for (Produtos p : lista) {
@@ -71,7 +79,15 @@ public class ProdutosTxt {
 
     private void writeItensPedidos(List<Produtos> lista) {
         try {
-            outputStreamWriter = new OutputStreamWriter(context.openFileOutput("itens_pedido.txt", Context.MODE_PRIVATE));
+            //outputStreamWriter = new OutputStreamWriter(context.openFileOutput("itens_pedido.txt", Context.MODE_PRIVATE));
+            //fileOut = context.openFileOutput("itens_pedido.txt", MODE_APPEND);
+            //outputStreamWriter = new OutputStreamWriter(fileOut);
+
+            File path = context.getFilesDir();
+            File pathOut = context.getExternalFilesDir(null);
+            File file = new File(path, "itens_pedido.txt");
+            FileOutputStream stream = new FileOutputStream(file);
+
             String sqlInsert = "INSERT INTO negocio.itenspedido (precounit, qtd, idproduto, idpedido, idunidmedida) VALUES (";
             String sqlValues;
             for (Produtos p : lista) {
@@ -80,9 +96,11 @@ public class ProdutosTxt {
                 sqlValues += String.valueOf(p.getId()) + ", ";
                 sqlValues += ", ";
                 sqlValues += "1);";
-                outputStreamWriter.write(sqlInsert + sqlValues);
+                //outputStreamWriter.write(sqlInsert + sqlValues);
+                stream.write("text-to-write".getBytes());
             }
-            outputStreamWriter.close();
+            //outputStreamWriter.close();
+            stream.close();
         }
         catch (IOException e) {
             e.printStackTrace();
