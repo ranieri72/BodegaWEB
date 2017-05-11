@@ -1,6 +1,9 @@
 package com.ranieri.bodegaweb;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.ranieri.bodegaweb.adapter.SubCategoriasAdapter;
 import com.ranieri.bodegaweb.dao.CategoriasDAO;
@@ -24,6 +28,11 @@ import com.ranieri.bodegaweb.model.SubCategorias;
 import java.util.List;
 
 public class ListaSubCategoriasActivity extends AppCompatActivity {
+
+    private static final int REQUEST_EXTERNAL_STORAGE = 1;
+    private static String[] PERMISSIONS_STORAGE = {
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+    };
 
     SubCategoriasDAO mDAO;
     ProdutosDAO produtosDAO;
@@ -96,7 +105,9 @@ public class ListaSubCategoriasActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.action_gerar_sql:
+                verifyStoragePermissions();
                 gerarSQL();
+                Toast.makeText(this, getResources().getString(R.string.sqlgerado), Toast.LENGTH_SHORT).show();
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -107,6 +118,18 @@ public class ListaSubCategoriasActivity extends AppCompatActivity {
         produtosDAO = new ProdutosDAO(this);
         List<Produtos> lista = produtosDAO.listarAlterado();
         produtosTxt.writeRawTextFile(lista, this);
+    }
+
+    private void verifyStoragePermissions() {
+        int permission = ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+
+        if (permission != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(
+                    this,
+                    PERMISSIONS_STORAGE,
+                    REQUEST_EXTERNAL_STORAGE
+            );
+        }
     }
 
     private void preencherBanco() {

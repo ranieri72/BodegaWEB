@@ -1,6 +1,8 @@
 package com.ranieri.bodegaweb.database;
 
 import android.content.Context;
+import android.os.Environment;
+import android.util.Log;
 
 import com.ranieri.bodegaweb.R;
 import com.ranieri.bodegaweb.model.Categorias;
@@ -9,6 +11,7 @@ import com.ranieri.bodegaweb.model.Produtos;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -17,7 +20,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static android.content.Context.MODE_APPEND;
-import static android.content.Context.MODE_PRIVATE;
 
 /**
  * Created by ranie on 28 de abr.
@@ -79,14 +81,12 @@ public class ProdutosTxt {
 
     private void writeItensPedidos(List<Produtos> lista) {
         try {
-            //outputStreamWriter = new OutputStreamWriter(context.openFileOutput("itens_pedido.txt", Context.MODE_PRIVATE));
-            //fileOut = context.openFileOutput("itens_pedido.txt", MODE_APPEND);
-            //outputStreamWriter = new OutputStreamWriter(fileOut);
-
-            File path = context.getFilesDir();
-            File pathOut = context.getExternalFilesDir(null);
-            File file = new File(path, "itens_pedido.txt");
-            FileOutputStream stream = new FileOutputStream(file);
+            File root = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS);
+            if (!root.exists()) {
+                root.mkdirs();
+            }
+            File gpxfile = new File(root, "itens_pedido.txt");
+            FileWriter writer = new FileWriter(gpxfile);
 
             String sqlInsert = "INSERT INTO negocio.itenspedido (precounit, qtd, idproduto, idpedido, idunidmedida) VALUES (";
             String sqlValues;
@@ -96,11 +96,11 @@ public class ProdutosTxt {
                 sqlValues += String.valueOf(p.getId()) + ", ";
                 sqlValues += ", ";
                 sqlValues += "1);";
-                //outputStreamWriter.write(sqlInsert + sqlValues);
-                stream.write("text-to-write".getBytes());
+                writer.append(sqlInsert + sqlValues);
+                Log.v("ProdutosTXT", "Escrever em arquivo externo.");
             }
-            //outputStreamWriter.close();
-            stream.close();
+            writer.flush();
+            writer.close();
         }
         catch (IOException e) {
             e.printStackTrace();

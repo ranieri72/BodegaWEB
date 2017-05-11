@@ -11,4 +11,5 @@
     <string name="detalhes">Details</string>
     <string name="produtos">Products</string>
     <string name="gerarsql">Generate SQL</string>
+    <string name="sqlgerado">SQL Generated</string>
 </resources>
