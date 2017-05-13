@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.ranieri.bodegaweb.contract.ProdutosContract;
 import com.ranieri.bodegaweb.database.BodegaHelper;
+import com.ranieri.bodegaweb.model.Estoque;
 import com.ranieri.bodegaweb.model.Produtos;
 import com.ranieri.bodegaweb.model.SubCategorias;
 
@@ -38,17 +39,20 @@ public class ProdutosDAO {
         return produto;
     }
 
-    public void inserirLista(List<Produtos> lista){
+    public int inserirEstoque(Estoque lista){
         BodegaHelper helper = new BodegaHelper(mContext);
         SQLiteDatabase db = helper.getWritableDatabase();
+        int contador = 0;
 
-        for (Produtos p : lista) {
+        for (Produtos p : lista.getListaProdutos()) {
             p.setNovoEstoque(p.getEstoque());
             p.setAlterado(false);
             ContentValues values = valuesFromProdutos(p);
-            long id = db.insert(ProdutosContract.TABLE_NAME, null, values);
+            db.insert(ProdutosContract.TABLE_NAME, null, values);
+            contador++;
         }
         db.close();
+        return contador;
     }
 
     public int atualizar(Produtos produto){
@@ -87,7 +91,7 @@ public class ProdutosDAO {
             produto.setEstoque(cursor.getInt(cursor.getColumnIndex(ProdutosContract.ESTOQUE)));
             produto.setNovoEstoque(cursor.getInt(cursor.getColumnIndex(ProdutosContract.NOVOESTOQUE)));
             produto.setAlterado((cursor.getInt(cursor.getColumnIndex(ProdutosContract.ALTERADO))) == 1);
-            produto.setPreço(cursor.getDouble(cursor.getColumnIndex(ProdutosContract.PRECO)));
+            produto.setPrecoSugerido(cursor.getDouble(cursor.getColumnIndex(ProdutosContract.PRECO)));
 
             produto.getCategoria().setId(cursor.getLong(cursor.getColumnIndex("cID")));
             produto.getCategoria().setNome(cursor.getString(cursor.getColumnIndex("cNome")));
@@ -118,7 +122,7 @@ public class ProdutosDAO {
             produto.setEstoque(cursor.getInt(cursor.getColumnIndex(ProdutosContract.ESTOQUE)));
             produto.setNovoEstoque(cursor.getInt(cursor.getColumnIndex(ProdutosContract.NOVOESTOQUE)));
             produto.setAlterado((cursor.getInt(cursor.getColumnIndex(ProdutosContract.ALTERADO))) == 1);
-            produto.setPreço(cursor.getDouble(cursor.getColumnIndex(ProdutosContract.PRECO)));
+            produto.setPrecoSugerido(cursor.getDouble(cursor.getColumnIndex(ProdutosContract.PRECO)));
 
             produto.getCategoria().setId(cursor.getLong(cursor.getColumnIndex("cID")));
             produto.getCategoria().setNome(cursor.getString(cursor.getColumnIndex("cNome")));
@@ -150,7 +154,7 @@ public class ProdutosDAO {
             produto.setEstoque(cursor.getInt(cursor.getColumnIndex(ProdutosContract.ESTOQUE)));
             produto.setNovoEstoque(cursor.getInt(cursor.getColumnIndex(ProdutosContract.NOVOESTOQUE)));
             produto.setAlterado((cursor.getInt(cursor.getColumnIndex(ProdutosContract.ALTERADO))) == 1);
-            produto.setPreço(cursor.getDouble(cursor.getColumnIndex(ProdutosContract.PRECO)));
+            produto.setPrecoSugerido(cursor.getDouble(cursor.getColumnIndex(ProdutosContract.PRECO)));
 
             produto.getCategoria().setId(cursor.getLong(cursor.getColumnIndex("cID")));
             produto.getCategoria().setNome(cursor.getString(cursor.getColumnIndex("cNome")));
@@ -180,7 +184,7 @@ public class ProdutosDAO {
             produto.setEstoque(cursor.getInt(cursor.getColumnIndex(ProdutosContract.ESTOQUE)));
             produto.setNovoEstoque(cursor.getInt(cursor.getColumnIndex(ProdutosContract.NOVOESTOQUE)));
             produto.setAlterado((cursor.getInt(cursor.getColumnIndex(ProdutosContract.ALTERADO))) == 1);
-            produto.setPreço(cursor.getDouble(cursor.getColumnIndex(ProdutosContract.PRECO)));
+            produto.setPrecoSugerido(cursor.getDouble(cursor.getColumnIndex(ProdutosContract.PRECO)));
             produto.getCategoria().setId(cursor.getLong(cursor.getColumnIndex("cID")));
             lista.add(produto);
         }
@@ -197,7 +201,7 @@ public class ProdutosDAO {
         values.put(ProdutosContract.ESTOQUE, produto.getEstoque());
         values.put(ProdutosContract.NOVOESTOQUE, produto.getNovoEstoque());
         values.put(ProdutosContract.ALTERADO, produto.isAlterado());
-        values.put(ProdutosContract.PRECO, produto.getPreço());
+        values.put(ProdutosContract.PRECO, produto.getPrecoSugerido());
         values.put(ProdutosContract.CATEGORIA, produto.getCategoria().getId());
 
         return values;

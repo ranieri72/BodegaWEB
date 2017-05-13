@@ -8,9 +8,14 @@ public class Produtos implements Parcelable {
     private long id;
     private String nome;
     private int estoque;
+    private int estoqueInicial;
     private int novoEstoque;
     private boolean alterado;
-    private double preço;
+    private double precoSugerido;
+    private double custoInicial;
+    private double vendasPorDia;
+    private int diasProxEntrega;
+    private boolean ativado;
     private Categorias categoria;
 
     public Produtos (){
@@ -21,9 +26,14 @@ public class Produtos implements Parcelable {
         id = in.readLong();
         nome = in.readString();
         estoque = in.readInt();
+        estoqueInicial = in.readInt();
         novoEstoque = in.readInt();
         alterado = in.readByte() != 0;
-        preço = in.readDouble();
+        precoSugerido = in.readDouble();
+        custoInicial = in.readDouble();
+        vendasPorDia = in.readDouble();
+        diasProxEntrega = in.readInt();
+        ativado = in.readByte() != 0;
         categoria = in.readParcelable(Categorias.class.getClassLoader());
     }
 
@@ -49,9 +59,14 @@ public class Produtos implements Parcelable {
         dest.writeLong(id);
         dest.writeString(nome);
         dest.writeInt(estoque);
+        dest.writeInt(estoqueInicial);
         dest.writeInt(novoEstoque);
         dest.writeByte((byte) (alterado ? 1 : 0));
-        dest.writeDouble(preço);
+        dest.writeDouble(precoSugerido);
+        dest.writeDouble(custoInicial);
+        dest.writeDouble(vendasPorDia);
+        dest.writeInt(diasProxEntrega);
+        dest.writeByte((byte) (ativado ? 1 : 0));
         dest.writeParcelable(categoria, flags);
     }
 
@@ -79,9 +94,9 @@ public class Produtos implements Parcelable {
         this.estoque = estoque;
     }
 
-    public double getPreço() { return preço; }
+    public double getPrecoSugerido() { return precoSugerido; }
 
-    public void setPreço(double preço) { this.preço = preço; }
+    public void setPrecoSugerido(double precoSugerido) { this.precoSugerido = precoSugerido; }
 
     public Categorias getCategoria() { return categoria; }
 
@@ -94,4 +109,24 @@ public class Produtos implements Parcelable {
     public boolean isAlterado() { return alterado; }
 
     public void setAlterado(boolean alterado) { this.alterado = alterado; }
+
+    public int getEstoqueInicial() { return estoqueInicial; }
+
+    public void setEstoqueInicial(int estoqueInicial) { this.estoqueInicial = estoqueInicial; }
+
+    public double getCustoInicial() { return custoInicial; }
+
+    public void setCustoInicial(double custoInicial) { this.custoInicial = custoInicial; }
+
+    public double getVendasPorDia() { return vendasPorDia; }
+
+    public void setVendasPorDia(double vendasPorDia) { this.vendasPorDia = vendasPorDia; }
+
+    public int getDiasProxEntrega() { return diasProxEntrega; }
+
+    public void setDiasProxEntrega(int diasProxEntrega) { this.diasProxEntrega = diasProxEntrega; }
+
+    public boolean isAtivado() { return ativado; }
+
+    public void setAtivado(boolean ativado) { this.ativado = ativado; }
 }

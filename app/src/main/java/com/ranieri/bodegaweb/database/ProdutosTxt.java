@@ -189,7 +189,7 @@ public class ProdutosTxt {
 
         try {
             while (( line = buffreader.readLine()) != null) {
-                lista.get(contador).setPreço(Double.parseDouble(line));
+                lista.get(contador).setPrecoSugerido(Double.parseDouble(line));
                 contador++;
             }
         } catch (IOException e) {

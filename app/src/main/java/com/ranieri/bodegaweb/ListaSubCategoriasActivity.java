@@ -1,9 +1,6 @@
 package com.ranieri.bodegaweb;
 
-import android.Manifest;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,7 +9,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.ranieri.bodegaweb.adapter.SubCategoriasAdapter;
 import com.ranieri.bodegaweb.dao.CategoriasDAO;
@@ -29,10 +25,10 @@ import java.util.List;
 
 public class ListaSubCategoriasActivity extends AppCompatActivity {
 
-    private static final int REQUEST_EXTERNAL_STORAGE = 1;
-    private static String[] PERMISSIONS_STORAGE = {
-            Manifest.permission.WRITE_EXTERNAL_STORAGE
-    };
+//    private static final int REQUEST_EXTERNAL_STORAGE = 1;
+//    private static String[] PERMISSIONS_STORAGE = {
+//            Manifest.permission.WRITE_EXTERNAL_STORAGE
+//    };
 
     SubCategoriasDAO mDAO;
     ProdutosDAO produtosDAO;
@@ -103,49 +99,54 @@ public class ListaSubCategoriasActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        Intent it;
         switch (item.getItemId()){
-            case R.id.action_gerar_sql:
-                verifyStoragePermissions();
-                gerarSQL();
-                Toast.makeText(this, getResources().getString(R.string.sqlgerado), Toast.LENGTH_SHORT).show();
+//            case R.id.action_gerar_sql:
+//                verifyStoragePermissions();
+//                gerarSQL();
+//                Toast.makeText(this, getResources().getString(R.string.sqlgerado), Toast.LENGTH_SHORT).show();
+//                break;
+            case R.id.action_configuracoes:
+                it = new Intent(ListaSubCategoriasActivity.this, ConfiguracoesActivity.class);
+                startActivity(it);
                 break;
         }
         return super.onOptionsItemSelected(item);
     }
 
-    private void gerarSQL() {
-        produtosTxt = new ProdutosTxt();
-        produtosDAO = new ProdutosDAO(this);
-        List<Produtos> lista = produtosDAO.listarAlterado();
-        produtosTxt.writeRawTextFile(lista, this);
-    }
+//    private void gerarSQL() {
+//        produtosTxt = new ProdutosTxt();
+//        produtosDAO = new ProdutosDAO(this);
+//        List<Produtos> lista = produtosDAO.listarAlterado();
+//        produtosTxt.writeRawTextFile(lista, this);
+//    }
 
-    private void verifyStoragePermissions() {
-        int permission = ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
-
-        if (permission != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(
-                    this,
-                    PERMISSIONS_STORAGE,
-                    REQUEST_EXTERNAL_STORAGE
-            );
-        }
-    }
+//    private void verifyStoragePermissions() {
+//        int permission = ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+//
+//        if (permission != PackageManager.PERMISSION_GRANTED) {
+//            ActivityCompat.requestPermissions(
+//                    this,
+//                    PERMISSIONS_STORAGE,
+//                    REQUEST_EXTERNAL_STORAGE
+//            );
+//        }
+//    }
 
     private void preencherBanco() {
-        produtosTxt = new ProdutosTxt();
+        //produtosTxt = new ProdutosTxt();
         CategoriasTxt categoriasTxt = new CategoriasTxt();
         SubCategoriasTxt subCategoriasTxt = new SubCategoriasTxt();
 
-        produtosDAO = new ProdutosDAO(this);
+        //produtosDAO = new ProdutosDAO(this);
         CategoriasDAO categoriasDAO = new CategoriasDAO(this);
 
-        List<Produtos> listaProdutos = produtosTxt.readRawTextFile(this);
+        //Estoque estoque = new Estoque(produtosTxt.readRawTextFile(this));
         List<Categorias> listaCategorias = categoriasTxt.readRawTextFile(this);
         List<SubCategorias> listaSubCategorias = subCategoriasTxt.readRawTextFile(this);
 
         mDAO.inserirLista(listaSubCategorias);
         categoriasDAO.inserirLista(listaCategorias);
-        produtosDAO.inserirLista(listaProdutos);
+        //produtosDAO.inserirEstoque(estoque);
     }
 }

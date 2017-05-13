@@ -75,7 +75,7 @@ public class DetalProdutosActivity extends AppCompatActivity {
         mTxtNome.setText(produto.getNome());
         mTxtEstoque.setText(String.valueOf(produto.getEstoque()));
         mTxtNovoEstoque.setText(String.valueOf(produto.getNovoEstoque()));
-        mTxtPreco.setText(String.valueOf(produto.getPreço()));
+        mTxtPreco.setText(String.valueOf(produto.getPrecoSugerido()));
         mTxtCategoria.setText(produto.getCategoria().getNome());
         mTxtSubCategoria.setText(produto.getCategoria().getSubCategoria().getNome());
     }

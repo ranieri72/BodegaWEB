@@ -40,7 +40,7 @@ public class EditarProdutosActivity extends AppCompatActivity {
 
         mEdtNome.setText(produto.getNome());
         mEdtEstoque.setText(String.valueOf(produto.getEstoque()));
-        mEdtPreco.setText(String.valueOf(produto.getPreço()));
+        mEdtPreco.setText(String.valueOf(produto.getPrecoSugerido()));
         mBtnCategoria.setText(produto.getCategoria().getNome());
         mBtnSubCategoria.setText(produto.getCategoria().getSubCategoria().getNome());
 
@@ -78,7 +78,7 @@ public class EditarProdutosActivity extends AppCompatActivity {
 
                     produto.setNome(mEdtNome.getText().toString());
                     produto.setNovoEstoque(Integer.parseInt(mEdtEstoque.getText().toString()));
-                    produto.setPreço(Double.parseDouble(mEdtPreco.getText().toString()));
+                    produto.setPrecoSugerido(Double.parseDouble(mEdtPreco.getText().toString()));
                     produto.setAlterado(true);
 
                     mDAO = new ProdutosDAO(EditarProdutosActivity.this);

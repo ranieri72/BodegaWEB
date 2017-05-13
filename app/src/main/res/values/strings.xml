@@ -12,4 +12,7 @@
     <string name="produtos">Products</string>
     <string name="gerarsql">Generate SQL</string>
     <string name="sqlgerado">SQL Generated</string>
+    <string name="configuracoes">Settings</string>
+    <string name="atualizarProdutos">Refresh Products</string>
+    <string name="produtosAtualizados">Updated Products: </string>
 </resources>

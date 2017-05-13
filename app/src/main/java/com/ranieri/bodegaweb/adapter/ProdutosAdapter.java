@@ -47,7 +47,7 @@ public class ProdutosAdapter extends ArrayAdapter<Produtos> {
 
         vh.txtNome.setText(String.valueOf(produto.getNome()));
         String estoque = String.valueOf(convertView.getResources().getString(R.string.estoque) + " " + produto.getEstoque());
-        String preco = String.valueOf(convertView.getResources().getString(R.string.preco) + " " + produto.getPreço());
+        String preco = String.valueOf(convertView.getResources().getString(R.string.preco) + " " + produto.getPrecoSugerido());
         vh.txtEstoque.setText(estoque + " " + preco + " " + produto.getCategoria().getNome());
 
         //4)
