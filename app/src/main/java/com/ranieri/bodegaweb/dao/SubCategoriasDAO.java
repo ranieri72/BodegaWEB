@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import com.ranieri.bodegaweb.contract.CategoriasContract;
 import com.ranieri.bodegaweb.contract.SubCategoriasContract;
 import com.ranieri.bodegaweb.database.BodegaHelper;
+import com.ranieri.bodegaweb.model.ListJson;
 import com.ranieri.bodegaweb.model.SubCategorias;
 
 import java.util.ArrayList;
@@ -47,6 +48,17 @@ public class SubCategoriasDAO {
         db.close();
     }
 
+    public int atualizar(SubCategorias subCategoria){
+        BodegaHelper helper = new BodegaHelper(mContext);
+        SQLiteDatabase db = helper.getWritableDatabase();
+
+        ContentValues values = valuesFromSubCategorias(subCategoria);
+        int rowsAffected = db.update(SubCategoriasContract.TABLE_NAME, values, SubCategoriasContract._ID + " = ?", new String[]{String.valueOf(subCategoria.getId())});
+
+        db.close();
+        return rowsAffected;
+    }
+
     public List<SubCategorias> listar(){
         BodegaHelper helper = new BodegaHelper(mContext);
         SQLiteDatabase db = helper.getReadableDatabase();
@@ -76,9 +88,30 @@ public class SubCategoriasDAO {
 
     private ContentValues valuesFromSubCategorias(SubCategorias subCategoria) {
         ContentValues values = new ContentValues();
-        values.put(CategoriasContract._ID, subCategoria.getId());
-        values.put(CategoriasContract.NOME, subCategoria.getNome());
+        values.put(SubCategoriasContract._ID, subCategoria.getId());
+        values.put(SubCategoriasContract.NOME, subCategoria.getNome());
 
         return values;
+    }
+
+    public void refreshStock(ListJson lista) {
+        BodegaHelper helper = new BodegaHelper(mContext);
+        SQLiteDatabase db = helper.getWritableDatabase();
+        List<SubCategorias> listaBanco = listar();
+        boolean existe;
+
+        for (SubCategorias cJson : lista.getListaSubcategorias()) {
+            existe = false;
+            for (SubCategorias cBanco : listaBanco) {
+                if (cJson.getId() == cBanco.getId()) {
+                    atualizar(cJson);
+                    existe = true;
+                    break;
+                }
+            }
+            if (!existe) {
+                inserir(cJson);
+            }
+        }
     }
 }

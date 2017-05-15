@@ -7,7 +7,8 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.ranieri.bodegaweb.contract.ProdutosContract;
 import com.ranieri.bodegaweb.database.BodegaHelper;
-import com.ranieri.bodegaweb.model.Estoque;
+import com.ranieri.bodegaweb.model.Categorias;
+import com.ranieri.bodegaweb.model.ListJson;
 import com.ranieri.bodegaweb.model.Produtos;
 import com.ranieri.bodegaweb.model.SubCategorias;
 
@@ -37,22 +38,6 @@ public class ProdutosDAO {
 
         db.close();
         return produto;
-    }
-
-    public int inserirEstoque(Estoque lista){
-        BodegaHelper helper = new BodegaHelper(mContext);
-        SQLiteDatabase db = helper.getWritableDatabase();
-        int contador = 0;
-
-        for (Produtos p : lista.getListaProdutos()) {
-            p.setNovoEstoque(p.getEstoque());
-            p.setAlterado(false);
-            ContentValues values = valuesFromProdutos(p);
-            db.insert(ProdutosContract.TABLE_NAME, null, values);
-            contador++;
-        }
-        db.close();
-        return contador;
     }
 
     public int atualizar(Produtos produto){
@@ -110,7 +95,7 @@ public class ProdutosDAO {
 
         Cursor cursor = db.rawQuery("SELECT p.*, c._id AS cID, c.nome AS cNome, s._id AS sID, s.nome AS sNome" +
                 " FROM produtos AS p, categorias AS c, subCategorias AS s" +
-                " WHERE p.idCategoria = c._id AND c.idSubCategoria = s._id", null);
+                " WHERE p.idCategoria = cID AND c.idSubCategoria = sID", null);
 
         List<Produtos> lista = new ArrayList<>();
 
@@ -205,5 +190,28 @@ public class ProdutosDAO {
         values.put(ProdutosContract.CATEGORIA, produto.getCategoria().getId());
 
         return values;
+    }
+
+    public int refreshStock(ListJson lista){
+        BodegaHelper helper = new BodegaHelper(mContext);
+        SQLiteDatabase db = helper.getWritableDatabase();
+        List<Produtos> listaBanco = listar();
+        boolean existe;
+        int contador = 0;
+
+        for (Produtos pJson : lista.getListaProdutos()) {
+            existe = false;
+            for (Produtos pBanco : listaBanco) {
+                if (pJson.getId() == pBanco.getId()) {
+                    atualizar(pJson);
+                    existe = true;
+                    break;
+                }
+            }
+            if (!existe) {
+                inserir(pJson);
+            }
+        }
+        return 0;
     }
 }

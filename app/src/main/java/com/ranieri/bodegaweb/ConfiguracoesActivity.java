@@ -5,9 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
-import com.ranieri.bodegaweb.asyncTask.ProdutosTask;
-import com.ranieri.bodegaweb.dao.ProdutosDAO;
-import com.ranieri.bodegaweb.model.Estoque;
+import com.ranieri.bodegaweb.asyncTask.RefreshProductsTask;
 
 import java.util.concurrent.ExecutionException;
 
@@ -25,9 +23,7 @@ public class ConfiguracoesActivity extends AppCompatActivity {
         @Override
         public void onClick(View v) {
             try {
-                Estoque estoque = new ProdutosTask().execute().get();
-                ProdutosDAO produtosDAO = new ProdutosDAO(ConfiguracoesActivity.this);
-                int qtd = produtosDAO.inserirEstoque(estoque);
+                int qtd = new RefreshProductsTask().execute(ConfiguracoesActivity.this).get();
                 Toast.makeText(ConfiguracoesActivity.this, getResources().getString(R.string.produtosAtualizados) + qtd, Toast.LENGTH_SHORT).show();
             } catch (InterruptedException e) {
                 e.printStackTrace();

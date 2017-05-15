@@ -9,6 +9,7 @@ import com.ranieri.bodegaweb.contract.CategoriasContract;
 import com.ranieri.bodegaweb.contract.SubCategoriasContract;
 import com.ranieri.bodegaweb.database.BodegaHelper;
 import com.ranieri.bodegaweb.model.Categorias;
+import com.ranieri.bodegaweb.model.ListJson;
 import com.ranieri.bodegaweb.model.SubCategorias;
 
 import java.util.ArrayList;
@@ -48,12 +49,36 @@ public class CategoriasDAO {
         db.close();
     }
 
+    public int atualizar(Categorias categoria){
+        BodegaHelper helper = new BodegaHelper(mContext);
+        SQLiteDatabase db = helper.getWritableDatabase();
+
+        ContentValues values = valuesFromCategorias(categoria);
+        int rowsAffected = db.update(CategoriasContract.TABLE_NAME, values, CategoriasContract._ID + " = ?", new String[]{String.valueOf(categoria.getId())});
+
+        db.close();
+        return rowsAffected;
+    }
+
     public List<Categorias> listarPorSubCategoria(SubCategorias subCategoria){
         BodegaHelper helper = new BodegaHelper(mContext);
         SQLiteDatabase db = helper.getReadableDatabase();
 
         Cursor cursor = db.rawQuery("SELECT * FROM " + CategoriasContract.TABLE_NAME +
                 " WHERE " + CategoriasContract.TABLE_NAME + "." + CategoriasContract.SUBCATEGORIA + " = ?", new String[]{String.valueOf(subCategoria.getId())});
+
+        List<Categorias> lista = valuesFromCursor(cursor);
+
+        cursor.close();
+        db.close();
+        return lista;
+    }
+
+    public List<Categorias> listar(){
+        BodegaHelper helper = new BodegaHelper(mContext);
+        SQLiteDatabase db = helper.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery("SELECT * FROM " + CategoriasContract.TABLE_NAME, null);
 
         List<Categorias> lista = valuesFromCursor(cursor);
 
@@ -88,5 +113,26 @@ public class CategoriasDAO {
         values.put(CategoriasContract.SUBCATEGORIA, categoria.getSubCategoria().getId());
 
         return values;
+    }
+
+    public void refreshStock(ListJson lista) {
+        BodegaHelper helper = new BodegaHelper(mContext);
+        SQLiteDatabase db = helper.getWritableDatabase();
+        List<Categorias> listaBanco = listar();
+        boolean existe;
+
+        for (Categorias cJson : lista.getListaCategorias()) {
+            existe = false;
+            for (Categorias cBanco : listaBanco) {
+                if (cJson.getId() == cBanco.getId()) {
+                    atualizar(cJson);
+                    existe = true;
+                    break;
+                }
+            }
+            if (!existe) {
+                inserir(cJson);
+            }
+        }
     }
 }

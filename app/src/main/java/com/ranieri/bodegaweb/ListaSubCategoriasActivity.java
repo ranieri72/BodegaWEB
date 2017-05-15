@@ -11,13 +11,9 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.ranieri.bodegaweb.adapter.SubCategoriasAdapter;
-import com.ranieri.bodegaweb.dao.CategoriasDAO;
 import com.ranieri.bodegaweb.dao.ProdutosDAO;
 import com.ranieri.bodegaweb.dao.SubCategoriasDAO;
-import com.ranieri.bodegaweb.database.CategoriasTxt;
 import com.ranieri.bodegaweb.database.ProdutosTxt;
-import com.ranieri.bodegaweb.database.SubCategoriasTxt;
-import com.ranieri.bodegaweb.model.Categorias;
 import com.ranieri.bodegaweb.model.Produtos;
 import com.ranieri.bodegaweb.model.SubCategorias;
 
@@ -55,10 +51,10 @@ public class ListaSubCategoriasActivity extends AppCompatActivity {
         ListView mListView = (ListView)findViewById(R.id.listSubCategorias);
         List<SubCategorias> mCategorias = mDAO.listar();
 
-        if (mCategorias.isEmpty()){
-            preencherBanco();
-            mCategorias = mDAO.listar();
-        }
+//        if (mCategorias.isEmpty()){
+//            preencherBanco();
+//            mCategorias = mDAO.listar();
+//        }
 
         SubCategoriasAdapter adapter = new SubCategoriasAdapter(this, mCategorias);
 
@@ -133,20 +129,20 @@ public class ListaSubCategoriasActivity extends AppCompatActivity {
 //        }
 //    }
 
-    private void preencherBanco() {
-        //produtosTxt = new ProdutosTxt();
-        CategoriasTxt categoriasTxt = new CategoriasTxt();
-        SubCategoriasTxt subCategoriasTxt = new SubCategoriasTxt();
-
-        //produtosDAO = new ProdutosDAO(this);
-        CategoriasDAO categoriasDAO = new CategoriasDAO(this);
-
-        //Estoque estoque = new Estoque(produtosTxt.readRawTextFile(this));
-        List<Categorias> listaCategorias = categoriasTxt.readRawTextFile(this);
-        List<SubCategorias> listaSubCategorias = subCategoriasTxt.readRawTextFile(this);
-
-        mDAO.inserirLista(listaSubCategorias);
-        categoriasDAO.inserirLista(listaCategorias);
-        //produtosDAO.inserirEstoque(estoque);
-    }
+//    private void preencherBanco() {
+//        produtosTxt = new ProdutosTxt();
+//        CategoriasTxt categoriasTxt = new CategoriasTxt();
+//        SubCategoriasTxt subCategoriasTxt = new SubCategoriasTxt();
+//
+//        produtosDAO = new ProdutosDAO(this);
+//        CategoriasDAO categoriasDAO = new CategoriasDAO(this);
+//
+//        Estoque estoque = new Estoque(produtosTxt.readRawTextFile(this));
+//        List<Categorias> listaCategorias = categoriasTxt.readRawTextFile(this);
+//        List<SubCategorias> listaSubCategorias = subCategoriasTxt.readRawTextFile(this);
+//
+//        mDAO.inserirLista(listaSubCategorias);
+//        categoriasDAO.inserirLista(listaCategorias);
+//        produtosDAO.inserirEstoque(estoque);
+//    }
 }
