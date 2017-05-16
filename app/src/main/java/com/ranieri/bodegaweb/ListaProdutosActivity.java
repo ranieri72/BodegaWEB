@@ -13,7 +13,6 @@ import com.ranieri.bodegaweb.dao.ProdutosDAO;
 import com.ranieri.bodegaweb.model.Produtos;
 import com.ranieri.bodegaweb.model.SubCategorias;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ListaProdutosActivity extends AppCompatActivity {

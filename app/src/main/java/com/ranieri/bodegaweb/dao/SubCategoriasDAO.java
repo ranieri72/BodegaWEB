@@ -5,7 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.ranieri.bodegaweb.contract.CategoriasContract;
 import com.ranieri.bodegaweb.contract.SubCategoriasContract;
 import com.ranieri.bodegaweb.database.BodegaHelper;
 import com.ranieri.bodegaweb.model.ListJson;

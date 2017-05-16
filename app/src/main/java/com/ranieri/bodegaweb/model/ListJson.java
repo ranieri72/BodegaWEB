@@ -12,11 +12,19 @@ public class ListJson {
     private List<Produtos> listaProdutos;
     private List<Categorias> listaCategorias;
     private List<SubCategorias> listaSubcategorias;
+    private List<Order> listaOrder;
+    private List<Provider> listaProvider;
+    private List<OrderItems> listaOrderItems;
+    private List<UnidadeMedida> listaUnidadeMedida;
 
     public ListJson() {
         listaProdutos = new ArrayList<>();
         listaCategorias = new ArrayList<>();
         listaSubcategorias = new ArrayList<>();
+        listaOrder = new ArrayList<>();
+        listaProvider = new ArrayList<>();
+        listaOrderItems = new ArrayList<>();
+        listaUnidadeMedida = new ArrayList<>();
     }
 
     public ListJson(List<Produtos> listaProdutos) {
@@ -45,5 +53,37 @@ public class ListJson {
 
     public void setListaSubcategorias(List<SubCategorias> listaSubcategorias) {
         this.listaSubcategorias = listaSubcategorias;
+    }
+
+    public List<Order> getListaOrder() {
+        return listaOrder;
+    }
+
+    public void setListaOrder(List<Order> listaOrder) {
+        this.listaOrder = listaOrder;
+    }
+
+    public List<Provider> getListaProvider() {
+        return listaProvider;
+    }
+
+    public void setListaProvider(List<Provider> listaProvider) {
+        this.listaProvider = listaProvider;
+    }
+
+    public List<OrderItems> getListaOrderItems() {
+        return listaOrderItems;
+    }
+
+    public void setListaOrderItems(List<OrderItems> listaOrderItems) {
+        this.listaOrderItems = listaOrderItems;
+    }
+
+    public List<UnidadeMedida> getListaUnidadeMedida() {
+        return listaUnidadeMedida;
+    }
+
+    public void setListaUnidadeMedida(List<UnidadeMedida> listaUnidadeMedida) {
+        this.listaUnidadeMedida = listaUnidadeMedida;
     }
 }

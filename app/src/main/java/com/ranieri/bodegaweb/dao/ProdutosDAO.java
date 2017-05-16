@@ -7,7 +7,6 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.ranieri.bodegaweb.contract.ProdutosContract;
 import com.ranieri.bodegaweb.database.BodegaHelper;
-import com.ranieri.bodegaweb.model.Categorias;
 import com.ranieri.bodegaweb.model.ListJson;
 import com.ranieri.bodegaweb.model.Produtos;
 import com.ranieri.bodegaweb.model.SubCategorias;
@@ -22,7 +21,6 @@ import java.util.List;
 public class ProdutosDAO {
 
     private Context mContext;
-    private Produtos produto;
 
     public ProdutosDAO(Context mContext) {
         this.mContext = mContext;
@@ -70,13 +68,7 @@ public class ProdutosDAO {
                 " WHERE p.idCategoria = c._id AND c.idSubCategoria = s._id AND p._id = ?", new String[]{String.valueOf(produto.getId())});
 
         if (cursor.moveToNext()){
-
-            produto.setId(cursor.getLong(cursor.getColumnIndex(ProdutosContract._ID)));
-            produto.setNome(cursor.getString(cursor.getColumnIndex(ProdutosContract.NOME)));
-            produto.setEstoque(cursor.getInt(cursor.getColumnIndex(ProdutosContract.ESTOQUE)));
-            produto.setNovoEstoque(cursor.getInt(cursor.getColumnIndex(ProdutosContract.NOVOESTOQUE)));
-            produto.setAlterado((cursor.getInt(cursor.getColumnIndex(ProdutosContract.ALTERADO))) == 1);
-            produto.setPrecoSugerido(cursor.getDouble(cursor.getColumnIndex(ProdutosContract.PRECO)));
+            produto = valuesFromCursor(cursor);
 
             produto.getCategoria().setId(cursor.getLong(cursor.getColumnIndex("cID")));
             produto.getCategoria().setNome(cursor.getString(cursor.getColumnIndex("cNome")));
@@ -93,21 +85,13 @@ public class ProdutosDAO {
         BodegaHelper helper = new BodegaHelper(mContext);
         SQLiteDatabase db = helper.getReadableDatabase();
 
-        Cursor cursor = db.rawQuery("SELECT p.*, c._id AS cID, c.nome AS cNome, s._id AS sID, s.nome AS sNome" +
-                " FROM produtos AS p, categorias AS c, subCategorias AS s" +
-                " WHERE p.idCategoria = cID AND c.idSubCategoria = sID", null);
+        Cursor cursor = db.rawQuery("SELECT * FROM produtos", null);
 
         List<Produtos> lista = new ArrayList<>();
+        Produtos produto;
 
         while (cursor.moveToNext()){
-            produto = new Produtos();
-
-            produto.setId(cursor.getLong(cursor.getColumnIndex(ProdutosContract._ID)));
-            produto.setNome(cursor.getString(cursor.getColumnIndex(ProdutosContract.NOME)));
-            produto.setEstoque(cursor.getInt(cursor.getColumnIndex(ProdutosContract.ESTOQUE)));
-            produto.setNovoEstoque(cursor.getInt(cursor.getColumnIndex(ProdutosContract.NOVOESTOQUE)));
-            produto.setAlterado((cursor.getInt(cursor.getColumnIndex(ProdutosContract.ALTERADO))) == 1);
-            produto.setPrecoSugerido(cursor.getDouble(cursor.getColumnIndex(ProdutosContract.PRECO)));
+            produto = valuesFromCursor(cursor);
 
             produto.getCategoria().setId(cursor.getLong(cursor.getColumnIndex("cID")));
             produto.getCategoria().setNome(cursor.getString(cursor.getColumnIndex("cNome")));
@@ -130,17 +114,10 @@ public class ProdutosDAO {
                 " WHERE p.idCategoria = c._id AND c.idSubCategoria = ? ORDER BY c.ordem ASC, p.nome ASC", new String[]{String.valueOf(subCategoria.getId())});
 
         List<Produtos> lista = new ArrayList<>();
+        Produtos produto;
 
         while (cursor.moveToNext()){
-            produto = new Produtos();
-
-            produto.setId(cursor.getLong(cursor.getColumnIndex(ProdutosContract._ID)));
-            produto.setNome(cursor.getString(cursor.getColumnIndex(ProdutosContract.NOME)));
-            produto.setEstoque(cursor.getInt(cursor.getColumnIndex(ProdutosContract.ESTOQUE)));
-            produto.setNovoEstoque(cursor.getInt(cursor.getColumnIndex(ProdutosContract.NOVOESTOQUE)));
-            produto.setAlterado((cursor.getInt(cursor.getColumnIndex(ProdutosContract.ALTERADO))) == 1);
-            produto.setPrecoSugerido(cursor.getDouble(cursor.getColumnIndex(ProdutosContract.PRECO)));
-
+            produto = valuesFromCursor(cursor);
             produto.getCategoria().setId(cursor.getLong(cursor.getColumnIndex("cID")));
             produto.getCategoria().setNome(cursor.getString(cursor.getColumnIndex("cNome")));
 
@@ -160,16 +137,10 @@ public class ProdutosDAO {
                 " WHERE p.idCategoria = c._id AND p.alterado = 1", null);
 
         List<Produtos> lista = new ArrayList<>();
+        Produtos produto;
 
         while (cursor.moveToNext()){
-            produto = new Produtos();
-
-            produto.setId(cursor.getLong(cursor.getColumnIndex(ProdutosContract._ID)));
-            produto.setNome(cursor.getString(cursor.getColumnIndex(ProdutosContract.NOME)));
-            produto.setEstoque(cursor.getInt(cursor.getColumnIndex(ProdutosContract.ESTOQUE)));
-            produto.setNovoEstoque(cursor.getInt(cursor.getColumnIndex(ProdutosContract.NOVOESTOQUE)));
-            produto.setAlterado((cursor.getInt(cursor.getColumnIndex(ProdutosContract.ALTERADO))) == 1);
-            produto.setPrecoSugerido(cursor.getDouble(cursor.getColumnIndex(ProdutosContract.PRECO)));
+            produto = valuesFromCursor(cursor);
             produto.getCategoria().setId(cursor.getLong(cursor.getColumnIndex("cID")));
             lista.add(produto);
         }
@@ -190,6 +161,18 @@ public class ProdutosDAO {
         values.put(ProdutosContract.CATEGORIA, produto.getCategoria().getId());
 
         return values;
+    }
+
+    private Produtos valuesFromCursor(Cursor cursor) {
+        Produtos p = new Produtos();
+        p.setId(cursor.getLong(cursor.getColumnIndex(ProdutosContract._ID)));
+        p.setNome(cursor.getString(cursor.getColumnIndex(ProdutosContract.NOME)));
+        p.setEstoque(cursor.getInt(cursor.getColumnIndex(ProdutosContract.ESTOQUE)));
+        p.setNovoEstoque(cursor.getInt(cursor.getColumnIndex(ProdutosContract.NOVOESTOQUE)));
+        p.setAlterado((cursor.getInt(cursor.getColumnIndex(ProdutosContract.ALTERADO))) == 1);
+        p.setPrecoSugerido(cursor.getDouble(cursor.getColumnIndex(ProdutosContract.PRECO)));
+
+        return p;
     }
 
     public int refreshStock(ListJson lista){

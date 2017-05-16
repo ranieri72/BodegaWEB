@@ -5,8 +5,11 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.ranieri.bodegaweb.contract.CategoriasContract;
+import com.ranieri.bodegaweb.contract.OrderContract;
 import com.ranieri.bodegaweb.contract.ProdutosContract;
+import com.ranieri.bodegaweb.contract.ProviderContract;
 import com.ranieri.bodegaweb.contract.SubCategoriasContract;
+import com.ranieri.bodegaweb.model.Produtos;
 
 
 public class BodegaHelper extends SQLiteOpenHelper {
@@ -39,9 +42,23 @@ public class BodegaHelper extends SQLiteOpenHelper {
                 SubCategoriasContract._ID + " INTEGER PRIMARY KEY, " +
                 SubCategoriasContract.NOME + " TEXT NOT NULL); ";
 
+        String createOrder = "CREATE TABLE " + OrderContract.TABLE_NAME + " (" +
+                OrderContract._ID + " INTEGER PRIMARY KEY, " +
+                OrderContract.ORDERDATE + " TEXT NOT NULL, " +
+                OrderContract.TOTALORDER + " REAL NOT NULL, " +
+                OrderContract.PROVIDER + " INTEGER NOT NULL); ";
+
+        String createProvider = "CREATE TABLE " + ProviderContract.TABLE_NAME + " (" +
+                ProviderContract._ID + " INTEGER PRIMARY KEY, " +
+                ProviderContract.COMPANY + " TEXT NOT NULL, " +
+                ProviderContract.NAME + " TEXT NOT NULL, " +
+                ProviderContract.PHONE + " TEXT NOT NULL); ";
+
         db.execSQL(createSubCategorias);
         db.execSQL(createCategorias);
         db.execSQL(createProdutos);
+        db.execSQL(createProvider);
+        db.execSQL(createOrder);
     }
 
     @Override
