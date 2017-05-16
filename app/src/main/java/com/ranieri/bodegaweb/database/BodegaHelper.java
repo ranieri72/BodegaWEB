@@ -6,10 +6,11 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import com.ranieri.bodegaweb.contract.CategoriasContract;
 import com.ranieri.bodegaweb.contract.OrderContract;
+import com.ranieri.bodegaweb.contract.OrderItemsContract;
 import com.ranieri.bodegaweb.contract.ProdutosContract;
 import com.ranieri.bodegaweb.contract.ProviderContract;
 import com.ranieri.bodegaweb.contract.SubCategoriasContract;
-import com.ranieri.bodegaweb.model.Produtos;
+import com.ranieri.bodegaweb.contract.UnidadeMedidaContract;
 
 
 public class BodegaHelper extends SQLiteOpenHelper {
@@ -54,11 +55,27 @@ public class BodegaHelper extends SQLiteOpenHelper {
                 ProviderContract.NAME + " TEXT NOT NULL, " +
                 ProviderContract.PHONE + " TEXT NOT NULL); ";
 
+        String createOrderItems = "CREATE TABLE " + OrderItemsContract.TABLE_NAME + " (" +
+                OrderItemsContract._ID + " INTEGER PRIMARY KEY, " +
+                OrderItemsContract.QTD + " INTEGER NOT NULL, " +
+                OrderItemsContract.PRECOUNIT + " REAL NOT NULL, " +
+                OrderItemsContract.UNIDADEMEDIDA + " INTEGER NOT NULL, " +
+                OrderItemsContract.ORDER + " INTEGER NOT NULL, " +
+                OrderItemsContract.PRODUTO + " INTEGER NOT NULL); ";
+
+        String createUnidadeMedida = "CREATE TABLE " + UnidadeMedidaContract.TABLE_NAME + " (" +
+                UnidadeMedidaContract._ID + " INTEGER PRIMARY KEY, " +
+                UnidadeMedidaContract.NOME + " TEXT NOT NULL, " +
+                UnidadeMedidaContract.MULTIPLICADOR + " INTEGER NOT NULL, " +
+                UnidadeMedidaContract.ORDEM + " INTEGER NOT NULL); ";
+
         db.execSQL(createSubCategorias);
         db.execSQL(createCategorias);
         db.execSQL(createProdutos);
         db.execSQL(createProvider);
         db.execSQL(createOrder);
+        db.execSQL(createOrderItems);
+        db.execSQL(createUnidadeMedida);
     }
 
     @Override

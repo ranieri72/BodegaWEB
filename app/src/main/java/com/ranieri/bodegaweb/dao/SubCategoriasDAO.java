@@ -20,7 +20,6 @@ import java.util.List;
 public class SubCategoriasDAO {
 
     private Context mContext;
-    private SubCategorias subCategoria;
 
     public SubCategoriasDAO(Context mContext) { this.mContext = mContext; }
 

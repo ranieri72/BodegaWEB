@@ -22,7 +22,6 @@ import java.util.List;
 public class CategoriasDAO {
 
     private Context mContext;
-    private Categorias categoria;
 
     public CategoriasDAO(Context mContext) { this.mContext = mContext; }
 
@@ -89,6 +88,7 @@ public class CategoriasDAO {
 
     private List<Categorias> valuesFromCursor(Cursor cursor) {
         List<Categorias> lista = new ArrayList<>();
+        Categorias categoria;
 
         while (cursor.moveToNext()){
             categoria = new Categorias();

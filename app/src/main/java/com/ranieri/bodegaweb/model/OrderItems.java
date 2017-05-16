@@ -7,7 +7,7 @@ import android.os.Parcelable;
  * Created by ranie on 15 de mai.
  */
 
-class OrderItems implements Parcelable{
+public class OrderItems implements Parcelable {
 
     private Order order;
     private Produtos produtos;
