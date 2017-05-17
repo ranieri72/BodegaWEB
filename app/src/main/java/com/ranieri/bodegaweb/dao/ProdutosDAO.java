@@ -92,12 +92,6 @@ public class ProdutosDAO {
 
         while (cursor.moveToNext()){
             produto = valuesFromCursor(cursor);
-
-            produto.getCategoria().setId(cursor.getLong(cursor.getColumnIndex("cID")));
-            produto.getCategoria().setNome(cursor.getString(cursor.getColumnIndex("cNome")));
-            produto.getCategoria().getSubCategoria().setId(cursor.getLong(cursor.getColumnIndex("sID")));
-            produto.getCategoria().getSubCategoria().setNome(cursor.getString(cursor.getColumnIndex("sNome")));
-
             lista.add(produto);
         }
 

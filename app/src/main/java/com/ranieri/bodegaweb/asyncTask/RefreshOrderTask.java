@@ -25,10 +25,10 @@ public class RefreshOrderTask extends AsyncTask<Context, Void, Integer> {
     @Override
     protected Integer doInBackground(Context... params) {
         OkHttpClient client = new OkHttpClient();
-        final String ipv4 = "http://192.168.25.8";
-        final String urlProvider = ipv4 + ":8080/bodegaWEB/rest/produtos/";
-        final String urlOrder = ipv4 + ":8080/bodegaWEB/rest/produtos/categorias";
-        final String urlOrderItems = ipv4 + ":8080/bodegaWEB/rest/produtos/subcategorias";
+        final String ipv4 = "http://192.168.15.7";
+        final String urlProvider = ipv4 + ":8080/bodegaWEB/rest/order/provider";
+        final String urlOrder = ipv4 + ":8080/bodegaWEB/rest/order/";
+        //final String urlOrderItems = ipv4 + ":8080/bodegaWEB/rest/order/subcategorias";
         Request request;
         Response response;
         String jsonString;
@@ -49,14 +49,14 @@ public class RefreshOrderTask extends AsyncTask<Context, Void, Integer> {
             OrdersDAO ordersDAO = new OrdersDAO(params[0]);
             ordersDAO.refreshStock(listJson);
 
-            request = new Request.Builder().url(urlOrderItems).build();
-            response = client.newCall(request).execute();
-            jsonString = response.body().string();
-            listJson = gson.fromJson(jsonString, ListJson.class);
-            ProviderDAO providerDAO = new ProviderDAO(params[0]);
-            providerDAO.refreshStock(listJson);
+//            request = new Request.Builder().url(urlOrderItems).build();
+//            response = client.newCall(request).execute();
+//            jsonString = response.body().string();
+//            listJson = gson.fromJson(jsonString, ListJson.class);
+//            ProviderDAO providerDAO = new ProviderDAO(params[0]);
+//            providerDAO.refreshStock(listJson);
 
-            return qtd;
+            return 0;
         } catch (Exception e){
             e.printStackTrace();
         }

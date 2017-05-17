@@ -22,7 +22,7 @@ public class RefreshProductsTask extends AsyncTask<Context, Void, Integer> {
     @Override
     protected Integer doInBackground(Context... params) {
         OkHttpClient client = new OkHttpClient();
-        final String ipv4 = "http://192.168.25.8";
+        final String ipv4 = "http://192.168.15.7";
         final String urlProdutos = ipv4 + ":8080/bodegaWEB/rest/produtos/";
         final String urlCategorias = ipv4 + ":8080/bodegaWEB/rest/produtos/categorias";
         final String urlSubCategorias = ipv4 + ":8080/bodegaWEB/rest/produtos/subcategorias";

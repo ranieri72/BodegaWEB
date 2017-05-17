@@ -14,5 +14,6 @@
     <string name="sqlgerado">SQL Generated</string>
     <string name="configuracoes">Settings</string>
     <string name="atualizarProdutos">Refresh Products</string>
+    <string name="atualizarPedidos">Refresh Orders</string>
     <string name="produtosAtualizados">Updated Products: </string>
 </resources>
