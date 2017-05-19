@@ -35,15 +35,18 @@ public class SubCategoriasDAO {
         return subCategoria;
     }
 
-    public void inserirLista(List<SubCategorias> lista){
+    public int inserir(List<SubCategorias> lista){
         BodegaHelper helper = new BodegaHelper(mContext);
         SQLiteDatabase db = helper.getWritableDatabase();
+        int contador = 0;
 
         for (SubCategorias s : lista) {
             ContentValues values = valuesFromSubCategorias(s);
             db.insert(SubCategoriasContract.TABLE_NAME, null, values);
+            contador++;
         }
         db.close();
+        return contador;
     }
 
     public int atualizar(SubCategorias subCategoria){
@@ -52,6 +55,16 @@ public class SubCategoriasDAO {
 
         ContentValues values = valuesFromSubCategorias(subCategoria);
         int rowsAffected = db.update(SubCategoriasContract.TABLE_NAME, values, SubCategoriasContract._ID + " = ?", new String[]{String.valueOf(subCategoria.getId())});
+
+        db.close();
+        return rowsAffected;
+    }
+
+    public int excluir(){
+        BodegaHelper helper = new BodegaHelper(mContext);
+        SQLiteDatabase db = helper.getWritableDatabase();
+
+        int rowsAffected = db.delete(SubCategoriasContract.TABLE_NAME, null, null);
 
         db.close();
         return rowsAffected;
@@ -92,24 +105,29 @@ public class SubCategoriasDAO {
         return values;
     }
 
-    public void refreshStock(ListJson lista) {
-        BodegaHelper helper = new BodegaHelper(mContext);
-        SQLiteDatabase db = helper.getWritableDatabase();
-        List<SubCategorias> listaBanco = listar();
-        boolean existe;
-
-        for (SubCategorias cJson : lista.getListaSubcategorias()) {
-            existe = false;
-            for (SubCategorias cBanco : listaBanco) {
-                if (cJson.getId() == cBanco.getId()) {
-                    atualizar(cJson);
-                    existe = true;
-                    break;
-                }
-            }
-            if (!existe) {
-                inserir(cJson);
-            }
-        }
+    public int refreshStock(ListJson lista) {
+        excluir();
+        return inserir(lista.getListaSubcategorias());
     }
+
+//    public void refreshStock(ListJson lista) {
+//        BodegaHelper helper = new BodegaHelper(mContext);
+//        SQLiteDatabase db = helper.getWritableDatabase();
+//        List<SubCategorias> listaBanco = listar();
+//        boolean existe;
+//
+//        for (SubCategorias cJson : lista.getListaSubcategorias()) {
+//            existe = false;
+//            for (SubCategorias cBanco : listaBanco) {
+//                if (cJson.getId() == cBanco.getId()) {
+//                    atualizar(cJson);
+//                    existe = true;
+//                    break;
+//                }
+//            }
+//            if (!existe) {
+//                inserir(cJson);
+//            }
+//        }
+//    }
 }

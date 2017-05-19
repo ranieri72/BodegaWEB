@@ -33,7 +33,7 @@ public class ListaCategoriasActivity extends AppCompatActivity {
 
         mDAO = new CategoriasDAO(this);
         ListView mListView = (ListView)findViewById(R.id.listCategorias);
-        List<Categorias> mCategorias = mDAO.listarPorSubCategoria(produto.getCategoria().getSubCategoria());
+        List<Categorias> mCategorias = mDAO.listar(produto.getCategoria().getSubCategoria());
 
         CategoriasAdapter adapter = new CategoriasAdapter(this, mCategorias);
         mListView.setAdapter(adapter);

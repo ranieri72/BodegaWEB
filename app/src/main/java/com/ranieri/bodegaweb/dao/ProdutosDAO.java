@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.ranieri.bodegaweb.contract.CategoriasContract;
 import com.ranieri.bodegaweb.contract.ProdutosContract;
 import com.ranieri.bodegaweb.database.BodegaHelper;
 import com.ranieri.bodegaweb.model.ListJson;
@@ -38,6 +39,20 @@ public class ProdutosDAO {
         return produto;
     }
 
+    public int inserir(List<Produtos> lista){
+        BodegaHelper helper = new BodegaHelper(mContext);
+        SQLiteDatabase db = helper.getWritableDatabase();
+        int contador = 0;
+
+        for (Produtos produto : lista){
+            ContentValues values = valuesFromProdutos(produto);
+            db.insert(ProdutosContract.TABLE_NAME, null, values);
+            contador++;
+        }
+        db.close();
+        return contador;
+    }
+
     public int atualizar(Produtos produto){
         BodegaHelper helper = new BodegaHelper(mContext);
         SQLiteDatabase db = helper.getWritableDatabase();
@@ -59,6 +74,16 @@ public class ProdutosDAO {
         return rowsAffected;
     }
 
+    public int excluir(){
+        BodegaHelper helper = new BodegaHelper(mContext);
+        SQLiteDatabase db = helper.getWritableDatabase();
+
+        int rowsAffected = db.delete(ProdutosContract.TABLE_NAME, null, null);
+
+        db.close();
+        return rowsAffected;
+    }
+
     public Produtos selecionar(Produtos produto){
         BodegaHelper helper = new BodegaHelper(mContext);
         SQLiteDatabase db = helper.getReadableDatabase();
@@ -75,7 +100,6 @@ public class ProdutosDAO {
             produto.getCategoria().getSubCategoria().setId(cursor.getLong(cursor.getColumnIndex("sID")));
             produto.getCategoria().getSubCategoria().setNome(cursor.getString(cursor.getColumnIndex("sNome")));
         }
-
         cursor.close();
         db.close();
         return produto;
@@ -85,7 +109,7 @@ public class ProdutosDAO {
         BodegaHelper helper = new BodegaHelper(mContext);
         SQLiteDatabase db = helper.getReadableDatabase();
 
-        Cursor cursor = db.rawQuery("SELECT * FROM produtos", null);
+        Cursor cursor = db.rawQuery("SELECT * FROM " + ProdutosContract.TABLE_NAME, null);
 
         List<Produtos> lista = new ArrayList<>();
         Produtos produto;
@@ -94,18 +118,19 @@ public class ProdutosDAO {
             produto = valuesFromCursor(cursor);
             lista.add(produto);
         }
-
         cursor.close();
         db.close();
         return lista;
     }
 
-    public List<Produtos> listarPorSubCategoria(SubCategorias subCategoria){
+    public List<Produtos> listar(SubCategorias subCategoria){
         BodegaHelper helper = new BodegaHelper(mContext);
         SQLiteDatabase db = helper.getReadableDatabase();
 
-        Cursor cursor = db.rawQuery("SELECT p.*, c._id AS cID, c.nome AS cNome FROM produtos AS p, categorias AS c" +
-                " WHERE p.idCategoria = c._id AND c.idSubCategoria = ? ORDER BY c.ordem ASC, p.nome ASC", new String[]{String.valueOf(subCategoria.getId())});
+        Cursor cursor = db.rawQuery("SELECT p.*, c._id AS cID, c.nome AS cNome FROM " +
+                ProdutosContract.TABLE_NAME + " AS p, " +
+                CategoriasContract.TABLE_NAME + " AS c " +
+                "WHERE p.idCategoria = c._id AND c.idSubCategoria = ? ORDER BY c.ordem ASC, p.nome ASC", new String[]{String.valueOf(subCategoria.getId())});
 
         List<Produtos> lista = new ArrayList<>();
         Produtos produto;
@@ -117,18 +142,18 @@ public class ProdutosDAO {
 
             lista.add(produto);
         }
-
         cursor.close();
         db.close();
         return lista;
     }
 
-    public List<Produtos> listarAlterado(){
+    public List<Produtos> listar(boolean alterado){
         BodegaHelper helper = new BodegaHelper(mContext);
         SQLiteDatabase db = helper.getReadableDatabase();
+        String[] estado = alterado ? new String[]{"1"} : new String[]{"0"};
 
         Cursor cursor = db.rawQuery("SELECT p.*, c._id AS cID FROM produtos AS p, categorias AS c" +
-                " WHERE p.idCategoria = c._id AND p.alterado = 1", null);
+                " WHERE p.idCategoria = c._id AND p.alterado = ?", estado);
 
         List<Produtos> lista = new ArrayList<>();
         Produtos produto;
@@ -138,7 +163,6 @@ public class ProdutosDAO {
             produto.getCategoria().setId(cursor.getLong(cursor.getColumnIndex("cID")));
             lista.add(produto);
         }
-
         cursor.close();
         db.close();
         return lista;
@@ -169,25 +193,30 @@ public class ProdutosDAO {
         return p;
     }
 
-    public int refreshStock(ListJson lista){
-        BodegaHelper helper = new BodegaHelper(mContext);
-        SQLiteDatabase db = helper.getWritableDatabase();
-        List<Produtos> listaBanco = listar();
-        boolean existe;
-
-        for (Produtos pJson : lista.getListaProdutos()) {
-            existe = false;
-            for (Produtos pBanco : listaBanco) {
-                if (pJson.getId() == pBanco.getId()) {
-                    atualizar(pJson);
-                    existe = true;
-                    break;
-                }
-            }
-            if (!existe) {
-                inserir(pJson);
-            }
-        }
-        return 0;
+    public int refreshStock(ListJson lista) {
+        excluir();
+        return inserir(lista.getListaProdutos());
     }
+
+//    public int refreshStock(ListJson lista){
+//        BodegaHelper helper = new BodegaHelper(mContext);
+//        SQLiteDatabase db = helper.getWritableDatabase();
+//        List<Produtos> listaBanco = listar();
+//        boolean existe;
+//
+//        for (Produtos pJson : lista.getListaProdutos()) {
+//            existe = false;
+//            for (Produtos pBanco : listaBanco) {
+//                if (pJson.getId() == pBanco.getId()) {
+//                    atualizar(pJson);
+//                    existe = true;
+//                    break;
+//                }
+//            }
+//            if (!existe) {
+//                inserir(pJson);
+//            }
+//        }
+//        return 0;
+//    }
 }

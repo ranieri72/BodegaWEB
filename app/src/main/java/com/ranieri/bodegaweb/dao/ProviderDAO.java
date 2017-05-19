@@ -25,17 +25,33 @@ public class ProviderDAO {
         mContext = context;
     }
 
-    private void inserir(Provider provider) {
+    public Provider inserir(Provider provider) {
         BodegaHelper helper = new BodegaHelper(mContext);
         SQLiteDatabase db = helper.getWritableDatabase();
 
         ContentValues values = valuesFromProvider(provider);
         long id = db.insert(ProviderContract.TABLE_NAME, null, values);
+        provider.setId(id);
 
         db.close();
+        return provider;
     }
 
-    private int atualizar(Provider provider) {
+    public int inserir(List<Provider> lista){
+        BodegaHelper helper = new BodegaHelper(mContext);
+        SQLiteDatabase db = helper.getWritableDatabase();
+        int contador = 0;
+
+        for (Provider provider : lista){
+            ContentValues values = valuesFromProvider(provider);
+            db.insert(ProviderContract.TABLE_NAME, null, values);
+            contador++;
+        }
+        db.close();
+        return contador;
+    }
+
+    public int atualizar(Provider provider) {
         BodegaHelper helper = new BodegaHelper(mContext);
         SQLiteDatabase db = helper.getWritableDatabase();
 
@@ -46,7 +62,17 @@ public class ProviderDAO {
         return rowsAffected;
     }
 
-    private List<Provider> listar() {
+    public int excluir() {
+        BodegaHelper helper = new BodegaHelper(mContext);
+        SQLiteDatabase db = helper.getWritableDatabase();
+
+        int rowsAffected = db.delete(ProviderContract.TABLE_NAME, null, null);
+
+        db.close();
+        return rowsAffected;
+    }
+
+    public List<Provider> listar() {
         BodegaHelper helper = new BodegaHelper(mContext);
         SQLiteDatabase db = helper.getReadableDatabase();
 
@@ -63,27 +89,6 @@ public class ProviderDAO {
         cursor.close();
         db.close();
         return lista;
-    }
-
-    public void refreshStock(ListJson listJson) {
-        BodegaHelper helper = new BodegaHelper(mContext);
-        SQLiteDatabase db = helper.getWritableDatabase();
-        List<Provider> listaBanco = listar();
-        boolean existe;
-
-        for (Provider pJson : listJson.getListaProvider()) {
-            existe = false;
-            for (Provider pBanco : listaBanco) {
-                if (pJson.getId() == pBanco.getId()) {
-                    atualizar(pJson);
-                    existe = true;
-                    break;
-                }
-            }
-            if (!existe) {
-                inserir(pJson);
-            }
-        }
     }
 
     private ContentValues valuesFromProvider(Provider provider) {
@@ -104,4 +109,30 @@ public class ProviderDAO {
         p.setEmpresa(cursor.getString(cursor.getColumnIndex(ProviderContract.COMPANY)));
         return p;
     }
+
+    public int refreshOrders(ListJson listJson) {
+        excluir();
+        return inserir(listJson.getListaProvider());
+    }
+
+//    public void refreshOrders(ListJson listJson) {
+//        BodegaHelper helper = new BodegaHelper(mContext);
+//        SQLiteDatabase db = helper.getWritableDatabase();
+//        List<Provider> listaBanco = listar();
+//        boolean existe;
+//
+//        for (Provider pJson : listJson.getListaProvider()) {
+//            existe = false;
+//            for (Provider pBanco : listaBanco) {
+//                if (pJson.getId() == pBanco.getId()) {
+//                    atualizar(pJson);
+//                    existe = true;
+//                    break;
+//                }
+//            }
+//            if (!existe) {
+//                inserir(pJson);
+//            }
+//        }
+//    }
 }

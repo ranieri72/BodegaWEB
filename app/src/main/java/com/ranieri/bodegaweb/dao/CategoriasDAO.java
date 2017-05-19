@@ -37,15 +37,18 @@ public class CategoriasDAO {
         return categoria;
     }
 
-    public void inserirLista(List<Categorias> lista){
+    public int inserir(List<Categorias> lista){
         BodegaHelper helper = new BodegaHelper(mContext);
         SQLiteDatabase db = helper.getWritableDatabase();
+        int contador = 0;
 
         for (Categorias c : lista) {
             ContentValues values = valuesFromCategorias(c);
             db.insert(CategoriasContract.TABLE_NAME, null, values);
+            contador++;
         }
         db.close();
+        return contador;
     }
 
     public int atualizar(Categorias categoria){
@@ -59,7 +62,17 @@ public class CategoriasDAO {
         return rowsAffected;
     }
 
-    public List<Categorias> listarPorSubCategoria(SubCategorias subCategoria){
+    public int excluir(){
+        BodegaHelper helper = new BodegaHelper(mContext);
+        SQLiteDatabase db = helper.getWritableDatabase();
+
+        int rowsAffected = db.delete(CategoriasContract.TABLE_NAME, null, null);
+
+        db.close();
+        return rowsAffected;
+    }
+
+    public List<Categorias> listar(SubCategorias subCategoria){
         BodegaHelper helper = new BodegaHelper(mContext);
         SQLiteDatabase db = helper.getReadableDatabase();
 
@@ -115,24 +128,29 @@ public class CategoriasDAO {
         return values;
     }
 
-    public void refreshStock(ListJson lista) {
-        BodegaHelper helper = new BodegaHelper(mContext);
-        SQLiteDatabase db = helper.getWritableDatabase();
-        List<Categorias> listaBanco = listar();
-        boolean existe;
-
-        for (Categorias cJson : lista.getListaCategorias()) {
-            existe = false;
-            for (Categorias cBanco : listaBanco) {
-                if (cJson.getId() == cBanco.getId()) {
-                    atualizar(cJson);
-                    existe = true;
-                    break;
-                }
-            }
-            if (!existe) {
-                inserir(cJson);
-            }
-        }
+    public int refreshStock(ListJson lista) {
+        excluir();
+        return inserir(lista.getListaCategorias());
     }
+
+//    public void refreshStock(ListJson lista) {
+//        BodegaHelper helper = new BodegaHelper(mContext);
+//        SQLiteDatabase db = helper.getWritableDatabase();
+//        List<Categorias> listaBanco = listar();
+//        boolean existe;
+//
+//        for (Categorias cJson : lista.getListaCategorias()) {
+//            existe = false;
+//            for (Categorias cBanco : listaBanco) {
+//                if (cJson.getId() == cBanco.getId()) {
+//                    atualizar(cJson);
+//                    existe = true;
+//                    break;
+//                }
+//            }
+//            if (!existe) {
+//                inserir(cJson);
+//            }
+//        }
+//    }
 }

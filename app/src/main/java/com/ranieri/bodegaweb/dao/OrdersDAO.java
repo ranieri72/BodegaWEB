@@ -25,17 +25,33 @@ public class OrdersDAO {
         mContext = context;
     }
 
-    private void inserir(Order order) {
+    public Order inserir(Order order) {
         BodegaHelper helper = new BodegaHelper(mContext);
         SQLiteDatabase db = helper.getWritableDatabase();
 
         ContentValues values = valuesFromOrder(order);
         long id = db.insert(OrderContract.TABLE_NAME, null, values);
+        order.setId(id);
 
         db.close();
+        return order;
     }
 
-    private int atualizar(Order order) {
+    public int inserir(List<Order> lista){
+        BodegaHelper helper = new BodegaHelper(mContext);
+        SQLiteDatabase db = helper.getWritableDatabase();
+        int contador = 0;
+
+        for (Order order : lista){
+            ContentValues values = valuesFromOrder(order);
+            db.insert(OrderContract.TABLE_NAME, null, values);
+            contador++;
+        }
+        db.close();
+        return contador;
+    }
+
+    public int atualizar(Order order) {
         BodegaHelper helper = new BodegaHelper(mContext);
         SQLiteDatabase db = helper.getWritableDatabase();
 
@@ -46,7 +62,17 @@ public class OrdersDAO {
         return rowsAffected;
     }
 
-    private List<Order> listar() {
+    public int excluir() {
+        BodegaHelper helper = new BodegaHelper(mContext);
+        SQLiteDatabase db = helper.getWritableDatabase();
+
+        int rowsAffected = db.delete(OrderContract.TABLE_NAME, null, null);
+
+        db.close();
+        return rowsAffected;
+    }
+
+    public List<Order> listar() {
         BodegaHelper helper = new BodegaHelper(mContext);
         SQLiteDatabase db = helper.getReadableDatabase();
 
@@ -63,27 +89,6 @@ public class OrdersDAO {
         cursor.close();
         db.close();
         return lista;
-    }
-
-    public void refreshStock(ListJson listJson) {
-        BodegaHelper helper = new BodegaHelper(mContext);
-        SQLiteDatabase db = helper.getWritableDatabase();
-        List<Order> listaBanco = listar();
-        boolean existe;
-
-        for (Order oJson : listJson.getListaOrder()) {
-            existe = false;
-            for (Order oBanco : listaBanco) {
-                if (oJson.getId() == oBanco.getId()) {
-                    atualizar(oJson);
-                    existe = true;
-                    break;
-                }
-            }
-            if (!existe) {
-                inserir(oJson);
-            }
-        }
     }
 
     private ContentValues valuesFromOrder(Order order) {
@@ -104,4 +109,30 @@ public class OrdersDAO {
         o.getFornecedor().setId(cursor.getLong(cursor.getColumnIndex(OrderContract.PROVIDER)));
         return o;
     }
+
+    public int refreshOrders(ListJson listJson) {
+        excluir();
+        return inserir(listJson.getListaOrder());
+    }
+
+//    public void refreshOrders(ListJson listJson) {
+//        BodegaHelper helper = new BodegaHelper(mContext);
+//        SQLiteDatabase db = helper.getWritableDatabase();
+//        List<Order> listaBanco = listar();
+//        boolean existe;
+//
+//        for (Order oJson : listJson.getListaOrder()) {
+//            existe = false;
+//            for (Order oBanco : listaBanco) {
+//                if (oJson.getId() == oBanco.getId()) {
+//                    atualizar(oJson);
+//                    existe = true;
+//                    break;
+//                }
+//            }
+//            if (!existe) {
+//                inserir(oJson);
+//            }
+//        }
+//    }
 }

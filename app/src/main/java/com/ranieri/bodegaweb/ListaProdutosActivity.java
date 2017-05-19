@@ -36,7 +36,7 @@ public class ListaProdutosActivity extends AppCompatActivity {
         mDAO = new ProdutosDAO(this);
         mListView = (ListView)findViewById(R.id.listProdutos);
 
-        mLista = mDAO.listarPorSubCategoria(subCategoria);
+        mLista = mDAO.listar(subCategoria);
         mAdapter = new ProdutosAdapter(this, mLista);
         mListView.setAdapter(mAdapter);
 
