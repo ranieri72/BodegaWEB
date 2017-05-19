@@ -56,12 +56,12 @@ public class BodegaHelper extends SQLiteOpenHelper {
                 ProviderContract.PHONE + " TEXT NOT NULL); ";
 
         String createOrderItems = "CREATE TABLE " + OrderItemsContract.TABLE_NAME + " (" +
-                OrderItemsContract._ID + " INTEGER PRIMARY KEY, " +
                 OrderItemsContract.QTD + " INTEGER NOT NULL, " +
                 OrderItemsContract.PRECOUNIT + " REAL NOT NULL, " +
                 OrderItemsContract.UNIDADEMEDIDA + " INTEGER NOT NULL, " +
                 OrderItemsContract.ORDER + " INTEGER NOT NULL, " +
-                OrderItemsContract.PRODUTO + " INTEGER NOT NULL); ";
+                OrderItemsContract.PRODUTO + " INTEGER NOT NULL, " +
+                "PRIMARY KEY (" + OrderItemsContract.ORDER + ", " + OrderItemsContract.PRODUTO + "));";
 
         String createUnidadeMedida = "CREATE TABLE " + UnidadeMedidaContract.TABLE_NAME + " (" +
                 UnidadeMedidaContract._ID + " INTEGER PRIMARY KEY, " +
@@ -73,9 +73,9 @@ public class BodegaHelper extends SQLiteOpenHelper {
         db.execSQL(createCategorias);
         db.execSQL(createProdutos);
         db.execSQL(createProvider);
-        db.execSQL(createOrder);
-        db.execSQL(createOrderItems);
         db.execSQL(createUnidadeMedida);
+        db.execSQL(createOrderItems);
+        db.execSQL(createOrder);
     }
 
     @Override

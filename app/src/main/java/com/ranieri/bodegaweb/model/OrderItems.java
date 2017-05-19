@@ -9,21 +9,17 @@ import android.os.Parcelable;
 
 public class OrderItems implements Parcelable {
 
-    private Order order;
-    private Produtos produtos;
+    private OrderItemsPK chaveComposta;
     private double qtd;
     private double precoUnit;
     private UnidadeMedida unidadeMedida;
 
     public OrderItems(){
-        order = new Order();
-        produtos = new Produtos();
+        chaveComposta = new OrderItemsPK();
         unidadeMedida = new UnidadeMedida();
     }
 
     protected OrderItems(Parcel in) {
-        order = in.readParcelable(Order.class.getClassLoader());
-        produtos = in.readParcelable(Produtos.class.getClassLoader());
         qtd = in.readDouble();
         precoUnit = in.readDouble();
         unidadeMedida = in.readParcelable(UnidadeMedida.class.getClassLoader());
@@ -48,28 +44,14 @@ public class OrderItems implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeParcelable(order, flags);
-        dest.writeParcelable(produtos, flags);
         dest.writeDouble(qtd);
         dest.writeDouble(precoUnit);
         dest.writeParcelable(unidadeMedida, flags);
     }
 
-    public Order getOrder() {
-        return order;
-    }
+    public OrderItemsPK getChaveComposta() { return chaveComposta; }
 
-    public void setOrder(Order order) {
-        this.order = order;
-    }
-
-    public Produtos getProdutos() {
-        return produtos;
-    }
-
-    public void setProdutos(Produtos produtos) {
-        this.produtos = produtos;
-    }
+    public void setChaveComposta(OrderItemsPK chaveComposta) { this.chaveComposta = chaveComposta; }
 
     public double getQtd() {
         return qtd;

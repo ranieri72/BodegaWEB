@@ -42,7 +42,7 @@ public class OrderItemsDAO {
         ContentValues values = valuesFromOrder(orderItem);
         int rowsAffected = db.update(OrderItemsContract.TABLE_NAME, values,
                 OrderItemsContract.ORDER + " = ?" + OrderItemsContract.PRODUTO + " = ?",
-                new String[]{String.valueOf(orderItem.getOrder().getId()), String.valueOf(orderItem.getProdutos().getId())});
+                new String[]{String.valueOf(orderItem.getChaveComposta().getOrder().getId()), String.valueOf(orderItem.getChaveComposta().getProdutos().getId())});
 
         db.close();
         return rowsAffected;
@@ -52,7 +52,7 @@ public class OrderItemsDAO {
         BodegaHelper helper = new BodegaHelper(mContext);
         SQLiteDatabase db = helper.getReadableDatabase();
 
-        Cursor cursor = db.rawQuery("SELECT * FROM orderItem", null);
+        Cursor cursor = db.rawQuery("SELECT * FROM " + OrderItemsContract.TABLE_NAME, null);
 
         List<OrderItems> lista = new ArrayList<>();
         OrderItems orderItem;
@@ -76,8 +76,8 @@ public class OrderItemsDAO {
         for (OrderItems oJson : listJson.getListaOrderItems()) {
             existe = false;
             for (OrderItems oBanco : listaBanco) {
-                if (oJson.getOrder().getId() == oBanco.getOrder().getId() &&
-                        oJson.getProdutos().getId() == oBanco.getProdutos().getId()) {
+                if (oJson.getChaveComposta().getOrder().getId() == oBanco.getChaveComposta().getOrder().getId() &&
+                        oJson.getChaveComposta().getProdutos().getId() == oBanco.getChaveComposta().getProdutos().getId()) {
                     atualizar(oJson);
                     existe = true;
                     break;
@@ -92,8 +92,8 @@ public class OrderItemsDAO {
 
     private OrderItems valuesFromCursor(Cursor cursor) {
         OrderItems o = new OrderItems();
-        o.getProdutos().setId(cursor.getLong(cursor.getColumnIndex(OrderItemsContract.PRODUTO)));
-        o.getOrder().setId(cursor.getLong(cursor.getColumnIndex(OrderItemsContract.ORDER)));
+        o.getChaveComposta().getProdutos().setId(cursor.getLong(cursor.getColumnIndex(OrderItemsContract.PRODUTO)));
+        o.getChaveComposta().getOrder().setId(cursor.getLong(cursor.getColumnIndex(OrderItemsContract.ORDER)));
         o.setPrecoUnit(cursor.getDouble(cursor.getColumnIndex(OrderItemsContract.PRECOUNIT)));
         o.setQtd(cursor.getInt(cursor.getColumnIndex(OrderItemsContract.QTD)));
         o.getUnidadeMedida().setId(cursor.getLong(cursor.getColumnIndex(OrderItemsContract.UNIDADEMEDIDA)));
@@ -102,8 +102,8 @@ public class OrderItemsDAO {
 
     private ContentValues valuesFromOrder(OrderItems orderItem) {
         ContentValues values = new ContentValues();
-        values.put(OrderItemsContract.ORDER, orderItem.getOrder().getId());
-        values.put(OrderItemsContract.PRODUTO, orderItem.getProdutos().getId());
+        values.put(OrderItemsContract.ORDER, orderItem.getChaveComposta().getOrder().getId());
+        values.put(OrderItemsContract.PRODUTO, orderItem.getChaveComposta().getProdutos().getId());
         values.put(OrderItemsContract.PRECOUNIT, orderItem.getPrecoUnit());
         values.put(OrderItemsContract.QTD, orderItem.getQtd());
         values.put(OrderItemsContract.UNIDADEMEDIDA, orderItem.getUnidadeMedida().getId());

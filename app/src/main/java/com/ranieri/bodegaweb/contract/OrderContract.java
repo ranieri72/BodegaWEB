@@ -7,7 +7,7 @@ import android.provider.BaseColumns;
  */
 
 public interface OrderContract extends BaseColumns {
-    String TABLE_NAME = "order";
+    String TABLE_NAME = "ordered";
 
     String ORDERDATE = "orderdate";
     String TOTALORDER = "totalorder";

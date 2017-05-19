@@ -1,12 +1,10 @@
 package com.ranieri.bodegaweb.contract;
 
-import android.provider.BaseColumns;
-
 /**
  * Created by ranie on 27 de abr.
  */
 
-public interface OrderItemsContract extends BaseColumns {
+public interface OrderItemsContract {
     String TABLE_NAME = "orderitems";
 
     String QTD = "qtd";

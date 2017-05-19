@@ -174,7 +174,6 @@ public class ProdutosDAO {
         SQLiteDatabase db = helper.getWritableDatabase();
         List<Produtos> listaBanco = listar();
         boolean existe;
-        int contador = 0;
 
         for (Produtos pJson : lista.getListaProdutos()) {
             existe = false;

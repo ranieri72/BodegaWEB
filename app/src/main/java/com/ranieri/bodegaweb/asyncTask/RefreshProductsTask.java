@@ -23,9 +23,9 @@ public class RefreshProductsTask extends AsyncTask<Context, Void, Integer> {
     protected Integer doInBackground(Context... params) {
         OkHttpClient client = new OkHttpClient();
         final String ipv4 = "http://192.168.15.7";
-        final String urlProdutos = ipv4 + ":8080/bodegaWEB/rest/produtos/";
-        final String urlCategorias = ipv4 + ":8080/bodegaWEB/rest/produtos/categorias";
-        final String urlSubCategorias = ipv4 + ":8080/bodegaWEB/rest/produtos/subcategorias";
+        final String urlProdutos = ipv4 + ":8080/bodegaWEB/rest/products/";
+        final String urlCategorias = ipv4 + ":8080/bodegaWEB/rest/products/categorias";
+        final String urlSubCategorias = ipv4 + ":8080/bodegaWEB/rest/products/subcategorias";
         Request request;
         Response response;
         String jsonString;
@@ -52,9 +52,9 @@ public class RefreshProductsTask extends AsyncTask<Context, Void, Integer> {
             jsonString = response.body().string();
             listJson = gson.fromJson(jsonString, ListJson.class);
             ProdutosDAO produtosDAO = new ProdutosDAO(params[0]);
-            int qtd = produtosDAO.refreshStock(listJson);
+            produtosDAO.refreshStock(listJson);
 
-            return qtd;
+            return listJson.getListaProdutos().size();
         } catch (Exception e){
             e.printStackTrace();
         }

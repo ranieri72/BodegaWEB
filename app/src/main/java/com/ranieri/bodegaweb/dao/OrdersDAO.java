@@ -50,7 +50,7 @@ public class OrdersDAO {
         BodegaHelper helper = new BodegaHelper(mContext);
         SQLiteDatabase db = helper.getReadableDatabase();
 
-        Cursor cursor = db.rawQuery("SELECT * FROM order", null);
+        Cursor cursor = db.rawQuery("SELECT * FROM " + OrderContract.TABLE_NAME, null);
 
         List<Order> lista = new ArrayList<>();
         Order order;
@@ -91,6 +91,7 @@ public class OrdersDAO {
         values.put(OrderContract._ID, order.getId());
         values.put(OrderContract.ORDERDATE, order.getDataPedido().toString());
         values.put(OrderContract.TOTALORDER, order.getTotalPedido());
+        values.put(OrderContract.PROVIDER, order.getFornecedor().getId());
 
         return values;
     }
@@ -100,6 +101,7 @@ public class OrdersDAO {
         o.setId(cursor.getLong(cursor.getColumnIndex(OrderContract._ID)));
         //o.setDataPedido(cursor.getString(cursor.getColumnIndex(OrderContract.ORDERDATE)));
         o.setTotalPedido(cursor.getFloat(cursor.getColumnIndex(OrderContract.TOTALORDER)));
+        o.getFornecedor().setId(cursor.getLong(cursor.getColumnIndex(OrderContract.PROVIDER)));
         return o;
     }
 }

@@ -7,7 +7,7 @@ import android.provider.BaseColumns;
  */
 
 public interface UnidadeMedidaContract extends BaseColumns {
-    String TABLE_NAME = "order";
+    String TABLE_NAME = "unidademedida";
 
     String NOME = "nome";
     String ORDEM = "ordem";

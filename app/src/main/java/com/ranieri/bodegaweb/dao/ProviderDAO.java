@@ -91,6 +91,7 @@ public class ProviderDAO {
         values.put(ProviderContract._ID, provider.getId());
         values.put(ProviderContract.NAME, provider.getNome());
         values.put(ProviderContract.PHONE, provider.getFone());
+        values.put(ProviderContract.COMPANY, provider.getEmpresa());
 
         return values;
     }
@@ -100,6 +101,7 @@ public class ProviderDAO {
         p.setId(cursor.getLong(cursor.getColumnIndex(ProviderContract._ID)));
         p.setNome(cursor.getString(cursor.getColumnIndex(ProviderContract.NAME)));
         p.setFone(cursor.getString(cursor.getColumnIndex(ProviderContract.PHONE)));
+        p.setEmpresa(cursor.getString(cursor.getColumnIndex(ProviderContract.COMPANY)));
         return p;
     }
 }
