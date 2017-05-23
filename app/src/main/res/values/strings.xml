@@ -16,4 +16,7 @@
     <string name="atualizarProdutos">Refresh Products</string>
     <string name="atualizarPedidos">Refresh Orders</string>
     <string name="produtosAtualizados">Updated Products: </string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

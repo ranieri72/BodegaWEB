@@ -12,17 +12,18 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".ListaProdutosActivity" />
-        <activity android:name=".ListaSubCategoriasActivity">
+        <activity android:name=".ListaSubCategoriasActivity" />
+        <activity android:name=".DetalProdutosActivity" />
+        <activity android:name=".EditarProdutosActivity" />
+        <activity android:name=".ListaCategoriasActivity" />
+        <activity android:name=".ConfiguracoesActivity" />
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".DetalProdutosActivity" />
-        <activity android:name=".EditarProdutosActivity" />
-        <activity android:name=".ListaCategoriasActivity" />
-        <activity android:name=".ConfiguracoesActivity"></activity>
     </application>
 
 </manifest>
