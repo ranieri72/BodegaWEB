@@ -1,6 +1,7 @@
 package com.ranieri.bodegaweb;
 
 import android.content.Intent;
+import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,6 +13,8 @@ import com.ranieri.bodegaweb.dao.ProdutosDAO;
 import com.ranieri.bodegaweb.model.Categorias;
 import com.ranieri.bodegaweb.model.Produtos;
 import com.ranieri.bodegaweb.model.SubCategorias;
+
+import org.parceler.Parcels;
 
 public class EditarProdutosActivity extends AppCompatActivity {
 
@@ -54,6 +57,7 @@ public class EditarProdutosActivity extends AppCompatActivity {
         public void onClick(View v) {
             Intent it;
             ProdutosDAO mDAO;
+            Parcelable parcelable = Parcels.wrap(produto);
 
             switch (v.getId()){
                 case R.id.btnCategoria:
@@ -61,7 +65,7 @@ public class EditarProdutosActivity extends AppCompatActivity {
                     Log.v("Editar Produto", "onClick - Categoria");
 
                     it = new Intent(EditarProdutosActivity.this, ListaCategoriasActivity.class);
-                    it.putExtra("produto", produto);
+                    it.putExtra("produto", parcelable);
                     startActivityForResult(it, 2);
                     break;
                 case R.id.btnSubCategoria:
@@ -69,7 +73,7 @@ public class EditarProdutosActivity extends AppCompatActivity {
                     Log.v("Editar Produto", "onClick - Subcategoria");
 
                     it = new Intent(EditarProdutosActivity.this, ListaSubCategoriasActivity.class);
-                    it.putExtra("produto", produto);
+                    it.putExtra("produto", parcelable);
                     startActivityForResult(it, 1);
                     break;
                 case R.id.btnSalvar:
@@ -85,7 +89,7 @@ public class EditarProdutosActivity extends AppCompatActivity {
                     mDAO.atualizar(produto);
 
                     it = new Intent();
-                    it.putExtra("produto", produto);
+                    it.putExtra("produto", parcelable);
                     setResult(RESULT_OK, it);
                     finish();
                     break;

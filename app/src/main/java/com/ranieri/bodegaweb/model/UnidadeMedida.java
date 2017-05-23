@@ -1,13 +1,13 @@
 package com.ranieri.bodegaweb.model;
 
-import android.os.Parcel;
-import android.os.Parcelable;
+import org.parceler.Parcel;
 
 /**
  * Created by ranie on 16 de mai.
  */
 
-public class UnidadeMedida implements Parcelable{
+@Parcel
+public class UnidadeMedida {
 
     private long id;
     private String nome;
@@ -15,40 +15,7 @@ public class UnidadeMedida implements Parcelable{
     private int ordem;
     private int multiplicador;
 
-    public UnidadeMedida(){}
-
-    protected UnidadeMedida(Parcel in) {
-        id = in.readLong();
-        nome = in.readString();
-        nomeXML = in.readString();
-        ordem = in.readInt();
-        multiplicador = in.readInt();
-    }
-
-    public static final Creator<UnidadeMedida> CREATOR = new Creator<UnidadeMedida>() {
-        @Override
-        public UnidadeMedida createFromParcel(Parcel in) {
-            return new UnidadeMedida(in);
-        }
-
-        @Override
-        public UnidadeMedida[] newArray(int size) {
-            return new UnidadeMedida[size];
-        }
-    };
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeLong(id);
-        dest.writeString(nome);
-        dest.writeString(nomeXML);
-        dest.writeInt(ordem);
-        dest.writeInt(multiplicador);
+    public UnidadeMedida() {
     }
 
     public long getId() {

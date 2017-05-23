@@ -1,7 +1,6 @@
 package com.ranieri.bodegaweb.model;
 
-import android.os.Parcel;
-import android.os.Parcelable;
+import org.parceler.Parcel;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -11,7 +10,8 @@ import java.util.List;
  * Created by ranie on 15 de mai.
  */
 
-public class Order implements Parcelable {
+@Parcel
+public class Order {
 
     private long id;
     private Date dataPedido;
@@ -27,40 +27,6 @@ public class Order implements Parcelable {
     public Order() {
         fornecedor = new Provider();
         listaItensPedido = new ArrayList<>();
-    }
-
-    protected Order(Parcel in) {
-        id = in.readLong();
-        aberto = in.readByte() != 0;
-        notaXML = in.readByte() != 0;
-        porcentagem = in.readFloat();
-        totalPedido = in.readFloat();
-    }
-
-    public static final Creator<Order> CREATOR = new Creator<Order>() {
-        @Override
-        public Order createFromParcel(Parcel in) {
-            return new Order(in);
-        }
-
-        @Override
-        public Order[] newArray(int size) {
-            return new Order[size];
-        }
-    };
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeLong(id);
-        dest.writeByte((byte) (aberto ? 1 : 0));
-        dest.writeByte((byte) (notaXML ? 1 : 0));
-        dest.writeFloat(porcentagem);
-        dest.writeFloat(totalPedido);
     }
 
     public long getId() {

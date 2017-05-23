@@ -1,6 +1,7 @@
 package com.ranieri.bodegaweb;
 
 import android.content.Intent;
+import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,6 +10,8 @@ import android.widget.TextView;
 
 import com.ranieri.bodegaweb.dao.ProdutosDAO;
 import com.ranieri.bodegaweb.model.Produtos;
+
+import org.parceler.Parcels;
 
 public class DetalProdutosActivity extends AppCompatActivity {
 
@@ -51,7 +54,8 @@ public class DetalProdutosActivity extends AppCompatActivity {
             Log.v("Detalhes Produto", "onClick");
 
             Intent it = new Intent(DetalProdutosActivity.this, EditarProdutosActivity.class);
-            it.putExtra("produto", produto);
+            Parcelable parcelable = Parcels.wrap(produto);
+            it.putExtra("produto", parcelable);
             startActivityForResult(it, 0);
         }
     };

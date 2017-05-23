@@ -1,6 +1,7 @@
 package com.ranieri.bodegaweb;
 
 import android.content.Intent;
+import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,6 +17,8 @@ import com.ranieri.bodegaweb.dao.SubCategoriasDAO;
 import com.ranieri.bodegaweb.database.ProdutosTxt;
 import com.ranieri.bodegaweb.model.Produtos;
 import com.ranieri.bodegaweb.model.SubCategorias;
+
+import org.parceler.Parcels;
 
 import java.util.List;
 
@@ -66,6 +69,7 @@ public class ListaSubCategoriasActivity extends AppCompatActivity {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             SubCategorias subCategoria = (SubCategorias) parent.getAdapter().getItem(position);
+            Parcelable parcelable = Parcels.wrap(produto);
             Intent it;
 
             if (produto == null) {
@@ -73,14 +77,14 @@ public class ListaSubCategoriasActivity extends AppCompatActivity {
                 Log.v("Listar SubCategorias", "OnItemClickListener - Produto nulo");
 
                 it = new Intent(ListaSubCategoriasActivity.this, ListaProdutosActivity.class);
-                it.putExtra("subCategoria", subCategoria);
+                it.putExtra("subCategoria", parcelable);
                 startActivity(it);
             } else {
 
                 Log.v("Listar SubCategorias", "OnItemClickListener - Produto recebido");
 
                 it = new Intent();
-                it.putExtra("subCategoria", subCategoria);
+                it.putExtra("subCategoria", parcelable);
                 setResult(RESULT_OK, it);
                 finish();
             }

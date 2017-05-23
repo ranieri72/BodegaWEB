@@ -1,13 +1,13 @@
 package com.ranieri.bodegaweb.model;
 
-import android.os.Parcel;
-import android.os.Parcelable;
+import org.parceler.Parcel;
 
 /**
  * Created by ranie on 15 de mai.
  */
 
-public class Provider implements Parcelable {
+@Parcel
+public class Provider {
 
     private long id;
     private String empresa;
@@ -16,42 +16,7 @@ public class Provider implements Parcelable {
     private String fone;
     private boolean ativado;
 
-    public Provider(){}
-
-    protected Provider(Parcel in) {
-        id = in.readLong();
-        empresa = in.readString();
-        empresaXML = in.readString();
-        nome = in.readString();
-        fone = in.readString();
-        ativado = in.readByte() != 0;
-    }
-
-    public static final Creator<Provider> CREATOR = new Creator<Provider>() {
-        @Override
-        public Provider createFromParcel(Parcel in) {
-            return new Provider(in);
-        }
-
-        @Override
-        public Provider[] newArray(int size) {
-            return new Provider[size];
-        }
-    };
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeLong(id);
-        dest.writeString(empresa);
-        dest.writeString(empresaXML);
-        dest.writeString(nome);
-        dest.writeString(fone);
-        dest.writeByte((byte) (ativado ? 1 : 0));
+    public Provider() {
     }
 
     public long getId() {

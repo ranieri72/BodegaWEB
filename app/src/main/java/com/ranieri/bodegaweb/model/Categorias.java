@@ -1,13 +1,13 @@
 package com.ranieri.bodegaweb.model;
 
-import android.os.Parcel;
-import android.os.Parcelable;
+import org.parceler.Parcel;
 
 /**
  * Created by ranie on 4 de mai.
  */
 
-public class Categorias implements Parcelable {
+@Parcel
+public class Categorias {
 
     private long id;
     private String nome;
@@ -18,51 +18,35 @@ public class Categorias implements Parcelable {
         subCategoria = new SubCategorias();
     }
 
-    protected Categorias(Parcel in) {
-        id = in.readLong();
-        nome = in.readString();
-        ordem = in.readInt();
-        subCategoria = in.readParcelable(SubCategorias.class.getClassLoader());
+    public long getId() {
+        return id;
     }
 
-    public static final Creator<Categorias> CREATOR = new Creator<Categorias>() {
-        @Override
-        public Categorias createFromParcel(Parcel in) {
-            return new Categorias(in);
-        }
-
-        @Override
-        public Categorias[] newArray(int size) {
-            return new Categorias[size];
-        }
-    };
-
-    @Override
-    public int describeContents() {
-        return 0;
+    public void setId(long id) {
+        this.id = id;
     }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeLong(id);
-        dest.writeString(nome);
-        dest.writeInt(ordem);
-        dest.writeParcelable(subCategoria, flags);
+    public String getNome() {
+        return nome;
     }
 
-    public long getId() { return id; }
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
 
-    public void setId(long id) { this.id = id; }
+    public int getOrdem() {
+        return ordem;
+    }
 
-    public String getNome() { return nome; }
+    public void setOrdem(int ordem) {
+        this.ordem = ordem;
+    }
 
-    public void setNome(String nome) { this.nome = nome; }
+    public SubCategorias getSubCategoria() {
+        return subCategoria;
+    }
 
-    public int getOrdem() { return ordem; }
-
-    public void setOrdem(int ordem) { this.ordem = ordem; }
-
-    public SubCategorias getSubCategoria() { return subCategoria; }
-
-    public void setSubCategoria(SubCategorias subCategoria) { this.subCategoria = subCategoria; }
+    public void setSubCategoria(SubCategorias subCategoria) {
+        this.subCategoria = subCategoria;
+    }
 }

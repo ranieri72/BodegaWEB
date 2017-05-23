@@ -1,6 +1,7 @@
 package com.ranieri.bodegaweb;
 
 import android.content.Intent;
+import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,7 +13,8 @@ import com.ranieri.bodegaweb.adapter.CategoriasAdapter;
 import com.ranieri.bodegaweb.dao.CategoriasDAO;
 import com.ranieri.bodegaweb.model.Categorias;
 import com.ranieri.bodegaweb.model.Produtos;
-import com.ranieri.bodegaweb.model.SubCategorias;
+
+import org.parceler.Parcels;
 
 import java.util.List;
 
@@ -49,7 +51,8 @@ public class ListaCategoriasActivity extends AppCompatActivity {
             Log.v("Listar Categorias", "OnItemClickListener - Produto recebido");
 
             it = new Intent();
-            it.putExtra("categoria", categoria);
+            Parcelable parcelable = Parcels.wrap(produto);
+            it.putExtra("categoria", parcelable);
             setResult(RESULT_OK, it);
             finish();
 

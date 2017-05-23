@@ -1,13 +1,13 @@
 package com.ranieri.bodegaweb.model;
 
-import android.os.Parcel;
-import android.os.Parcelable;
+import org.parceler.Parcel;
 
 /**
  * Created by ranie on 4 de mai.
  */
 
-public class SubCategorias implements Parcelable {
+@Parcel
+public class SubCategorias {
 
     private long id;
     private String nome;
@@ -15,39 +15,19 @@ public class SubCategorias implements Parcelable {
     public SubCategorias() {
     }
 
-    protected SubCategorias(Parcel in) {
-        id = in.readLong();
-        nome = in.readString();
+    public long getId() {
+        return id;
     }
 
-    public static final Creator<SubCategorias> CREATOR = new Creator<SubCategorias>() {
-        @Override
-        public SubCategorias createFromParcel(Parcel in) {
-            return new SubCategorias(in);
-        }
-
-        @Override
-        public SubCategorias[] newArray(int size) {
-            return new SubCategorias[size];
-        }
-    };
-
-    @Override
-    public int describeContents() {
-        return 0;
+    public void setId(long id) {
+        this.id = id;
     }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeLong(id);
-        dest.writeString(nome);
+    public String getNome() {
+        return nome;
     }
 
-    public long getId() { return id; }
-
-    public void setId(long id) { this.id = id; }
-
-    public String getNome() { return nome; }
-
-    public void setNome(String nome) { this.nome = nome; }
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
 }
