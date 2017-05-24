@@ -12,21 +12,36 @@ import com.ranieri.bodegaweb.model.Produtos;
 
 import org.parceler.Parcels;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class DetalProdutosActivity extends AppCompatActivity {
 
+    @BindView(R.id.txt_nome)
     TextView mTxtNome;
-    TextView mTxtEstoque;
-    TextView mTxtNovoEstoque;
-    TextView mTxtPreco;
-    TextView mTxtCategoria;
-    TextView mTxtSubCategoria;
-    Produtos produto;
 
+    @BindView(R.id.txt_estoque)
+    TextView mTxtEstoque;
+
+    @BindView(R.id.txt_novo_estoque)
+    TextView mTxtNovoEstoque;
+
+    @BindView(R.id.txt_preco)
+    TextView mTxtPreco;
+
+    @BindView(R.id.txt_categoria)
+    TextView mTxtCategoria;
+
+    @BindView(R.id.txt_subcategoria)
+    TextView mTxtSubCategoria;
+
+    Produtos produto;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detal_produtos);
+        ButterKnife.bind(this);
         setTitle(getResources().getString(R.string.detalhes));
 
         Log.v("Detalhes Produto", "onCreate");

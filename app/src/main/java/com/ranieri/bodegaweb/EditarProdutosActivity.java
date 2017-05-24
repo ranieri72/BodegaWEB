@@ -15,30 +15,38 @@ import com.ranieri.bodegaweb.model.SubCategorias;
 
 import org.parceler.Parcels;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class EditarProdutosActivity extends AppCompatActivity {
 
+    @BindView(R.id.edt_nome)
     EditText mEdtNome;
+
+    @BindView(R.id.edt_estoque)
     EditText mEdtEstoque;
+
+    @BindView(R.id.edt_preco)
     EditText mEdtPreco;
+
+    @BindView(R.id.btnCategoria)
     Button mBtnCategoria;
+
+    @BindView(R.id.btnSubCategoria)
     Button mBtnSubCategoria;
+
     Produtos produto;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editar_produtos);
+        ButterKnife.bind(this);
         setTitle(getResources().getString(R.string.editar));
 
         Log.v("Editar Produto", "onCreate");
 
         produto = Parcels.unwrap(getIntent().getParcelableExtra("produto"));
-
-        mEdtNome = (EditText) findViewById(R.id.edt_nome);
-        mEdtEstoque = (EditText) findViewById(R.id.edt_estoque);
-        mEdtPreco = (EditText) findViewById(R.id.edt_preco);
-        mBtnCategoria = (Button) findViewById(R.id.btnCategoria);
-        mBtnSubCategoria = (Button) findViewById(R.id.btnSubCategoria);
 
         mEdtNome.setText(produto.getNome());
         mEdtEstoque.setText(String.valueOf(produto.getEstoque()));

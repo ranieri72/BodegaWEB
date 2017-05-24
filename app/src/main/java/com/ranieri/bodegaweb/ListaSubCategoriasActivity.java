@@ -19,6 +19,9 @@ import org.parceler.Parcels;
 
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class ListaSubCategoriasActivity extends AppCompatActivity {
 
 //    private static final int REQUEST_EXTERNAL_STORAGE = 1;
@@ -26,12 +29,16 @@ public class ListaSubCategoriasActivity extends AppCompatActivity {
 //            Manifest.permission.WRITE_EXTERNAL_STORAGE
 //    };
 
+    @BindView(R.id.listSubCategorias)
+    ListView mListView;
+
     Produtos produto;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sub_categorias);
+        ButterKnife.bind(this);
 
         Log.v("Listar SubCategorias", "onCreate");
 
@@ -52,7 +59,6 @@ public class ListaSubCategoriasActivity extends AppCompatActivity {
 //        }
 
         SubCategoriasDAO mDAO = new SubCategoriasDAO(this);
-        ListView mListView = (ListView) findViewById(R.id.listSubCategorias);
         List<SubCategorias> mCategorias = mDAO.listar();
 
 //        if (mCategorias.isEmpty()){

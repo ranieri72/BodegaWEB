@@ -17,14 +17,20 @@ import org.parceler.Parcels;
 
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class ListaCategoriasActivity extends AppCompatActivity {
 
+    @BindView(R.id.listCategorias)
+    ListView mListView;
     Produtos produto;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_categorias);
+        ButterKnife.bind(this);
         setTitle(getResources().getString(R.string.subcategoria));
 
         Log.v("Listar Categorias", "onCreate");
@@ -32,7 +38,6 @@ public class ListaCategoriasActivity extends AppCompatActivity {
         produto = Parcels.unwrap(getIntent().getParcelableExtra("produto"));
 
         CategoriasDAO mDAO = new CategoriasDAO(this);
-        ListView mListView = (ListView) findViewById(R.id.listCategorias);
         List<Categorias> mCategorias = mDAO.listar(produto.getCategoria().getSubCategoria());
 
         CategoriasAdapter adapter = new CategoriasAdapter(this, mCategorias);

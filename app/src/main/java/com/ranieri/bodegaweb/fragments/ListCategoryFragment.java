@@ -13,7 +13,6 @@ import com.ranieri.bodegaweb.R;
 import com.ranieri.bodegaweb.adapter.SubCategoriasAdapter;
 import com.ranieri.bodegaweb.dao.ProdutosDAO;
 import com.ranieri.bodegaweb.dao.SubCategoriasDAO;
-import com.ranieri.bodegaweb.database.ProdutosTxt;
 import com.ranieri.bodegaweb.model.Produtos;
 import com.ranieri.bodegaweb.model.SubCategorias;
 
@@ -22,10 +21,8 @@ import java.util.List;
 
 public class ListCategoryFragment extends Fragment {
 
-    SubCategoriasDAO mDAO;
     ProdutosDAO produtosDAO;
     Produtos produto;
-    ProdutosTxt produtosTxt;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -33,8 +30,8 @@ public class ListCategoryFragment extends Fragment {
 
         View layout = inflater.inflate(R.layout.fragment_list_category, container, false);
 
-        mDAO = new SubCategoriasDAO(getActivity());
-        ListView mListView = (ListView)layout.findViewById(R.id.listSubCategorias);
+        SubCategoriasDAO mDAO = new SubCategoriasDAO(getActivity());
+        ListView mListView = (ListView) layout.findViewById(R.id.listSubCategorias);
         List<SubCategorias> mCategorias = mDAO.listar();
 
 //        if (mCategorias.isEmpty()){

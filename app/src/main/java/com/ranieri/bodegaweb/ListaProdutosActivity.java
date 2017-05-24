@@ -17,14 +17,19 @@ import org.parceler.Parcels;
 
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class ListaProdutosActivity extends AppCompatActivity {
 
+    @BindView(R.id.listProdutos)
     ListView mListView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_produtos);
+        ButterKnife.bind(this);
 
         Log.v("Listar Produtos", "onCreate");
 
@@ -32,7 +37,6 @@ public class ListaProdutosActivity extends AppCompatActivity {
         setTitle(subCategoria.getNome());
 
         ProdutosDAO mDAO = new ProdutosDAO(this);
-        mListView = (ListView) findViewById(R.id.listProdutos);
 
         List<Produtos> mLista = mDAO.listar(subCategoria);
         ProdutosAdapter mAdapter = new ProdutosAdapter(this, mLista);
