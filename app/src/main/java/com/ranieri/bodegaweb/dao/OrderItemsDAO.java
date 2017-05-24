@@ -35,12 +35,12 @@ public class OrderItemsDAO {
         db.close();
     }
 
-    public int inserir(List<OrderItems> lista){
+    public int inserir(List<OrderItems> lista) {
         BodegaHelper helper = new BodegaHelper(mContext);
         SQLiteDatabase db = helper.getWritableDatabase();
         int contador = 0;
 
-        for (OrderItems orderItems : lista){
+        for (OrderItems orderItems : lista) {
             ContentValues values = valuesFromOrder(orderItems);
             db.insert(OrderItemsContract.TABLE_NAME, null, values);
             contador++;
@@ -53,10 +53,13 @@ public class OrderItemsDAO {
         BodegaHelper helper = new BodegaHelper(mContext);
         SQLiteDatabase db = helper.getWritableDatabase();
 
+        String orderID = String.valueOf(orderItem.getChaveComposta().getOrder().getId());
+        String productID = String.valueOf(orderItem.getChaveComposta().getProdutos().getId());
+
         ContentValues values = valuesFromOrder(orderItem);
         int rowsAffected = db.update(OrderItemsContract.TABLE_NAME, values,
                 OrderItemsContract.ORDER + " = ?" + OrderItemsContract.PRODUTO + " = ?",
-                new String[]{String.valueOf(orderItem.getChaveComposta().getOrder().getId()), String.valueOf(orderItem.getChaveComposta().getProdutos().getId())});
+                new String[]{orderID, productID});
 
         db.close();
         return rowsAffected;
@@ -78,27 +81,34 @@ public class OrderItemsDAO {
 
         Cursor cursor = db.rawQuery("SELECT * FROM " + OrderItemsContract.TABLE_NAME, null);
 
-        List<OrderItems> lista = new ArrayList<>();
-        OrderItems orderItem;
-
-        while (cursor.moveToNext()){
-            orderItem = valuesFromCursor(cursor);
-            lista.add(orderItem);
-        }
+        List<OrderItems> lista = valuesFromCursor(cursor);
 
         cursor.close();
         db.close();
         return lista;
     }
 
-    private OrderItems valuesFromCursor(Cursor cursor) {
-        OrderItems o = new OrderItems();
-        o.getChaveComposta().getProdutos().setId(cursor.getLong(cursor.getColumnIndex(OrderItemsContract.PRODUTO)));
-        o.getChaveComposta().getOrder().setId(cursor.getLong(cursor.getColumnIndex(OrderItemsContract.ORDER)));
-        o.setPrecoUnit(cursor.getDouble(cursor.getColumnIndex(OrderItemsContract.PRECOUNIT)));
-        o.setQtd(cursor.getInt(cursor.getColumnIndex(OrderItemsContract.QTD)));
-        o.getUnidadeMedida().setId(cursor.getLong(cursor.getColumnIndex(OrderItemsContract.UNIDADEMEDIDA)));
-        return o;
+    private List<OrderItems> valuesFromCursor(Cursor cursor) {
+        List<OrderItems> lista = new ArrayList<>();
+        OrderItems o;
+
+        int indexKeyProdId = cursor.getColumnIndex(OrderItemsContract.PRODUTO);
+        int indexKeyOrderId = cursor.getColumnIndex(OrderItemsContract.ORDER);
+        int indexUnitValue = cursor.getColumnIndex(OrderItemsContract.PRECOUNIT);
+        int indexQtd = cursor.getColumnIndex(OrderItemsContract.QTD);
+        int indexUnitMeasu = cursor.getColumnIndex(OrderItemsContract.UNIDADEMEDIDA);
+
+        while (cursor.moveToNext()) {
+
+            o = new OrderItems();
+            o.getChaveComposta().getProdutos().setId(cursor.getLong(indexKeyProdId));
+            o.getChaveComposta().getOrder().setId(cursor.getLong(indexKeyOrderId));
+            o.setPrecoUnit(cursor.getDouble(indexUnitValue));
+            o.setQtd(cursor.getInt(indexQtd));
+            o.getUnidadeMedida().setId(cursor.getLong(indexUnitMeasu));
+            lista.add(o);
+        }
+        return lista;
     }
 
     private ContentValues valuesFromOrder(OrderItems orderItem) {

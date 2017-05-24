@@ -23,12 +23,12 @@ public class UnidadeMedidaDAO {
         mContext = context;
     }
 
-    public int inserir(List<UnidadeMedida> lista){
+    public int inserir(List<UnidadeMedida> lista) {
         BodegaHelper helper = new BodegaHelper(mContext);
         SQLiteDatabase db = helper.getWritableDatabase();
         int contador = 0;
 
-        for (UnidadeMedida unidadeMedida : lista){
+        for (UnidadeMedida unidadeMedida : lista) {
             ContentValues values = valuesFromUnidadeMedida(unidadeMedida);
             db.insert(UnidadeMedidaContract.TABLE_NAME, null, values);
             contador++;
@@ -49,7 +49,7 @@ public class UnidadeMedidaDAO {
 
     private ContentValues valuesFromUnidadeMedida(UnidadeMedida unidadeMedida) {
         ContentValues values = new ContentValues();
-        values.put(UnidadeMedidaContract._ID, unidadeMedida.getId());
+        values.put(UnidadeMedidaContract.ID, unidadeMedida.getId());
         values.put(UnidadeMedidaContract.NOME, unidadeMedida.getNome());
         values.put(UnidadeMedidaContract.ORDEM, unidadeMedida.getOrdem());
         values.put(UnidadeMedidaContract.MULTIPLICADOR, unidadeMedida.getMultiplicador());

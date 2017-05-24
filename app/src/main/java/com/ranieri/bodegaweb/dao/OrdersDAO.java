@@ -37,12 +37,12 @@ public class OrdersDAO {
         return order;
     }
 
-    public int inserir(List<Order> lista){
+    public int inserir(List<Order> lista) {
         BodegaHelper helper = new BodegaHelper(mContext);
         SQLiteDatabase db = helper.getWritableDatabase();
         int contador = 0;
 
-        for (Order order : lista){
+        for (Order order : lista) {
             ContentValues values = valuesFromOrder(order);
             db.insert(OrderContract.TABLE_NAME, null, values);
             contador++;
@@ -54,9 +54,10 @@ public class OrdersDAO {
     public int atualizar(Order order) {
         BodegaHelper helper = new BodegaHelper(mContext);
         SQLiteDatabase db = helper.getWritableDatabase();
+        String[] orderID = new String[]{String.valueOf(order.getId())};
 
         ContentValues values = valuesFromOrder(order);
-        int rowsAffected = db.update(OrderContract.TABLE_NAME, values, OrderContract._ID + " = ?", new String[]{String.valueOf(order.getId())});
+        int rowsAffected = db.update(OrderContract.TABLE_NAME, values, OrderContract.ID + " = ?", orderID);
 
         db.close();
         return rowsAffected;
@@ -78,36 +79,41 @@ public class OrdersDAO {
 
         Cursor cursor = db.rawQuery("SELECT * FROM " + OrderContract.TABLE_NAME, null);
 
-        List<Order> lista = new ArrayList<>();
-        Order order;
-
-        while (cursor.moveToNext()){
-            order = valuesFromCursor(cursor);
-            lista.add(order);
-        }
+        List<Order> lista = valuesFromCursor(cursor);
 
         cursor.close();
         db.close();
         return lista;
     }
 
+    private List<Order> valuesFromCursor(Cursor cursor) {
+        List<Order> lista = new ArrayList<>();
+        Order order;
+
+        int indexId = cursor.getColumnIndex(OrderContract.ID);
+        //int indexOrderDate = cursor.getColumnIndex(OrderContract.ORDERDATE);
+        int indexTotalOrder = cursor.getColumnIndex(OrderContract.TOTALORDER);
+        int indexProviderId = cursor.getColumnIndex(OrderContract.PROVIDER);
+
+        while (cursor.moveToNext()) {
+            Order o = new Order();
+            o.setId(cursor.getLong(indexId));
+            //o.setDataPedido(cursor.getString(indexOrderDate));
+            o.setTotalPedido(cursor.getFloat(indexTotalOrder));
+            o.getFornecedor().setId(cursor.getLong(indexProviderId));
+            lista.add(o);
+        }
+        return lista;
+    }
+
     private ContentValues valuesFromOrder(Order order) {
         ContentValues values = new ContentValues();
-        values.put(OrderContract._ID, order.getId());
+        values.put(OrderContract.ID, order.getId());
         values.put(OrderContract.ORDERDATE, order.getDataPedido().toString());
         values.put(OrderContract.TOTALORDER, order.getTotalPedido());
         values.put(OrderContract.PROVIDER, order.getFornecedor().getId());
 
         return values;
-    }
-
-    private Order valuesFromCursor(Cursor cursor) {
-        Order o = new Order();
-        o.setId(cursor.getLong(cursor.getColumnIndex(OrderContract._ID)));
-        //o.setDataPedido(cursor.getString(cursor.getColumnIndex(OrderContract.ORDERDATE)));
-        o.setTotalPedido(cursor.getFloat(cursor.getColumnIndex(OrderContract.TOTALORDER)));
-        o.getFornecedor().setId(cursor.getLong(cursor.getColumnIndex(OrderContract.PROVIDER)));
-        return o;
     }
 
     public int refreshOrders(ListJson listJson) {

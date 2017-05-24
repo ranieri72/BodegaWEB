@@ -23,9 +23,11 @@ public class CategoriasDAO {
 
     private Context mContext;
 
-    public CategoriasDAO(Context mContext) { this.mContext = mContext; }
+    public CategoriasDAO(Context mContext) {
+        this.mContext = mContext;
+    }
 
-    public Categorias inserir(Categorias categoria){
+    public Categorias inserir(Categorias categoria) {
         BodegaHelper helper = new BodegaHelper(mContext);
         SQLiteDatabase db = helper.getWritableDatabase();
 
@@ -37,7 +39,7 @@ public class CategoriasDAO {
         return categoria;
     }
 
-    public int inserir(List<Categorias> lista){
+    public int inserir(List<Categorias> lista) {
         BodegaHelper helper = new BodegaHelper(mContext);
         SQLiteDatabase db = helper.getWritableDatabase();
         int contador = 0;
@@ -51,18 +53,19 @@ public class CategoriasDAO {
         return contador;
     }
 
-    public int atualizar(Categorias categoria){
+    public int atualizar(Categorias categoria) {
         BodegaHelper helper = new BodegaHelper(mContext);
         SQLiteDatabase db = helper.getWritableDatabase();
+        String[] categoriaID = new String[]{String.valueOf(categoria.getId())};
 
         ContentValues values = valuesFromCategorias(categoria);
-        int rowsAffected = db.update(CategoriasContract.TABLE_NAME, values, CategoriasContract._ID + " = ?", new String[]{String.valueOf(categoria.getId())});
+        int rowsAffected = db.update(CategoriasContract.TABLE_NAME, values, CategoriasContract.ID + " = ?", categoriaID);
 
         db.close();
         return rowsAffected;
     }
 
-    public int excluir(){
+    public int excluir() {
         BodegaHelper helper = new BodegaHelper(mContext);
         SQLiteDatabase db = helper.getWritableDatabase();
 
@@ -72,12 +75,15 @@ public class CategoriasDAO {
         return rowsAffected;
     }
 
-    public List<Categorias> listar(SubCategorias subCategoria){
+    public List<Categorias> listar(SubCategorias subCategoria) {
         BodegaHelper helper = new BodegaHelper(mContext);
         SQLiteDatabase db = helper.getReadableDatabase();
+        String[] subCategoriaID = new String[]{String.valueOf(subCategoria.getId())};
 
-        Cursor cursor = db.rawQuery("SELECT * FROM " + CategoriasContract.TABLE_NAME +
-                " WHERE " + CategoriasContract.TABLE_NAME + "." + CategoriasContract.SUBCATEGORIA + " = ?", new String[]{String.valueOf(subCategoria.getId())});
+        Cursor cursor = db.rawQuery("SELECT * FROM " +
+                CategoriasContract.TABLE_NAME +
+                " WHERE " +
+                CategoriasContract.TABLE_NAME + "." + CategoriasContract.SUBCATEGORIA + " = ?", subCategoriaID);
 
         List<Categorias> lista = valuesFromCursor(cursor);
 
@@ -86,7 +92,7 @@ public class CategoriasDAO {
         return lista;
     }
 
-    public List<Categorias> listar(){
+    public List<Categorias> listar() {
         BodegaHelper helper = new BodegaHelper(mContext);
         SQLiteDatabase db = helper.getReadableDatabase();
 
@@ -103,15 +109,21 @@ public class CategoriasDAO {
         List<Categorias> lista = new ArrayList<>();
         Categorias categoria;
 
-        while (cursor.moveToNext()){
+        int indexId = cursor.getColumnIndex(CategoriasContract.ID);
+        int indexName = cursor.getColumnIndex(CategoriasContract.NOME);
+        int indexOrder = cursor.getColumnIndex(CategoriasContract.ORDEM);
+        int indexSubCatId = cursor.getColumnIndex(SubCategoriasContract.ID);
+        int indexSubCatName = cursor.getColumnIndex(SubCategoriasContract.NOME);
+
+        while (cursor.moveToNext()) {
             categoria = new Categorias();
 
-            categoria.setId(cursor.getLong(cursor.getColumnIndex(CategoriasContract._ID)));
-            categoria.setNome(cursor.getString(cursor.getColumnIndex(CategoriasContract.NOME)));
-            categoria.setOrdem(cursor.getInt(cursor.getColumnIndex(CategoriasContract.ORDEM)));
+            categoria.setId(cursor.getLong(indexId));
+            categoria.setNome(cursor.getString(indexName));
+            categoria.setOrdem(cursor.getInt(indexOrder));
 
-            categoria.getSubCategoria().setId(cursor.getLong(cursor.getColumnIndex(SubCategoriasContract._ID)));
-            categoria.getSubCategoria().setNome(cursor.getString(cursor.getColumnIndex(SubCategoriasContract.NOME)));
+            categoria.getSubCategoria().setId(cursor.getLong(indexSubCatId));
+            categoria.getSubCategoria().setNome(cursor.getString(indexSubCatName));
 
             lista.add(categoria);
         }
@@ -120,7 +132,7 @@ public class CategoriasDAO {
 
     private ContentValues valuesFromCategorias(Categorias categoria) {
         ContentValues values = new ContentValues();
-        values.put(CategoriasContract._ID, categoria.getId());
+        values.put(CategoriasContract.ID, categoria.getId());
         values.put(CategoriasContract.NOME, categoria.getNome());
         values.put(CategoriasContract.ORDEM, categoria.getOrdem());
         values.put(CategoriasContract.SUBCATEGORIA, categoria.getSubCategoria().getId());

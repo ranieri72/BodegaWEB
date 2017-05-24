@@ -21,9 +21,11 @@ public class SubCategoriasDAO {
 
     private Context mContext;
 
-    public SubCategoriasDAO(Context mContext) { this.mContext = mContext; }
+    public SubCategoriasDAO(Context mContext) {
+        this.mContext = mContext;
+    }
 
-    public SubCategorias inserir(SubCategorias subCategoria){
+    public SubCategorias inserir(SubCategorias subCategoria) {
         BodegaHelper helper = new BodegaHelper(mContext);
         SQLiteDatabase db = helper.getWritableDatabase();
 
@@ -35,7 +37,7 @@ public class SubCategoriasDAO {
         return subCategoria;
     }
 
-    public int inserir(List<SubCategorias> lista){
+    public int inserir(List<SubCategorias> lista) {
         BodegaHelper helper = new BodegaHelper(mContext);
         SQLiteDatabase db = helper.getWritableDatabase();
         int contador = 0;
@@ -49,18 +51,19 @@ public class SubCategoriasDAO {
         return contador;
     }
 
-    public int atualizar(SubCategorias subCategoria){
+    public int atualizar(SubCategorias subCategoria) {
         BodegaHelper helper = new BodegaHelper(mContext);
         SQLiteDatabase db = helper.getWritableDatabase();
+        String[] subCategoriaID = new String[]{String.valueOf(subCategoria.getId())};
 
         ContentValues values = valuesFromSubCategorias(subCategoria);
-        int rowsAffected = db.update(SubCategoriasContract.TABLE_NAME, values, SubCategoriasContract._ID + " = ?", new String[]{String.valueOf(subCategoria.getId())});
+        int rowsAffected = db.update(SubCategoriasContract.TABLE_NAME, values, SubCategoriasContract.ID + " = ?", subCategoriaID);
 
         db.close();
         return rowsAffected;
     }
 
-    public int excluir(){
+    public int excluir() {
         BodegaHelper helper = new BodegaHelper(mContext);
         SQLiteDatabase db = helper.getWritableDatabase();
 
@@ -70,7 +73,7 @@ public class SubCategoriasDAO {
         return rowsAffected;
     }
 
-    public List<SubCategorias> listar(){
+    public List<SubCategorias> listar() {
         BodegaHelper helper = new BodegaHelper(mContext);
         SQLiteDatabase db = helper.getReadableDatabase();
 
@@ -87,11 +90,14 @@ public class SubCategoriasDAO {
         List<SubCategorias> lista = new ArrayList<>();
         SubCategorias subCategoria;
 
-        while (cursor.moveToNext()){
+        int indexId = cursor.getColumnIndex(SubCategoriasContract.ID);
+        int indexName = cursor.getColumnIndex(SubCategoriasContract.NOME);
+
+        while (cursor.moveToNext()) {
             subCategoria = new SubCategorias();
 
-            subCategoria.setId(cursor.getLong(cursor.getColumnIndex(SubCategoriasContract._ID)));
-            subCategoria.setNome(cursor.getString(cursor.getColumnIndex(SubCategoriasContract.NOME)));
+            subCategoria.setId(cursor.getLong(indexId));
+            subCategoria.setNome(cursor.getString(indexName));
             lista.add(subCategoria);
         }
         return lista;
@@ -99,7 +105,7 @@ public class SubCategoriasDAO {
 
     private ContentValues valuesFromSubCategorias(SubCategorias subCategoria) {
         ContentValues values = new ContentValues();
-        values.put(SubCategoriasContract._ID, subCategoria.getId());
+        values.put(SubCategoriasContract.ID, subCategoria.getId());
         values.put(SubCategoriasContract.NOME, subCategoria.getNome());
 
         return values;

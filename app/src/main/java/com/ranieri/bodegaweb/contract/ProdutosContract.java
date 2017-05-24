@@ -1,18 +1,17 @@
 package com.ranieri.bodegaweb.contract;
 
-import android.provider.BaseColumns;
-
 /**
  * Created by ranie on 27 de abr.
  */
 
-public interface ProdutosContract extends BaseColumns {
-    String TABLE_NAME = "produtos";
+public interface ProdutosContract {
+    String TABLE_NAME = "products";
 
-    String NOME = "nome";
-    String ESTOQUE = "estoque";
-    String NOVOESTOQUE = "novoestoque";
-    String ALTERADO = "alterado";
-    String PRECO = "preco";
-    String CATEGORIA = "idCategoria";
+    String ID = "products_id";
+    String NOME = "products_name";
+    String ESTOQUE = "products_stock";
+    String NOVOESTOQUE = "products_newstock";
+    String ALTERADO = "products_altered";
+    String PRECO = "products_price";
+    String CATEGORIA = "products_id_category";
 }

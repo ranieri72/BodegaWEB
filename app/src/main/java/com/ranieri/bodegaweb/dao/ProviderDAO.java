@@ -37,12 +37,12 @@ public class ProviderDAO {
         return provider;
     }
 
-    public int inserir(List<Provider> lista){
+    public int inserir(List<Provider> lista) {
         BodegaHelper helper = new BodegaHelper(mContext);
         SQLiteDatabase db = helper.getWritableDatabase();
         int contador = 0;
 
-        for (Provider provider : lista){
+        for (Provider provider : lista) {
             ContentValues values = valuesFromProvider(provider);
             db.insert(ProviderContract.TABLE_NAME, null, values);
             contador++;
@@ -54,9 +54,10 @@ public class ProviderDAO {
     public int atualizar(Provider provider) {
         BodegaHelper helper = new BodegaHelper(mContext);
         SQLiteDatabase db = helper.getWritableDatabase();
+        String[] providerId = new String[]{String.valueOf(provider.getId())};
 
         ContentValues values = valuesFromProvider(provider);
-        int rowsAffected = db.update(ProviderContract.TABLE_NAME, values, ProviderContract._ID + " = ?", new String[]{String.valueOf(provider.getId())});
+        int rowsAffected = db.update(ProviderContract.TABLE_NAME, values, ProviderContract.ID + " = ?", providerId);
 
         db.close();
         return rowsAffected;
@@ -76,38 +77,42 @@ public class ProviderDAO {
         BodegaHelper helper = new BodegaHelper(mContext);
         SQLiteDatabase db = helper.getReadableDatabase();
 
-        Cursor cursor = db.rawQuery("SELECT * FROM provider", null);
+        Cursor cursor = db.rawQuery("SELECT * FROM " + ProviderContract.TABLE_NAME, null);
 
-        List<Provider> lista = new ArrayList<>();
-        Provider provider;
-
-        while (cursor.moveToNext()){
-            provider = valuesFromCursor(cursor);
-            lista.add(provider);
-        }
-
+        List<Provider> lista = valuesFromCursor(cursor);
         cursor.close();
         db.close();
         return lista;
     }
 
+    private List<Provider> valuesFromCursor(Cursor cursor) {
+        List<Provider> lista = new ArrayList<>();
+        Provider provider;
+
+        int indexId = cursor.getColumnIndex(ProviderContract.ID);
+        int indexName = cursor.getColumnIndex(ProviderContract.NAME);
+        int indexPhone = cursor.getColumnIndex(ProviderContract.PHONE);
+        int indexCompany = cursor.getColumnIndex(ProviderContract.COMPANY);
+
+        while (cursor.moveToNext()) {
+            Provider p = new Provider();
+            p.setId(cursor.getLong(indexId));
+            p.setNome(cursor.getString(indexName));
+            p.setFone(cursor.getString(indexPhone));
+            p.setEmpresa(cursor.getString(indexCompany));
+            lista.add(p);
+        }
+        return lista;
+    }
+
     private ContentValues valuesFromProvider(Provider provider) {
         ContentValues values = new ContentValues();
-        values.put(ProviderContract._ID, provider.getId());
+        values.put(ProviderContract.ID, provider.getId());
         values.put(ProviderContract.NAME, provider.getNome());
         values.put(ProviderContract.PHONE, provider.getFone());
         values.put(ProviderContract.COMPANY, provider.getEmpresa());
 
         return values;
-    }
-
-    private Provider valuesFromCursor(Cursor cursor) {
-        Provider p = new Provider();
-        p.setId(cursor.getLong(cursor.getColumnIndex(ProviderContract._ID)));
-        p.setNome(cursor.getString(cursor.getColumnIndex(ProviderContract.NAME)));
-        p.setFone(cursor.getString(cursor.getColumnIndex(ProviderContract.PHONE)));
-        p.setEmpresa(cursor.getString(cursor.getColumnIndex(ProviderContract.COMPANY)));
-        return p;
     }
 
     public int refreshOrders(ListJson listJson) {

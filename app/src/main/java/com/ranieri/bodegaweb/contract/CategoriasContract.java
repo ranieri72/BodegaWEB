@@ -1,15 +1,14 @@
 package com.ranieri.bodegaweb.contract;
 
-import android.provider.BaseColumns;
-
 /**
  * Created by ranie on 27 de abr.
  */
 
-public interface CategoriasContract extends BaseColumns {
-    String TABLE_NAME = "categorias";
+public interface CategoriasContract {
+    String TABLE_NAME = "category";
 
-    String NOME = "nome";
-    String ORDEM = "ordem";
-    String SUBCATEGORIA = "idSubCategoria";
+    String ID = "category_id";
+    String NOME = "category_name";
+    String ORDEM = "category_order";
+    String SUBCATEGORIA = "category_id_subcategory";
 }

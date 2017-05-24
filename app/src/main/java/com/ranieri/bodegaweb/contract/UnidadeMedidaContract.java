@@ -1,15 +1,14 @@
 package com.ranieri.bodegaweb.contract;
 
-import android.provider.BaseColumns;
-
 /**
  * Created by ranie on 27 de abr.
  */
 
-public interface UnidadeMedidaContract extends BaseColumns {
-    String TABLE_NAME = "unidademedida";
+public interface UnidadeMedidaContract {
+    String TABLE_NAME = "unitmeasurement";
 
-    String NOME = "nome";
-    String ORDEM = "ordem";
-    String MULTIPLICADOR = "multiplicador";
+    String ID = "unitmeasurement_id";
+    String NOME = "unitmeasurement_name";
+    String ORDEM = "unitmeasurement_order";
+    String MULTIPLICADOR = "unitmeasurement_multiplier";
 }

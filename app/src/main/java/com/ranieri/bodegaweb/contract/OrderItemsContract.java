@@ -7,9 +7,9 @@ package com.ranieri.bodegaweb.contract;
 public interface OrderItemsContract {
     String TABLE_NAME = "orderitems";
 
-    String QTD = "qtd";
-    String PRECOUNIT = "precounit";
-    String UNIDADEMEDIDA = "idunidademedida";
-    String ORDER = "idorder";
-    String PRODUTO = "idproduto";
+    String QTD = "orderitems_qtd";
+    String PRECOUNIT = "orderitems_unitvalue";
+    String UNIDADEMEDIDA = "orderitems_id_unitmeasurement";
+    String ORDER = "orderitems_id_order";
+    String PRODUTO = "orderitems_id_produto";
 }

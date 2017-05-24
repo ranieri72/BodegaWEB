@@ -25,7 +25,7 @@ public class BodegaHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
 
         String createProdutos = "CREATE TABLE " + ProdutosContract.TABLE_NAME + " (" +
-                ProdutosContract._ID + " INTEGER PRIMARY KEY, " +
+                ProdutosContract.ID + " INTEGER PRIMARY KEY, " +
                 ProdutosContract.NOME + " TEXT NOT NULL, " +
                 ProdutosContract.ESTOQUE + " INTEGER NOT NULL, " +
                 ProdutosContract.NOVOESTOQUE + " INTEGER NOT NULL, " +
@@ -34,23 +34,23 @@ public class BodegaHelper extends SQLiteOpenHelper {
                 ProdutosContract.CATEGORIA + " INTEGER NOT NULL); ";
 
         String createCategorias = "CREATE TABLE " + CategoriasContract.TABLE_NAME + " (" +
-                CategoriasContract._ID + " INTEGER PRIMARY KEY, " +
+                CategoriasContract.ID + " INTEGER PRIMARY KEY, " +
                 CategoriasContract.NOME + " TEXT NOT NULL, " +
                 CategoriasContract.ORDEM + " INTEGER NOT NULL, " +
                 CategoriasContract.SUBCATEGORIA + " INTEGER NOT NULL); ";
 
         String createSubCategorias = "CREATE TABLE " + SubCategoriasContract.TABLE_NAME + " (" +
-                SubCategoriasContract._ID + " INTEGER PRIMARY KEY, " +
+                SubCategoriasContract.ID + " INTEGER PRIMARY KEY, " +
                 SubCategoriasContract.NOME + " TEXT NOT NULL); ";
 
         String createOrder = "CREATE TABLE " + OrderContract.TABLE_NAME + " (" +
-                OrderContract._ID + " INTEGER PRIMARY KEY, " +
+                OrderContract.ID + " INTEGER PRIMARY KEY, " +
                 OrderContract.ORDERDATE + " TEXT NOT NULL, " +
                 OrderContract.TOTALORDER + " REAL NOT NULL, " +
                 OrderContract.PROVIDER + " INTEGER NOT NULL); ";
 
         String createProvider = "CREATE TABLE " + ProviderContract.TABLE_NAME + " (" +
-                ProviderContract._ID + " INTEGER PRIMARY KEY, " +
+                ProviderContract.ID + " INTEGER PRIMARY KEY, " +
                 ProviderContract.COMPANY + " TEXT NOT NULL, " +
                 ProviderContract.NAME + " TEXT NOT NULL, " +
                 ProviderContract.PHONE + " TEXT NOT NULL); ";
@@ -64,7 +64,7 @@ public class BodegaHelper extends SQLiteOpenHelper {
                 "PRIMARY KEY (" + OrderItemsContract.ORDER + ", " + OrderItemsContract.PRODUTO + "));";
 
         String createUnidadeMedida = "CREATE TABLE " + UnidadeMedidaContract.TABLE_NAME + " (" +
-                UnidadeMedidaContract._ID + " INTEGER PRIMARY KEY, " +
+                UnidadeMedidaContract.ID + " INTEGER PRIMARY KEY, " +
                 UnidadeMedidaContract.NOME + " TEXT NOT NULL, " +
                 UnidadeMedidaContract.MULTIPLICADOR + " INTEGER NOT NULL, " +
                 UnidadeMedidaContract.ORDEM + " INTEGER NOT NULL); ";
