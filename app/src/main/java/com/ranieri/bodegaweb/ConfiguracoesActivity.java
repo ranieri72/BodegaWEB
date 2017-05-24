@@ -1,7 +1,7 @@
 package com.ranieri.bodegaweb;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Toast;
 
@@ -26,7 +26,7 @@ public class ConfiguracoesActivity extends AppCompatActivity {
         public void onClick(View v) {
             try {
                 int qtd;
-                switch (v.getId()){
+                switch (v.getId()) {
                     case R.id.btnAtualizarProdutos:
                         qtd = new RefreshProductsTask().execute(ConfiguracoesActivity.this).get();
                         Toast.makeText(ConfiguracoesActivity.this, getResources().getString(R.string.produtosAtualizados) + qtd, Toast.LENGTH_SHORT).show();

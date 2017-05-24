@@ -12,6 +12,7 @@ public interface ProdutosContract {
     String ESTOQUE = "products_stock";
     String NOVOESTOQUE = "products_newstock";
     String ALTERADO = "products_altered";
+    String APAGADO = "products_deleted";
     String PRECO = "products_price";
     String CATEGORIA = "products_id_category";
 }

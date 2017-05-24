@@ -1,9 +1,8 @@
 package com.ranieri.bodegaweb;
 
 import android.content.Intent;
-import android.os.Parcelable;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -21,10 +20,6 @@ import java.util.List;
 public class ListaProdutosActivity extends AppCompatActivity {
 
     ListView mListView;
-    ProdutosAdapter mAdapter;
-    List<Produtos> mLista;
-    ProdutosDAO mDAO;
-    SubCategorias subCategoria;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,14 +28,14 @@ public class ListaProdutosActivity extends AppCompatActivity {
 
         Log.v("Listar Produtos", "onCreate");
 
-        subCategoria = (SubCategorias) getIntent().getExtras().get("subCategoria");
+        SubCategorias subCategoria = Parcels.unwrap(getIntent().getParcelableExtra("subCategoria"));
         setTitle(subCategoria.getNome());
 
-        mDAO = new ProdutosDAO(this);
-        mListView = (ListView)findViewById(R.id.listProdutos);
+        ProdutosDAO mDAO = new ProdutosDAO(this);
+        mListView = (ListView) findViewById(R.id.listProdutos);
 
-        mLista = mDAO.listar(subCategoria);
-        mAdapter = new ProdutosAdapter(this, mLista);
+        List<Produtos> mLista = mDAO.listar(subCategoria);
+        ProdutosAdapter mAdapter = new ProdutosAdapter(this, mLista);
         mListView.setAdapter(mAdapter);
 
         mListView.setOnItemClickListener(tratadorDeCliques);
@@ -54,8 +49,7 @@ public class ListaProdutosActivity extends AppCompatActivity {
             Log.v("Listar Produtos", "OnItemClickListener");
 
             Intent it = new Intent(ListaProdutosActivity.this, DetalProdutosActivity.class);
-            Parcelable parcelable = Parcels.wrap(produto);
-            it.putExtra("produto", parcelable);
+            it.putExtra("produto", Parcels.wrap(produto));
             startActivity(it);
         }
     };

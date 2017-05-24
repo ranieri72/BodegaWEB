@@ -1,9 +1,8 @@
 package com.ranieri.bodegaweb;
 
 import android.content.Intent;
-import android.os.Parcelable;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -12,9 +11,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.ranieri.bodegaweb.adapter.SubCategoriasAdapter;
-import com.ranieri.bodegaweb.dao.ProdutosDAO;
 import com.ranieri.bodegaweb.dao.SubCategoriasDAO;
-import com.ranieri.bodegaweb.database.ProdutosTxt;
 import com.ranieri.bodegaweb.model.Produtos;
 import com.ranieri.bodegaweb.model.SubCategorias;
 
@@ -29,10 +26,7 @@ public class ListaSubCategoriasActivity extends AppCompatActivity {
 //            Manifest.permission.WRITE_EXTERNAL_STORAGE
 //    };
 
-    SubCategoriasDAO mDAO;
-    ProdutosDAO produtosDAO;
     Produtos produto;
-    ProdutosTxt produtosTxt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,17 +35,24 @@ public class ListaSubCategoriasActivity extends AppCompatActivity {
 
         Log.v("Listar SubCategorias", "onCreate");
 
-        Bundle extras = getIntent().getExtras();
+        produto = Parcels.unwrap(getIntent().getParcelableExtra("produto"));
 
-        if (extras != null) {
-            produto = (Produtos) extras.get("produto");
+        if (produto != null) {
             setTitle(getResources().getString(R.string.categoria));
         } else {
             setTitle(getResources().getString(R.string.produtos));
         }
+//        Bundle extras = getIntent().getExtras();
+//
+//        if (extras != null) {
+//            produto = (Produtos) extras.get("produto");
+//            setTitle(getResources().getString(R.string.categoria));
+//        } else {
+//            setTitle(getResources().getString(R.string.produtos));
+//        }
 
-        mDAO = new SubCategoriasDAO(this);
-        ListView mListView = (ListView)findViewById(R.id.listSubCategorias);
+        SubCategoriasDAO mDAO = new SubCategoriasDAO(this);
+        ListView mListView = (ListView) findViewById(R.id.listSubCategorias);
         List<SubCategorias> mCategorias = mDAO.listar();
 
 //        if (mCategorias.isEmpty()){
@@ -69,7 +70,6 @@ public class ListaSubCategoriasActivity extends AppCompatActivity {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             SubCategorias subCategoria = (SubCategorias) parent.getAdapter().getItem(position);
-            Parcelable parcelable = Parcels.wrap(produto);
             Intent it;
 
             if (produto == null) {
@@ -77,14 +77,14 @@ public class ListaSubCategoriasActivity extends AppCompatActivity {
                 Log.v("Listar SubCategorias", "OnItemClickListener - Produto nulo");
 
                 it = new Intent(ListaSubCategoriasActivity.this, ListaProdutosActivity.class);
-                it.putExtra("subCategoria", parcelable);
+                it.putExtra("subCategoria", Parcels.wrap(produto));
                 startActivity(it);
             } else {
 
                 Log.v("Listar SubCategorias", "OnItemClickListener - Produto recebido");
 
                 it = new Intent();
-                it.putExtra("subCategoria", parcelable);
+                it.putExtra("subCategoria", Parcels.wrap(produto));
                 setResult(RESULT_OK, it);
                 finish();
             }
@@ -100,7 +100,7 @@ public class ListaSubCategoriasActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         Intent it;
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
 //            case R.id.action_gerar_sql:
 //                verifyStoragePermissions();
 //                gerarSQL();

@@ -1,9 +1,8 @@
 package com.ranieri.bodegaweb;
 
 import android.content.Intent;
-import android.os.Parcelable;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -22,7 +21,7 @@ public class DetalProdutosActivity extends AppCompatActivity {
     TextView mTxtCategoria;
     TextView mTxtSubCategoria;
     Produtos produto;
-    ProdutosDAO mDAO;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,16 +31,16 @@ public class DetalProdutosActivity extends AppCompatActivity {
 
         Log.v("Detalhes Produto", "onCreate");
 
-        produto = (Produtos) getIntent().getExtras().get("produto");
-        mDAO = new ProdutosDAO(this);
+        produto = Parcels.unwrap(getIntent().getParcelableExtra("produto"));
+        ProdutosDAO mDAO = new ProdutosDAO(this);
         produto = mDAO.selecionar(produto);
 
-        mTxtNome = (TextView)findViewById(R.id.txt_nome);
-        mTxtEstoque = (TextView)findViewById(R.id.txt_estoque);
-        mTxtNovoEstoque = (TextView)findViewById(R.id.txt_novo_estoque);
-        mTxtPreco = (TextView)findViewById(R.id.txt_preco);
-        mTxtCategoria = (TextView)findViewById(R.id.txt_categoria);
-        mTxtSubCategoria = (TextView)findViewById(R.id.txt_subcategoria);
+        mTxtNome = (TextView) findViewById(R.id.txt_nome);
+        mTxtEstoque = (TextView) findViewById(R.id.txt_estoque);
+        mTxtNovoEstoque = (TextView) findViewById(R.id.txt_novo_estoque);
+        mTxtPreco = (TextView) findViewById(R.id.txt_preco);
+        mTxtCategoria = (TextView) findViewById(R.id.txt_categoria);
+        mTxtSubCategoria = (TextView) findViewById(R.id.txt_subcategoria);
 
         definirTextView();
         findViewById(R.id.btnEditar).setOnClickListener(tratadorDeEventos);
@@ -54,8 +53,7 @@ public class DetalProdutosActivity extends AppCompatActivity {
             Log.v("Detalhes Produto", "onClick");
 
             Intent it = new Intent(DetalProdutosActivity.this, EditarProdutosActivity.class);
-            Parcelable parcelable = Parcels.wrap(produto);
-            it.putExtra("produto", parcelable);
+            it.putExtra("produto", Parcels.wrap(produto));
             startActivityForResult(it, 0);
         }
     };
@@ -64,11 +62,11 @@ public class DetalProdutosActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == 0 && resultCode == RESULT_OK){
+        if (requestCode == 0 && resultCode == RESULT_OK) {
 
             Log.v("Detalhes Produto", "onActivityResult");
 
-            produto = data.getParcelableExtra("produto");
+            produto = Parcels.unwrap(data.getParcelableExtra("produto"));
             definirTextView();
 
             Log.v("Detalhes Produto", "onActivityResult - Produto " + produto.getNome());

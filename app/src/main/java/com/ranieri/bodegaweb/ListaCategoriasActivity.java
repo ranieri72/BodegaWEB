@@ -1,9 +1,8 @@
 package com.ranieri.bodegaweb;
 
 import android.content.Intent;
-import android.os.Parcelable;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -20,7 +19,6 @@ import java.util.List;
 
 public class ListaCategoriasActivity extends AppCompatActivity {
 
-    CategoriasDAO mDAO;
     Produtos produto;
 
     @Override
@@ -31,10 +29,10 @@ public class ListaCategoriasActivity extends AppCompatActivity {
 
         Log.v("Listar Categorias", "onCreate");
 
-        produto = (Produtos) getIntent().getExtras().get("produto");
+        produto = Parcels.unwrap(getIntent().getParcelableExtra("produto"));
 
-        mDAO = new CategoriasDAO(this);
-        ListView mListView = (ListView)findViewById(R.id.listCategorias);
+        CategoriasDAO mDAO = new CategoriasDAO(this);
+        ListView mListView = (ListView) findViewById(R.id.listCategorias);
         List<Categorias> mCategorias = mDAO.listar(produto.getCategoria().getSubCategoria());
 
         CategoriasAdapter adapter = new CategoriasAdapter(this, mCategorias);
@@ -51,8 +49,7 @@ public class ListaCategoriasActivity extends AppCompatActivity {
             Log.v("Listar Categorias", "OnItemClickListener - Produto recebido");
 
             it = new Intent();
-            Parcelable parcelable = Parcels.wrap(produto);
-            it.putExtra("categoria", parcelable);
+            it.putExtra("categoria", Parcels.wrap(produto));
             setResult(RESULT_OK, it);
             finish();
 

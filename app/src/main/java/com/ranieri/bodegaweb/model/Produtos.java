@@ -11,6 +11,7 @@ public class Produtos {
     private int estoqueInicial;
     private int novoEstoque;
     private boolean alterado;
+    private boolean apagado;
     private double precoSugerido;
     private double custoInicial;
     private double vendasPorDia;
@@ -116,5 +117,13 @@ public class Produtos {
 
     public void setAtivado(boolean ativado) {
         this.ativado = ativado;
+    }
+
+    public boolean isApagado() {
+        return apagado;
+    }
+
+    public void setApagado(boolean apagado) {
+        this.apagado = apagado;
     }
 }
