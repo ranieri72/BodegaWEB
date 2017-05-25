@@ -1,15 +1,18 @@
 package com.ranieri.bodegaweb.model;
 
+import org.parceler.Parcel;
+
 /**
  * Created by ranie on 19 de mai.
  */
 
+@Parcel(Parcel.Serialization.BEAN)
 public class OrderItemsPK {
 
     private Order order;
     private Produtos produtos;
 
-    public OrderItemsPK(){
+    public OrderItemsPK() {
         order = new Order();
         produtos = new Produtos();
     }
