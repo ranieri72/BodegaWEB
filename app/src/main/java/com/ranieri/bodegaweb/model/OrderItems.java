@@ -6,7 +6,7 @@ import org.parceler.Parcel;
  * Created by ranie on 15 de mai.
  */
 
-@Parcel
+@Parcel(Parcel.Serialization.BEAN)
 public class OrderItems {
 
     private OrderItemsPK chaveComposta;

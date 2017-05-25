@@ -6,7 +6,7 @@ import org.parceler.Parcel;
  * Created by ranie on 4 de mai.
  */
 
-@Parcel
+@Parcel(Parcel.Serialization.BEAN)
 public class SubCategorias {
 
     private long id;

@@ -2,7 +2,7 @@ package com.ranieri.bodegaweb.model;
 
 import org.parceler.Parcel;
 
-@Parcel
+@Parcel(Parcel.Serialization.BEAN)
 public class Produtos {
 
     private long id;

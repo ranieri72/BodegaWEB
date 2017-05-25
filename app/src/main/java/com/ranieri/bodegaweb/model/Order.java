@@ -10,7 +10,7 @@ import java.util.List;
  * Created by ranie on 15 de mai.
  */
 
-@Parcel
+@Parcel(Parcel.Serialization.BEAN)
 public class Order {
 
     private long id;
