@@ -7,9 +7,10 @@
     tools:context="com.ranieri.bodegaweb.MainActivity">
 
     <fragment
-        android:id="@+id/fragment_list_category"
-        android:name="com.ranieri.bodegaweb.fragments.ListCategoryFragment"
+        android:id="@+id/fragment_list_sub_category"
+        android:name="com.ranieri.bodegaweb.fragments.ListSubCategoryFragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        tools:layout="@layout/fragment_list_sub_category" />
 
 </RelativeLayout>

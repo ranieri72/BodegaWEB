@@ -52,7 +52,7 @@ public class EditarProdutosActivity extends AppCompatActivity {
         mEdtEstoque.setText(String.valueOf(produto.getEstoque()));
         mEdtPreco.setText(String.valueOf(produto.getPrecoSugerido()));
         mBtnCategoria.setText(produto.getCategoria().getNome());
-        mBtnSubCategoria.setText(produto.getCategoria().getSubCategoria().getNome());
+        mBtnSubCategoria.setText(produto.getCategoria().getSubCategoriaProd().getNome());
 
         findViewById(R.id.btnCategoria).setOnClickListener(tratadorDeEventos);
         findViewById(R.id.btnSubCategoria).setOnClickListener(tratadorDeEventos);
@@ -116,7 +116,7 @@ public class EditarProdutosActivity extends AppCompatActivity {
             mBtnSubCategoria.setText(subCategoria.getNome());
             mBtnCategoria.setText("");
 
-            produto.getCategoria().setSubCategoria(subCategoria);
+            produto.getCategoria().setSubCategoriaProd(subCategoria);
         }
         if (requestCode == 2 && resultCode == RESULT_OK) {
 

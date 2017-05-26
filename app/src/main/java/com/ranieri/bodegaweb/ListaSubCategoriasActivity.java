@@ -4,8 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -61,11 +59,6 @@ public class ListaSubCategoriasActivity extends AppCompatActivity {
         SubCategoriasDAO mDAO = new SubCategoriasDAO(this);
         List<SubCategorias> mCategorias = mDAO.listar();
 
-//        if (mCategorias.isEmpty()){
-//            preencherBanco();
-//            mCategorias = mDAO.listar();
-//        }
-
         SubCategoriasAdapter adapter = new SubCategoriasAdapter(this, mCategorias);
 
         mListView.setAdapter(adapter);
@@ -96,63 +89,4 @@ public class ListaSubCategoriasActivity extends AppCompatActivity {
             }
         }
     };
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main_menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        Intent it;
-        switch (item.getItemId()) {
-//            case R.id.action_gerar_sql:
-//                verifyStoragePermissions();
-//                gerarSQL();
-//                Toast.makeText(this, getResources().getString(R.string.sqlgerado), Toast.LENGTH_SHORT).show();
-//                break;
-            case R.id.action_configuracoes:
-                it = new Intent(ListaSubCategoriasActivity.this, ConfiguracoesActivity.class);
-                startActivity(it);
-                break;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-//    private void gerarSQL() {
-//        produtosTxt = new ProdutosTxt();
-//        produtosDAO = new ProdutosDAO(this);
-//        List<Produtos> lista = produtosDAO.listarAlterado();
-//        produtosTxt.writeRawTextFile(lista, this);
-//    }
-
-//    private void verifyStoragePermissions() {
-//        int permission = ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
-//
-//        if (permission != PackageManager.PERMISSION_GRANTED) {
-//            ActivityCompat.requestPermissions(
-//                    this,
-//                    PERMISSIONS_STORAGE,
-//                    REQUEST_EXTERNAL_STORAGE
-//            );
-//        }
-//    }
-
-//    private void preencherBanco() {
-//        produtosTxt = new ProdutosTxt();
-//        CategoriasTxt categoriasTxt = new CategoriasTxt();
-//        SubCategoriasTxt subCategoriasTxt = new SubCategoriasTxt();
-//
-//        produtosDAO = new ProdutosDAO(this);
-//        CategoriasDAO categoriasDAO = new CategoriasDAO(this);
-//
-//        Estoque estoque = new Estoque(produtosTxt.readRawTextFile(this));
-//        List<Categorias> listaCategorias = categoriasTxt.readRawTextFile(this);
-//        List<SubCategorias> listaSubCategorias = subCategoriasTxt.readRawTextFile(this);
-//
-//        mDAO.inserirLista(listaSubCategorias);
-//        categoriasDAO.inserirLista(listaCategorias);
-//        produtosDAO.inserirEstoque(estoque);
-//    }
 }

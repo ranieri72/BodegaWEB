@@ -3,10 +3,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.ranieri.bodegaweb.fragments.ListCategoryFragment">
+    tools:context="com.ranieri.bodegaweb.fragments.ListSubCategoryFragment">
 
     <ListView
-        android:id="@+id/listCategorias"
+        android:id="@+id/listSubCategorias"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"

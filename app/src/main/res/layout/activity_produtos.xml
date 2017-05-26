@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginLeft="7dp"
-    android:layout_marginRight="7dp"
+    android:padding="7dp"
     tools:context="com.ranieri.bodegaweb.ListaProdutosActivity">
 
-    <ListView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/listProdutos"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true" />
-</android.support.constraint.ConstraintLayout>
+    <fragment
+        android:id="@+id/fragment_list_products"
+        android:name="com.ranieri.bodegaweb.fragments.ListProductsFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:layout="@layout/fragment_list_products" />
+
+</RelativeLayout>
