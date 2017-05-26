@@ -12,10 +12,10 @@ public class Categorias {
     private long id;
     private String nome;
     private int ordem;
-    private SubCategorias subCategoria;
+    private SubCategorias subCategoriaProd;
 
     public Categorias() {
-        subCategoria = new SubCategorias();
+        subCategoriaProd = new SubCategorias();
     }
 
     public long getId() {
@@ -42,11 +42,11 @@ public class Categorias {
         this.ordem = ordem;
     }
 
-    public SubCategorias getSubCategoria() {
-        return subCategoria;
+    public SubCategorias getSubCategoriaProd() {
+        return subCategoriaProd;
     }
 
-    public void setSubCategoria(SubCategorias subCategoria) {
-        this.subCategoria = subCategoria;
+    public void setSubCategoriaProd(SubCategorias subCategoriaProd) {
+        this.subCategoriaProd = subCategoriaProd;
     }
 }

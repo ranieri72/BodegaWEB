@@ -32,17 +32,17 @@ public class ProdutosAdapter extends ArrayAdapter<Produtos> {
 
         //2)
         ViewHolder vh;
-        if (convertView == null){
+        if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(android.R.layout.simple_list_item_2, null);
             vh = new ViewHolder();
 
             //3)
-            vh.txtNome = (TextView)convertView.findViewById(android.R.id.text1);
-            vh.txtEstoque = (TextView)convertView.findViewById(android.R.id.text2);
+            vh.txtNome = (TextView) convertView.findViewById(android.R.id.text1);
+            vh.txtEstoque = (TextView) convertView.findViewById(android.R.id.text2);
 
             convertView.setTag(vh);
         } else {
-            vh = (ViewHolder)convertView.getTag();
+            vh = (ViewHolder) convertView.getTag();
         }
 
         vh.txtNome.setText(String.valueOf(produto.getNome()));

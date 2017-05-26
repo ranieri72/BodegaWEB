@@ -12,11 +12,11 @@ public class OrderItems {
     private OrderItemsPK chaveComposta;
     private double qtd;
     private double precoUnit;
-    private UnidadeMedida unidadeMedida;
+    private UnidadeMedida unidMedida;
 
     public OrderItems() {
         chaveComposta = new OrderItemsPK();
-        unidadeMedida = new UnidadeMedida();
+        setUnidMedida(new UnidadeMedida());
     }
 
     public OrderItemsPK getChaveComposta() {
@@ -43,11 +43,11 @@ public class OrderItems {
         this.precoUnit = precoUnit;
     }
 
-    public UnidadeMedida getUnidadeMedida() {
-        return unidadeMedida;
+    public UnidadeMedida getUnidMedida() {
+        return unidMedida;
     }
 
-    public void setUnidadeMedida(UnidadeMedida unidadeMedida) {
-        this.unidadeMedida = unidadeMedida;
+    public void setUnidMedida(UnidadeMedida unidMedida) {
+        this.unidMedida = unidMedida;
     }
 }

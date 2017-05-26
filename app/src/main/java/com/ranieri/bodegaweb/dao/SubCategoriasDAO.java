@@ -57,7 +57,7 @@ public class SubCategoriasDAO {
         String[] subCategoriaID = new String[]{String.valueOf(subCategoria.getId())};
 
         ContentValues values = valuesFromSubCategorias(subCategoria);
-        int rowsAffected = db.update(SubCategoriasContract.TABLE_NAME, values, SubCategoriasContract.ID + " = ?", subCategoriaID);
+        int rowsAffected = db.update(SubCategoriasContract.TABLE_NAME, values, SubCategoriasContract.TABLE_ID + " = ?", subCategoriaID);
 
         db.close();
         return rowsAffected;
@@ -90,8 +90,8 @@ public class SubCategoriasDAO {
         List<SubCategorias> lista = new ArrayList<>();
         SubCategorias subCategoria;
 
-        int indexId = cursor.getColumnIndex(SubCategoriasContract.ID);
-        int indexName = cursor.getColumnIndex(SubCategoriasContract.NOME);
+        int indexId = cursor.getColumnIndex(SubCategoriasContract.TABLE_ID);
+        int indexName = cursor.getColumnIndex(SubCategoriasContract.TABLE_NOME);
 
         while (cursor.moveToNext()) {
             subCategoria = new SubCategorias();
@@ -105,8 +105,8 @@ public class SubCategoriasDAO {
 
     private ContentValues valuesFromSubCategorias(SubCategorias subCategoria) {
         ContentValues values = new ContentValues();
-        values.put(SubCategoriasContract.ID, subCategoria.getId());
-        values.put(SubCategoriasContract.NOME, subCategoria.getNome());
+        values.put(SubCategoriasContract.TABLE_ID, subCategoria.getId());
+        values.put(SubCategoriasContract.TABLE_NOME, subCategoria.getNome());
 
         return values;
     }

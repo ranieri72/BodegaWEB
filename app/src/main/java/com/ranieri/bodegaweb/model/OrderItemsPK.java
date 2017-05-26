@@ -1,5 +1,7 @@
 package com.ranieri.bodegaweb.model;
 
+import com.google.gson.annotations.SerializedName;
+
 import org.parceler.Parcel;
 
 /**
@@ -9,7 +11,10 @@ import org.parceler.Parcel;
 @Parcel(Parcel.Serialization.BEAN)
 public class OrderItemsPK {
 
+    @SerializedName("pedido")
     private Order order;
+
+    @SerializedName("produto")
     private Produtos produtos;
 
     public OrderItemsPK() {

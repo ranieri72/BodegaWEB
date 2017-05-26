@@ -105,7 +105,7 @@ public class OrderItemsDAO {
             o.getChaveComposta().getOrder().setId(cursor.getLong(indexKeyOrderId));
             o.setPrecoUnit(cursor.getDouble(indexUnitValue));
             o.setQtd(cursor.getInt(indexQtd));
-            o.getUnidadeMedida().setId(cursor.getLong(indexUnitMeasu));
+            o.getUnidMedida().setId(cursor.getLong(indexUnitMeasu));
             lista.add(o);
         }
         return lista;
@@ -117,7 +117,7 @@ public class OrderItemsDAO {
         values.put(OrderItemsContract.PRODUTO, orderItem.getChaveComposta().getProdutos().getId());
         values.put(OrderItemsContract.PRECOUNIT, orderItem.getPrecoUnit());
         values.put(OrderItemsContract.QTD, orderItem.getQtd());
-        values.put(OrderItemsContract.UNIDADEMEDIDA, orderItem.getUnidadeMedida().getId());
+        values.put(OrderItemsContract.UNIDADEMEDIDA, orderItem.getUnidMedida().getId());
 
         return values;
     }

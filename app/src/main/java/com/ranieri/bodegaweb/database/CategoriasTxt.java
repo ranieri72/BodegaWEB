@@ -109,7 +109,7 @@ public class CategoriasTxt {
             while (( line = buffreader.readLine()) != null) {
                 subCategoria = new SubCategorias();
                 subCategoria.setId(Long.parseLong(line));
-                lista.get(contador).setSubCategoria(subCategoria);
+                lista.get(contador).setSubCategoriaProd(subCategoria);
                 contador++;
             }
         } catch (IOException e) {

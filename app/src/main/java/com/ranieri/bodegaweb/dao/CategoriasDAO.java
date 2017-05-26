@@ -59,7 +59,7 @@ public class CategoriasDAO {
         String[] categoriaID = new String[]{String.valueOf(categoria.getId())};
 
         ContentValues values = valuesFromCategorias(categoria);
-        int rowsAffected = db.update(CategoriasContract.TABLE_NAME, values, CategoriasContract.ID + " = ?", categoriaID);
+        int rowsAffected = db.update(CategoriasContract.TABLE_NAME, values, CategoriasContract.TABLE_ID + " = ?", categoriaID);
 
         db.close();
         return rowsAffected;
@@ -83,7 +83,7 @@ public class CategoriasDAO {
         Cursor cursor = db.rawQuery("SELECT * FROM " +
                 CategoriasContract.TABLE_NAME +
                 " WHERE " +
-                CategoriasContract.TABLE_NAME + "." + CategoriasContract.SUBCATEGORIA + " = ?", subCategoriaID);
+                CategoriasContract.SUBCATEGORIA + " = ?", subCategoriaID);
 
         List<Categorias> lista = valuesFromCursor(cursor);
 
@@ -109,11 +109,11 @@ public class CategoriasDAO {
         List<Categorias> lista = new ArrayList<>();
         Categorias categoria;
 
-        int indexId = cursor.getColumnIndex(CategoriasContract.ID);
-        int indexName = cursor.getColumnIndex(CategoriasContract.NOME);
-        int indexOrder = cursor.getColumnIndex(CategoriasContract.ORDEM);
-        int indexSubCatId = cursor.getColumnIndex(SubCategoriasContract.ID);
-        int indexSubCatName = cursor.getColumnIndex(SubCategoriasContract.NOME);
+        int indexId = cursor.getColumnIndex(CategoriasContract.TABLE_ID);
+        int indexName = cursor.getColumnIndex(CategoriasContract.TABLE_NOME);
+        int indexOrder = cursor.getColumnIndex(CategoriasContract.TABLE_ORDEM);
+        int indexSubCatId = cursor.getColumnIndex(SubCategoriasContract.TABLE_ID);
+        int indexSubCatName = cursor.getColumnIndex(SubCategoriasContract.TABLE_NOME);
 
         while (cursor.moveToNext()) {
             categoria = new Categorias();
@@ -122,8 +122,8 @@ public class CategoriasDAO {
             categoria.setNome(cursor.getString(indexName));
             categoria.setOrdem(cursor.getInt(indexOrder));
 
-            categoria.getSubCategoria().setId(cursor.getLong(indexSubCatId));
-            categoria.getSubCategoria().setNome(cursor.getString(indexSubCatName));
+            categoria.getSubCategoriaProd().setId(cursor.getLong(indexSubCatId));
+            categoria.getSubCategoriaProd().setNome(cursor.getString(indexSubCatName));
 
             lista.add(categoria);
         }
@@ -132,10 +132,10 @@ public class CategoriasDAO {
 
     private ContentValues valuesFromCategorias(Categorias categoria) {
         ContentValues values = new ContentValues();
-        values.put(CategoriasContract.ID, categoria.getId());
-        values.put(CategoriasContract.NOME, categoria.getNome());
-        values.put(CategoriasContract.ORDEM, categoria.getOrdem());
-        values.put(CategoriasContract.SUBCATEGORIA, categoria.getSubCategoria().getId());
+        values.put(CategoriasContract.TABLE_ID, categoria.getId());
+        values.put(CategoriasContract.TABLE_NOME, categoria.getNome());
+        values.put(CategoriasContract.TABLE_ORDEM, categoria.getOrdem());
+        values.put(CategoriasContract.TABLE_SUBCATEGORIA, categoria.getSubCategoriaProd().getId());
 
         return values;
     }

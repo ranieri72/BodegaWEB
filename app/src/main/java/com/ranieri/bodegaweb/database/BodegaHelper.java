@@ -25,24 +25,24 @@ public class BodegaHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
 
         String createProdutos = "CREATE TABLE " + ProdutosContract.TABLE_NAME + " (" +
-                ProdutosContract.ID + " INTEGER PRIMARY KEY, " +
-                ProdutosContract.NOME + " TEXT NOT NULL, " +
-                ProdutosContract.ESTOQUE + " INTEGER NOT NULL, " +
-                ProdutosContract.NOVOESTOQUE + " INTEGER NOT NULL, " +
-                ProdutosContract.ALTERADO + " INTEGER DEFAULT 0, " +
-                ProdutosContract.APAGADO + " INTEGER DEFAULT 0, " +
-                ProdutosContract.PRECO + " REAL NOT NULL, " +
-                ProdutosContract.CATEGORIA + " INTEGER NOT NULL); ";
+                ProdutosContract.TABLE_ID + " INTEGER PRIMARY KEY, " +
+                ProdutosContract.TABLE_NOME + " TEXT NOT NULL, " +
+                ProdutosContract.TABLE_ESTOQUE + " INTEGER NOT NULL, " +
+                ProdutosContract.TABLE_NOVOESTOQUE + " INTEGER NOT NULL, " +
+                ProdutosContract.TABLE_ALTERADO + " INTEGER DEFAULT 0, " +
+                ProdutosContract.TABLE_APAGADO + " INTEGER DEFAULT 0, " +
+                ProdutosContract.TABLE_PRECO + " REAL NOT NULL, " +
+                ProdutosContract.TABLE_CATEGORIA + " INTEGER NOT NULL); ";
 
         String createCategorias = "CREATE TABLE " + CategoriasContract.TABLE_NAME + " (" +
-                CategoriasContract.ID + " INTEGER PRIMARY KEY, " +
-                CategoriasContract.NOME + " TEXT NOT NULL, " +
-                CategoriasContract.ORDEM + " INTEGER NOT NULL, " +
-                CategoriasContract.SUBCATEGORIA + " INTEGER NOT NULL); ";
+                CategoriasContract.TABLE_ID + " INTEGER PRIMARY KEY, " +
+                CategoriasContract.TABLE_NOME + " TEXT NOT NULL, " +
+                CategoriasContract.TABLE_ORDEM + " INTEGER NOT NULL, " +
+                CategoriasContract.TABLE_SUBCATEGORIA + " INTEGER NOT NULL); ";
 
         String createSubCategorias = "CREATE TABLE " + SubCategoriasContract.TABLE_NAME + " (" +
-                SubCategoriasContract.ID + " INTEGER PRIMARY KEY, " +
-                SubCategoriasContract.NOME + " TEXT NOT NULL); ";
+                SubCategoriasContract.TABLE_ID + " INTEGER PRIMARY KEY, " +
+                SubCategoriasContract.TABLE_NOME + " TEXT NOT NULL); ";
 
         String createOrder = "CREATE TABLE " + OrderContract.TABLE_NAME + " (" +
                 OrderContract.ID + " INTEGER PRIMARY KEY, " +
