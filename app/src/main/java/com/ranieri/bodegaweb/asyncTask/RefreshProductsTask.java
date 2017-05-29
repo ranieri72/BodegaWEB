@@ -52,10 +52,10 @@ public class RefreshProductsTask extends AsyncTask<Context, Void, Integer> {
             jsonString = response.body().string();
             listJson = gson.fromJson(jsonString, ListJson.class);
             ProdutosDAO produtosDAO = new ProdutosDAO(params[0]);
-            produtosDAO.refreshStock(listJson);
+            int qtd = produtosDAO.refreshStock(listJson);
 
-            return listJson.getListaProdutos().size();
-        } catch (Exception e){
+            return qtd;
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return 0;

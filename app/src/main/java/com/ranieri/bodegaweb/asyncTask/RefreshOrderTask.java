@@ -62,8 +62,8 @@ public class RefreshOrderTask extends AsyncTask<Context, Void, Integer> {
             OrderItemsDAO orderItemsDAO = new OrderItemsDAO(params[0]);
             int qtd = orderItemsDAO.refreshOrders(listJson);
 
-            return 0;
-        } catch (Exception e){
+            return qtd;
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return 0;

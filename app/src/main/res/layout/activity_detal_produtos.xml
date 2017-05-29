@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -9,7 +8,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="7dp"
+        android:padding="7dp"
         android:orientation="vertical">
 
         <TextView
@@ -18,11 +17,11 @@
             android:text="@string/nome" />
 
         <TextView
+            android:id="@+id/txt_nome"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="25sp"
             android:textColor="#000000"
-            android:id="@+id/txt_nome" />
+            android:textSize="25sp" />
 
         <TextView
             android:layout_width="match_parent"
@@ -30,11 +29,11 @@
             android:text="@string/estoque" />
 
         <TextView
+            android:id="@+id/txt_estoque"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="25sp"
             android:textColor="#000000"
-            android:id="@+id/txt_estoque" />
+            android:textSize="25sp" />
 
         <TextView
             android:layout_width="match_parent"
@@ -42,11 +41,11 @@
             android:text="@string/novoestoque" />
 
         <TextView
+            android:id="@+id/txt_novo_estoque"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="25sp"
             android:textColor="#000000"
-            android:id="@+id/txt_novo_estoque" />
+            android:textSize="25sp" />
 
         <TextView
             android:layout_width="match_parent"
@@ -54,11 +53,11 @@
             android:text="@string/preco" />
 
         <TextView
+            android:id="@+id/txt_preco"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="25sp"
             android:textColor="#000000"
-            android:id="@+id/txt_preco" />
+            android:textSize="25sp" />
 
         <TextView
             android:layout_width="match_parent"
@@ -66,11 +65,11 @@
             android:text="@string/categoria" />
 
         <TextView
+            android:id="@+id/txt_subcategoria"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="25sp"
             android:textColor="#000000"
-            android:id="@+id/txt_subcategoria" />
+            android:textSize="25sp" />
 
         <TextView
             android:layout_width="match_parent"
@@ -78,18 +77,11 @@
             android:text="@string/subcategoria" />
 
         <TextView
+            android:id="@+id/txt_categoria"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="25sp"
             android:textColor="#000000"
-            android:id="@+id/txt_categoria" />
-
-        <Button
-            android:id="@+id/btnEditar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:text="@string/editar" />
+            android:textSize="25sp" />
 
     </LinearLayout>
 

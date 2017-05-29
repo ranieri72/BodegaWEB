@@ -6,7 +6,7 @@
     <string name="nome">Name</string>
     <string name="categoria">Category</string>
     <string name="subcategoria">Subcategory</string>
-    <string name="editar">Alter</string>
+    <string name="editar">Edit</string>
     <string name="salvar">Save</string>
     <string name="detalhes">Details</string>
     <string name="produtos">Products</string>
@@ -16,7 +16,4 @@
     <string name="atualizarProdutos">Refresh Products</string>
     <string name="atualizarPedidos">Refresh Orders</string>
     <string name="produtosAtualizados">Updated Products: </string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

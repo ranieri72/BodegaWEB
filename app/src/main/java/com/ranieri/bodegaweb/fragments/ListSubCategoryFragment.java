@@ -57,8 +57,8 @@ public class ListSubCategoryFragment extends Fragment {
     }
 
     @OnItemClick(R.id.listSubCategorias)
-    void onItemSelected(int position) {
-        Log.v("ListSubCategoryFragment", "OnItemClickListener");
+    void onItemClicked(int position) {
+        Log.v("ListSubCategoryFragment", "onItemClicked");
 
         SubCategorias subCategoria = (SubCategorias) mAdapter.getItem(position);
         if (getActivity() instanceof CliqueNaSubCategoriaListener) {

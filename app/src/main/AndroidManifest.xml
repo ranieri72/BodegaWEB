@@ -12,7 +12,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".ListaProdutosActivity" />
-        <activity android:name=".ListaSubCategoriasActivity" />
         <activity android:name=".DetalProdutosActivity" />
         <activity android:name=".EditarProdutosActivity" />
         <activity android:name=".ListaCategoriasActivity" />

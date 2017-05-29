@@ -23,6 +23,9 @@ public class MainActivity extends AppCompatActivity implements ListSubCategoryFr
         setContentView(R.layout.activity_main);
         Log.v("MainActivity", "onCreate");
         produto = Parcels.unwrap(getIntent().getParcelableExtra("produto"));
+        if (produto != null) {
+            setTitle(getResources().getString(R.string.categoria));
+        }
     }
 
     @Override

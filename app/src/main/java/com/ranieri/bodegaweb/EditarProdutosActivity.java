@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,6 +19,7 @@ import org.parceler.Parcels;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class EditarProdutosActivity extends AppCompatActivity {
 
@@ -53,55 +56,62 @@ public class EditarProdutosActivity extends AppCompatActivity {
         mEdtPreco.setText(String.valueOf(produto.getPrecoSugerido()));
         mBtnCategoria.setText(produto.getCategoria().getNome());
         mBtnSubCategoria.setText(produto.getCategoria().getSubCategoriaProd().getNome());
-
-        findViewById(R.id.btnCategoria).setOnClickListener(tratadorDeEventos);
-        findViewById(R.id.btnSubCategoria).setOnClickListener(tratadorDeEventos);
-        findViewById(R.id.btnSalvar).setOnClickListener(tratadorDeEventos);
     }
 
-    View.OnClickListener tratadorDeEventos = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            Intent it;
-            ProdutosDAO mDAO;
+    @OnClick({R.id.btnSubCategoria, R.id.btnCategoria})
+    void onItemClicked(View view) {
+        Intent it;
 
-            switch (v.getId()) {
-                case R.id.btnCategoria:
+        switch (view.getId()) {
+            case R.id.btnCategoria:
 
-                    Log.v("Editar Produto", "onClick - Categoria");
+                Log.v("Editar Produto", "onClick - Categoria");
 
-                    it = new Intent(EditarProdutosActivity.this, ListaCategoriasActivity.class);
-                    it.putExtra("produto", Parcels.wrap(produto));
-                    startActivityForResult(it, 2);
-                    break;
-                case R.id.btnSubCategoria:
+                it = new Intent(EditarProdutosActivity.this, ListaCategoriasActivity.class);
+                it.putExtra("categoria", Parcels.wrap(produto.getCategoria()));
+                startActivityForResult(it, 2);
+                break;
+            case R.id.btnSubCategoria:
 
-                    Log.v("Editar Produto", "onClick - Subcategoria");
+                Log.v("Editar Produto", "onClick - Subcategoria");
 
-                    it = new Intent(EditarProdutosActivity.this, ListaSubCategoriasActivity.class);
-                    it.putExtra("produto", Parcels.wrap(produto));
-                    startActivityForResult(it, 1);
-                    break;
-                case R.id.btnSalvar:
-
-                    Log.v("Editar Produto", "onClick - Salvar");
-
-                    produto.setNome(mEdtNome.getText().toString());
-                    produto.setNovoEstoque(Integer.parseInt(mEdtEstoque.getText().toString()));
-                    produto.setPrecoSugerido(Double.parseDouble(mEdtPreco.getText().toString()));
-                    produto.setAlterado(true);
-
-                    mDAO = new ProdutosDAO(EditarProdutosActivity.this);
-                    mDAO.atualizar(produto);
-
-                    it = new Intent();
-                    it.putExtra("produto", Parcels.wrap(produto));
-                    setResult(RESULT_OK, it);
-                    finish();
-                    break;
-            }
+                it = new Intent(EditarProdutosActivity.this, MainActivity.class);
+                it.putExtra("produto", Parcels.wrap(produto));
+                startActivityForResult(it, 1);
+                break;
         }
-    };
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.edit_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Intent it;
+        ProdutosDAO mDAO;
+        switch (item.getItemId()) {
+            case R.id.action_salvar:
+                Log.v("Editar Produto", "onClick - Salvar");
+
+                produto.setNome(mEdtNome.getText().toString());
+                produto.setNovoEstoque(Integer.parseInt(mEdtEstoque.getText().toString()));
+                produto.setPrecoSugerido(Double.parseDouble(mEdtPreco.getText().toString()));
+                produto.setAlterado(true);
+
+                mDAO = new ProdutosDAO(EditarProdutosActivity.this);
+                mDAO.atualizar(produto);
+
+                it = new Intent();
+                it.putExtra("produto", Parcels.wrap(produto));
+                setResult(RESULT_OK, it);
+                finish();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

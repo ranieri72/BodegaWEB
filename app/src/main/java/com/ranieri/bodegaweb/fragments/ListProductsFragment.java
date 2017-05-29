@@ -32,7 +32,6 @@ public class ListProductsFragment extends Fragment {
     ListView mListView;
 
     List<Produtos> mLista;
-    SubCategorias subCategoria;
     ProdutosAdapter adapter;
     Unbinder unbinder;
 
@@ -51,6 +50,7 @@ public class ListProductsFragment extends Fragment {
         super.onCreate(savedInstanceState);
         Log.v("ListProductsFragment", "onCreate");
         mLista = new ArrayList<>();
+        SubCategorias subCategoria;
 
         if (getArguments() != null) {
             Parcelable parcelable = getArguments().getParcelable("subCategoria");
@@ -78,8 +78,8 @@ public class ListProductsFragment extends Fragment {
     }
 
     @OnItemClick(R.id.listProdutos)
-    void onItemSelected(int position) {
-        Log.v("ListProductsFragment", "onItemSelected");
+    void onItemClicked(int position) {
+        Log.v("ListProductsFragment", "onItemClicked");
 
         Produtos produto = (Produtos) adapter.getItem(position);
         if (getActivity() instanceof ListProductsFragment.CliqueNoProdutoListener) {

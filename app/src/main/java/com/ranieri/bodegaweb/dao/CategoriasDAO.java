@@ -6,7 +6,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.ranieri.bodegaweb.contract.CategoriasContract;
-import com.ranieri.bodegaweb.contract.SubCategoriasContract;
 import com.ranieri.bodegaweb.database.BodegaHelper;
 import com.ranieri.bodegaweb.model.Categorias;
 import com.ranieri.bodegaweb.model.ListJson;
@@ -112,8 +111,7 @@ public class CategoriasDAO {
         int indexId = cursor.getColumnIndex(CategoriasContract.TABLE_ID);
         int indexName = cursor.getColumnIndex(CategoriasContract.TABLE_NOME);
         int indexOrder = cursor.getColumnIndex(CategoriasContract.TABLE_ORDEM);
-        int indexSubCatId = cursor.getColumnIndex(SubCategoriasContract.TABLE_ID);
-        int indexSubCatName = cursor.getColumnIndex(SubCategoriasContract.TABLE_NOME);
+        int indexSubCatId = cursor.getColumnIndex(CategoriasContract.TABLE_SUBCATEGORIA);
 
         while (cursor.moveToNext()) {
             categoria = new Categorias();
@@ -121,10 +119,7 @@ public class CategoriasDAO {
             categoria.setId(cursor.getLong(indexId));
             categoria.setNome(cursor.getString(indexName));
             categoria.setOrdem(cursor.getInt(indexOrder));
-
             categoria.getSubCategoriaProd().setId(cursor.getLong(indexSubCatId));
-            categoria.getSubCategoriaProd().setNome(cursor.getString(indexSubCatName));
-
             lista.add(categoria);
         }
         return lista;

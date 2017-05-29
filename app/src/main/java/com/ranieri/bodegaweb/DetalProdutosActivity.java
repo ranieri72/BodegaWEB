@@ -4,7 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.View;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.ranieri.bodegaweb.dao.ProdutosDAO;
@@ -58,20 +59,28 @@ public class DetalProdutosActivity extends AppCompatActivity {
         mTxtSubCategoria = (TextView) findViewById(R.id.txt_subcategoria);
 
         definirTextView();
-        findViewById(R.id.btnEditar).setOnClickListener(tratadorDeEventos);
     }
 
-    View.OnClickListener tratadorDeEventos = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.detal_menu, menu);
+        return true;
+    }
 
-            Log.v("Detalhes Produto", "onClick");
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Intent it;
+        switch (item.getItemId()) {
+            case R.id.action_editar:
+                Log.v("Detalhes Produto", "onOptionsItemSelected");
 
-            Intent it = new Intent(DetalProdutosActivity.this, EditarProdutosActivity.class);
-            it.putExtra("produto", Parcels.wrap(produto));
-            startActivityForResult(it, 0);
+                it = new Intent(DetalProdutosActivity.this, EditarProdutosActivity.class);
+                it.putExtra("produto", Parcels.wrap(produto));
+                startActivityForResult(it, 0);
+                break;
         }
-    };
+        return super.onOptionsItemSelected(item);
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
