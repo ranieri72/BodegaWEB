@@ -7,9 +7,9 @@ package com.ranieri.bodegaweb.contract;
 public interface SubCategoriasContract {
     String TABLE_NAME = "subcategory";
 
-    String TABLE_ID = TABLE_NAME + "_id";
-    String TABLE_NOME = TABLE_NAME + "_name";
+    String COLUMN_ID = TABLE_NAME + "_id";
+    String COLUMN_NAME = TABLE_NAME + "_name";
 
-    String ID = TABLE_NAME + "." + TABLE_NAME + "_id";
-    String NOME = TABLE_NAME + "." + TABLE_NAME + "_name";
+    String ID = TABLE_NAME + "." + COLUMN_ID;
+    String NAME = TABLE_NAME + "." + COLUMN_NAME;
 }

@@ -7,21 +7,21 @@ package com.ranieri.bodegaweb.contract;
 public interface ProdutosContract {
     String TABLE_NAME = "products";
 
-    String TABLE_ID = TABLE_NAME + "_id";
-    String TABLE_NOME = TABLE_NAME + "_name";
-    String TABLE_ESTOQUE = TABLE_NAME + "_stock";
-    String TABLE_NOVOESTOQUE = TABLE_NAME + "_newstock";
-    String TABLE_ALTERADO = TABLE_NAME + "_altered";
-    String TABLE_APAGADO = TABLE_NAME + "_deleted";
-    String TABLE_PRECO = TABLE_NAME + "_price";
-    String TABLE_CATEGORIA = TABLE_NAME + "_id_category";
+    String COLUMN_ID = TABLE_NAME + "_id";
+    String COLUMN_NAME = TABLE_NAME + "_name";
+    String COLUMN_STOCK = TABLE_NAME + "_stock";
+    String COLUMN_NEWSTOCK = TABLE_NAME + "_newstock";
+    String COLUMN_ALTERED = TABLE_NAME + "_altered";
+    String COLUMN_DELETED = TABLE_NAME + "_deleted";
+    String COLUMN_PRICE = TABLE_NAME + "_price";
+    String COLUMN_CATEGORY = TABLE_NAME + "_id_category";
 
-    String ID = TABLE_NAME + "." + TABLE_NAME + "_id";
-    String NOME = TABLE_NAME + "." + TABLE_NAME + "_name";
-    String ESTOQUE = TABLE_NAME + "." + TABLE_NAME + "_stock";
-    String NOVOESTOQUE = TABLE_NAME + "." + TABLE_NAME + "_newstock";
-    String ALTERADO = TABLE_NAME + "." + TABLE_NAME + "_altered";
-    String APAGADO = TABLE_NAME + "." + TABLE_NAME + "_deleted";
-    String PRECO = TABLE_NAME + "." + TABLE_NAME + "_price";
-    String CATEGORIA = TABLE_NAME + "." + TABLE_NAME + "_id_category";
+    String ID = TABLE_NAME + "." + COLUMN_ID;
+    String NAME = TABLE_NAME + "." + COLUMN_NAME;
+    String STOCK = TABLE_NAME + "." + COLUMN_STOCK;
+    String NEWSTOCK = TABLE_NAME + "." + COLUMN_NEWSTOCK;
+    String ALTERED = TABLE_NAME + "." + COLUMN_ALTERED;
+    String DELETED = TABLE_NAME + "." + COLUMN_DELETED;
+    String PRICE = TABLE_NAME + "." + COLUMN_PRICE;
+    String CATEGORY = TABLE_NAME + "." + COLUMN_CATEGORY;
 }

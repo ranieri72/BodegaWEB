@@ -58,7 +58,7 @@ public class OrderItemsDAO {
 
         ContentValues values = valuesFromOrder(orderItem);
         int rowsAffected = db.update(OrderItemsContract.TABLE_NAME, values,
-                OrderItemsContract.ORDER + " = ?" + OrderItemsContract.PRODUTO + " = ?",
+                OrderItemsContract.ORDER + " = ?" + OrderItemsContract.PRODUCT + " = ?",
                 new String[]{orderID, productID});
 
         db.close();
@@ -92,11 +92,11 @@ public class OrderItemsDAO {
         List<OrderItems> lista = new ArrayList<>();
         OrderItems o;
 
-        int indexKeyProdId = cursor.getColumnIndex(OrderItemsContract.PRODUTO);
+        int indexKeyProdId = cursor.getColumnIndex(OrderItemsContract.PRODUCT);
         int indexKeyOrderId = cursor.getColumnIndex(OrderItemsContract.ORDER);
-        int indexUnitValue = cursor.getColumnIndex(OrderItemsContract.PRECOUNIT);
+        int indexUnitValue = cursor.getColumnIndex(OrderItemsContract.UNITVALUE);
         int indexQtd = cursor.getColumnIndex(OrderItemsContract.QTD);
-        int indexUnitMeasu = cursor.getColumnIndex(OrderItemsContract.UNIDADEMEDIDA);
+        int indexUnitMeasu = cursor.getColumnIndex(OrderItemsContract.UNITMEASUREMENT);
 
         while (cursor.moveToNext()) {
 
@@ -114,10 +114,10 @@ public class OrderItemsDAO {
     private ContentValues valuesFromOrder(OrderItems orderItem) {
         ContentValues values = new ContentValues();
         values.put(OrderItemsContract.ORDER, orderItem.getChaveComposta().getOrder().getId());
-        values.put(OrderItemsContract.PRODUTO, orderItem.getChaveComposta().getProdutos().getId());
-        values.put(OrderItemsContract.PRECOUNIT, orderItem.getPrecoUnit());
+        values.put(OrderItemsContract.PRODUCT, orderItem.getChaveComposta().getProdutos().getId());
+        values.put(OrderItemsContract.UNITVALUE, orderItem.getPrecoUnit());
         values.put(OrderItemsContract.QTD, orderItem.getQtd());
-        values.put(OrderItemsContract.UNIDADEMEDIDA, orderItem.getUnidMedida().getId());
+        values.put(OrderItemsContract.UNITMEASUREMENT, orderItem.getUnidMedida().getId());
 
         return values;
     }

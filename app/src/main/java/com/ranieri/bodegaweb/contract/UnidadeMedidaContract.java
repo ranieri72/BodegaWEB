@@ -8,7 +8,7 @@ public interface UnidadeMedidaContract {
     String TABLE_NAME = "unitmeasurement";
 
     String ID = "unitmeasurement_id";
-    String NOME = "unitmeasurement_name";
-    String ORDEM = "unitmeasurement_order";
-    String MULTIPLICADOR = "unitmeasurement_multiplier";
+    String NAME = "unitmeasurement_name";
+    String ORDER = "unitmeasurement_order";
+    String MULTIPLIER = "unitmeasurement_multiplier";
 }

@@ -50,9 +50,9 @@ public class UnidadeMedidaDAO {
     private ContentValues valuesFromUnidadeMedida(UnidadeMedida unidadeMedida) {
         ContentValues values = new ContentValues();
         values.put(UnidadeMedidaContract.ID, unidadeMedida.getId());
-        values.put(UnidadeMedidaContract.NOME, unidadeMedida.getNome());
-        values.put(UnidadeMedidaContract.ORDEM, unidadeMedida.getOrdem());
-        values.put(UnidadeMedidaContract.MULTIPLICADOR, unidadeMedida.getMultiplicador());
+        values.put(UnidadeMedidaContract.NAME, unidadeMedida.getNome());
+        values.put(UnidadeMedidaContract.ORDER, unidadeMedida.getOrdem());
+        values.put(UnidadeMedidaContract.MULTIPLIER, unidadeMedida.getMultiplicador());
 
         return values;
     }

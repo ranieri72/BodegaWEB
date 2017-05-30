@@ -8,8 +8,8 @@ public interface OrderItemsContract {
     String TABLE_NAME = "orderitems";
 
     String QTD = "orderitems_qtd";
-    String PRECOUNIT = "orderitems_unitvalue";
-    String UNIDADEMEDIDA = "orderitems_id_unitmeasurement";
+    String UNITVALUE = "orderitems_unitvalue";
+    String UNITMEASUREMENT = "orderitems_id_unitmeasurement";
     String ORDER = "orderitems_id_order";
-    String PRODUTO = "orderitems_id_produto";
+    String PRODUCT = "orderitems_id_product";
 }

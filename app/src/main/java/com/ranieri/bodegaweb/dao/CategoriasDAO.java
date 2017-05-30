@@ -58,7 +58,7 @@ public class CategoriasDAO {
         String[] categoriaID = new String[]{String.valueOf(categoria.getId())};
 
         ContentValues values = valuesFromCategorias(categoria);
-        int rowsAffected = db.update(CategoriasContract.TABLE_NAME, values, CategoriasContract.TABLE_ID + " = ?", categoriaID);
+        int rowsAffected = db.update(CategoriasContract.TABLE_NAME, values, CategoriasContract.COLUMN_ID + " = ?", categoriaID);
 
         db.close();
         return rowsAffected;
@@ -82,7 +82,7 @@ public class CategoriasDAO {
         Cursor cursor = db.rawQuery("SELECT * FROM " +
                 CategoriasContract.TABLE_NAME +
                 " WHERE " +
-                CategoriasContract.SUBCATEGORIA + " = ?", subCategoriaID);
+                CategoriasContract.SUBCATEGORY + " = ?", subCategoriaID);
 
         List<Categorias> lista = valuesFromCursor(cursor);
 
@@ -108,10 +108,10 @@ public class CategoriasDAO {
         List<Categorias> lista = new ArrayList<>();
         Categorias categoria;
 
-        int indexId = cursor.getColumnIndex(CategoriasContract.TABLE_ID);
-        int indexName = cursor.getColumnIndex(CategoriasContract.TABLE_NOME);
-        int indexOrder = cursor.getColumnIndex(CategoriasContract.TABLE_ORDEM);
-        int indexSubCatId = cursor.getColumnIndex(CategoriasContract.TABLE_SUBCATEGORIA);
+        int indexId = cursor.getColumnIndex(CategoriasContract.COLUMN_ID);
+        int indexName = cursor.getColumnIndex(CategoriasContract.COLUMN_NAME);
+        int indexOrder = cursor.getColumnIndex(CategoriasContract.COLUMN_ORDER);
+        int indexSubCatId = cursor.getColumnIndex(CategoriasContract.COLUMN_SUBCATEGORY);
 
         while (cursor.moveToNext()) {
             categoria = new Categorias();
@@ -127,10 +127,10 @@ public class CategoriasDAO {
 
     private ContentValues valuesFromCategorias(Categorias categoria) {
         ContentValues values = new ContentValues();
-        values.put(CategoriasContract.TABLE_ID, categoria.getId());
-        values.put(CategoriasContract.TABLE_NOME, categoria.getNome());
-        values.put(CategoriasContract.TABLE_ORDEM, categoria.getOrdem());
-        values.put(CategoriasContract.TABLE_SUBCATEGORIA, categoria.getSubCategoriaProd().getId());
+        values.put(CategoriasContract.COLUMN_ID, categoria.getId());
+        values.put(CategoriasContract.COLUMN_NAME, categoria.getNome());
+        values.put(CategoriasContract.COLUMN_ORDER, categoria.getOrdem());
+        values.put(CategoriasContract.COLUMN_SUBCATEGORY, categoria.getSubCategoriaProd().getId());
 
         return values;
     }

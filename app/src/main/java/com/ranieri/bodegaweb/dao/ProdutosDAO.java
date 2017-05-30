@@ -66,7 +66,7 @@ public class ProdutosDAO {
         SQLiteDatabase db = helper.getWritableDatabase();
 
         ContentValues values = valuesFromProdutos(produto);
-        int rowsAffected = db.update(ProdutosContract.TABLE_NAME, values, ProdutosContract.TABLE_ID + " = ?", new String[]{String.valueOf(produto.getId())});
+        int rowsAffected = db.update(ProdutosContract.TABLE_NAME, values, ProdutosContract.COLUMN_ID + " = ?", new String[]{String.valueOf(produto.getId())});
 
         db.close();
         return rowsAffected;
@@ -76,7 +76,7 @@ public class ProdutosDAO {
         BodegaHelper helper = new BodegaHelper(mContext);
         SQLiteDatabase db = helper.getWritableDatabase();
 
-        int rowsAffected = db.delete(ProdutosContract.TABLE_NAME, ProdutosContract.TABLE_ID + " = ?", new String[]{String.valueOf(produto.getId())});
+        int rowsAffected = db.delete(ProdutosContract.TABLE_NAME, ProdutosContract.COLUMN_ID + " = ?", new String[]{String.valueOf(produto.getId())});
 
         db.close();
         return rowsAffected;
@@ -99,19 +99,19 @@ public class ProdutosDAO {
 
         String sql = "SELECT " +
                 ProdutosContract.TABLE_NAME + ".*, " +
-                CategoriasContract.NOME + ", " +
-                CategoriasContract.SUBCATEGORIA + ", " +
-                SubCategoriasContract.NOME +
+                CategoriasContract.NAME + ", " +
+                CategoriasContract.SUBCATEGORY + ", " +
+                SubCategoriasContract.NAME +
                 " FROM " +
                 ProdutosContract.TABLE_NAME + ", " +
                 CategoriasContract.TABLE_NAME + ", " +
                 SubCategoriasContract.TABLE_NAME +
                 " WHERE " +
-                ProdutosContract.CATEGORIA +
+                ProdutosContract.CATEGORY +
                 " = " +
                 CategoriasContract.ID +
                 " AND " +
-                CategoriasContract.SUBCATEGORIA +
+                CategoriasContract.SUBCATEGORY +
                 " = " +
                 SubCategoriasContract.ID +
                 " AND " + ProdutosContract.ID + " = ?;";
@@ -122,10 +122,10 @@ public class ProdutosDAO {
             getColumnIndex(cursor);
             produto = valuesFromCursor(cursor);
 
-            produto.getCategoria().setId(cursor.getLong(cursor.getColumnIndex(ProdutosContract.TABLE_CATEGORIA)));
-            produto.getCategoria().setNome(cursor.getString(cursor.getColumnIndex(CategoriasContract.TABLE_NOME)));
-            produto.getCategoria().getSubCategoriaProd().setId(cursor.getLong(cursor.getColumnIndex(CategoriasContract.TABLE_SUBCATEGORIA)));
-            produto.getCategoria().getSubCategoriaProd().setNome(cursor.getString(cursor.getColumnIndex(SubCategoriasContract.TABLE_NOME)));
+            produto.getCategoria().setId(cursor.getLong(cursor.getColumnIndex(ProdutosContract.COLUMN_CATEGORY)));
+            produto.getCategoria().setNome(cursor.getString(cursor.getColumnIndex(CategoriasContract.COLUMN_NAME)));
+            produto.getCategoria().getSubCategoriaProd().setId(cursor.getLong(cursor.getColumnIndex(CategoriasContract.COLUMN_SUBCATEGORY)));
+            produto.getCategoria().getSubCategoriaProd().setNome(cursor.getString(cursor.getColumnIndex(SubCategoriasContract.COLUMN_NAME)));
         }
         cursor.close();
         db.close();
@@ -160,27 +160,27 @@ public class ProdutosDAO {
 
         String sql = "SELECT " +
                 ProdutosContract.TABLE_NAME + ".*, " +
-                CategoriasContract.NOME +
+                CategoriasContract.NAME +
                 " FROM " +
                 ProdutosContract.TABLE_NAME + ", " +
                 CategoriasContract.TABLE_NAME +
                 " WHERE " +
-                ProdutosContract.CATEGORIA +
+                ProdutosContract.CATEGORY +
                 " = " +
                 CategoriasContract.ID +
                 " AND " +
-                CategoriasContract.SUBCATEGORIA + " = ? " +
+                CategoriasContract.SUBCATEGORY + " = ? " +
                 "ORDER BY " +
-                CategoriasContract.ORDEM + " ASC, " +
-                ProdutosContract.NOME + " ASC";
+                CategoriasContract.ORDER + " ASC, " +
+                ProdutosContract.NAME + " ASC";
 
         Cursor cursor = db.rawQuery(sql, subCategoriaId);
 
         List<Produtos> lista = new ArrayList<>();
         Produtos produto;
         getColumnIndex(cursor);
-        int indexCategoryId = cursor.getColumnIndex(ProdutosContract.TABLE_CATEGORIA);
-        int indexCategoryName = cursor.getColumnIndex(CategoriasContract.TABLE_NOME);
+        int indexCategoryId = cursor.getColumnIndex(ProdutosContract.COLUMN_CATEGORY);
+        int indexCategoryName = cursor.getColumnIndex(CategoriasContract.COLUMN_NAME);
 
         while (cursor.moveToNext()) {
             produto = valuesFromCursor(cursor);
@@ -202,7 +202,7 @@ public class ProdutosDAO {
         String sql = "SELECT * FROM " +
                 ProdutosContract.TABLE_NAME +
                 " WHERE " +
-                ProdutosContract.ALTERADO +
+                ProdutosContract.ALTERED +
                 " = ?";
 
         Cursor cursor = db.rawQuery(sql, estado);
@@ -210,7 +210,7 @@ public class ProdutosDAO {
         List<Produtos> lista = new ArrayList<>();
         Produtos produto;
         getColumnIndex(cursor);
-        int indexCategoryID = cursor.getColumnIndex(CategoriasContract.TABLE_ID);
+        int indexCategoryID = cursor.getColumnIndex(CategoriasContract.COLUMN_ID);
 
         while (cursor.moveToNext()) {
             produto = valuesFromCursor(cursor);
@@ -223,13 +223,13 @@ public class ProdutosDAO {
     }
 
     private void getColumnIndex(Cursor cursor) {
-        indexId = cursor.getColumnIndex(ProdutosContract.TABLE_ID);
-        indexName = cursor.getColumnIndex(ProdutosContract.TABLE_NOME);
-        indexStock = cursor.getColumnIndex(ProdutosContract.TABLE_ESTOQUE);
-        indexNewStock = cursor.getColumnIndex(ProdutosContract.TABLE_NOVOESTOQUE);
-        indexAltered = cursor.getColumnIndex(ProdutosContract.TABLE_ALTERADO);
-        indexDeleted = cursor.getColumnIndex(ProdutosContract.TABLE_APAGADO);
-        indexSuggestedPrice = cursor.getColumnIndex(ProdutosContract.TABLE_PRECO);
+        indexId = cursor.getColumnIndex(ProdutosContract.COLUMN_ID);
+        indexName = cursor.getColumnIndex(ProdutosContract.COLUMN_NAME);
+        indexStock = cursor.getColumnIndex(ProdutosContract.COLUMN_STOCK);
+        indexNewStock = cursor.getColumnIndex(ProdutosContract.COLUMN_NEWSTOCK);
+        indexAltered = cursor.getColumnIndex(ProdutosContract.COLUMN_ALTERED);
+        indexDeleted = cursor.getColumnIndex(ProdutosContract.COLUMN_DELETED);
+        indexSuggestedPrice = cursor.getColumnIndex(ProdutosContract.COLUMN_PRICE);
     }
 
     private Produtos valuesFromCursor(Cursor cursor) {
@@ -246,14 +246,14 @@ public class ProdutosDAO {
 
     private ContentValues valuesFromProdutos(Produtos produto) {
         ContentValues values = new ContentValues();
-        values.put(ProdutosContract.TABLE_ID, produto.getId());
-        values.put(ProdutosContract.TABLE_NOME, produto.getNome());
-        values.put(ProdutosContract.TABLE_ESTOQUE, produto.getEstoque());
-        values.put(ProdutosContract.TABLE_NOVOESTOQUE, produto.getNovoEstoque());
-        values.put(ProdutosContract.TABLE_ALTERADO, produto.isAlterado());
-        values.put(ProdutosContract.TABLE_APAGADO, produto.isApagado());
-        values.put(ProdutosContract.TABLE_PRECO, produto.getPrecoSugerido());
-        values.put(ProdutosContract.TABLE_CATEGORIA, produto.getCategoria().getId());
+        values.put(ProdutosContract.COLUMN_ID, produto.getId());
+        values.put(ProdutosContract.COLUMN_NAME, produto.getNome());
+        values.put(ProdutosContract.COLUMN_STOCK, produto.getEstoque());
+        values.put(ProdutosContract.COLUMN_NEWSTOCK, produto.getNovoEstoque());
+        values.put(ProdutosContract.COLUMN_ALTERED, produto.isAlterado());
+        values.put(ProdutosContract.COLUMN_DELETED, produto.isApagado());
+        values.put(ProdutosContract.COLUMN_PRICE, produto.getPrecoSugerido());
+        values.put(ProdutosContract.COLUMN_CATEGORY, produto.getCategoria().getId());
         return values;
     }
 
