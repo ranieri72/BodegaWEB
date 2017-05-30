@@ -17,4 +17,5 @@
     <string name="atualizarPedidos">Atualizar Pedidos</string>
     <string name="produtosAtualizados">Produtos Atualizados: </string>
     <string name="pedidosAtualizados">Pedidos Atualizados: </string>
+    <string name="erroConexao">Falha na Conexão!</string>
 </resources>

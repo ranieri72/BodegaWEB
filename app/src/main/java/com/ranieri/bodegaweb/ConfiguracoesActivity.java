@@ -27,12 +27,12 @@ public class ConfiguracoesActivity extends AppCompatActivity {
             int qtd;
             switch (v.getId()) {
                 case R.id.btnAtualizarProdutos:
-                    qtd = new RefreshProductsTask().execute(ConfiguracoesActivity.this).get();
-                    Toast.makeText(ConfiguracoesActivity.this, getResources().getString(R.string.produtosAtualizados) + qtd, Toast.LENGTH_SHORT).show();
+                    qtd = new RefreshProductsTask().execute(this).get();
+                    Toast.makeText(this, getResources().getString(R.string.produtosAtualizados) + qtd, Toast.LENGTH_SHORT).show();
                     break;
                 case R.id.btnAtualizarPedidos:
-                    qtd = new RefreshOrderTask().execute(ConfiguracoesActivity.this).get();
-                    Toast.makeText(ConfiguracoesActivity.this, getResources().getString(R.string.pedidosAtualizados) + qtd, Toast.LENGTH_SHORT).show();
+                    qtd = new RefreshOrderTask().execute(this).get();
+                    Toast.makeText(this, getResources().getString(R.string.pedidosAtualizados) + qtd, Toast.LENGTH_SHORT).show();
                     break;
             }
         } catch (InterruptedException e) {
