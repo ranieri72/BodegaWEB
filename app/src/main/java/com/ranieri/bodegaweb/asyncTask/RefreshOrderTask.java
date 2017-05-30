@@ -46,7 +46,7 @@ public class RefreshOrderTask extends AsyncTask<Context, Void, Integer> {
             jsonString = response.body().string();
             listJson = gson.fromJson(jsonString, ListJson.class);
             OrdersDAO ordersDAO = new OrdersDAO(params[0]);
-            ordersDAO.refreshOrders(listJson);
+            int qtd = ordersDAO.refreshOrders(listJson);
 
             request = new Request.Builder().url(urlUnitMeasurement).build();
             response = client.newCall(request).execute();
@@ -60,7 +60,7 @@ public class RefreshOrderTask extends AsyncTask<Context, Void, Integer> {
             jsonString = response.body().string();
             listJson = gson.fromJson(jsonString, ListJson.class);
             OrderItemsDAO orderItemsDAO = new OrderItemsDAO(params[0]);
-            int qtd = orderItemsDAO.refreshOrders(listJson);
+            orderItemsDAO.refreshOrders(listJson);
 
             return qtd;
         } catch (Exception e) {

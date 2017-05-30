@@ -31,7 +31,8 @@ public class ConfiguracoesActivity extends AppCompatActivity {
                     Toast.makeText(ConfiguracoesActivity.this, getResources().getString(R.string.produtosAtualizados) + qtd, Toast.LENGTH_SHORT).show();
                     break;
                 case R.id.btnAtualizarPedidos:
-                    new RefreshOrderTask().execute(ConfiguracoesActivity.this).get();
+                    qtd = new RefreshOrderTask().execute(ConfiguracoesActivity.this).get();
+                    Toast.makeText(ConfiguracoesActivity.this, getResources().getString(R.string.pedidosAtualizados) + qtd, Toast.LENGTH_SHORT).show();
                     break;
             }
         } catch (InterruptedException e) {

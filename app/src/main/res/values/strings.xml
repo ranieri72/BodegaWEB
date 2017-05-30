@@ -16,4 +16,5 @@
     <string name="atualizarProdutos">Refresh Products</string>
     <string name="atualizarPedidos">Refresh Orders</string>
     <string name="produtosAtualizados">Updated Products: </string>
+    <string name="pedidosAtualizados">Updated Orders: </string>
 </resources>
