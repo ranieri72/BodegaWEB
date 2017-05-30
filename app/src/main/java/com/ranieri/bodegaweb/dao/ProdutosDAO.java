@@ -250,8 +250,8 @@ public class ProdutosDAO {
         values.put(ProdutosContract.COLUMN_NAME, produto.getNome());
         values.put(ProdutosContract.COLUMN_STOCK, produto.getEstoque());
         values.put(ProdutosContract.COLUMN_NEWSTOCK, produto.getNovoEstoque());
-        values.put(ProdutosContract.COLUMN_ALTERED, produto.isAlterado());
-        values.put(ProdutosContract.COLUMN_DELETED, produto.isApagado());
+        values.put(ProdutosContract.COLUMN_ALTERED, (produto.isAlterado()) ? 1 : 0);
+        values.put(ProdutosContract.COLUMN_DELETED, (produto.isApagado()) ? 1 : 0);
         values.put(ProdutosContract.COLUMN_PRICE, produto.getPrecoSugerido());
         values.put(ProdutosContract.COLUMN_CATEGORY, produto.getCategoria().getId());
         return values;
