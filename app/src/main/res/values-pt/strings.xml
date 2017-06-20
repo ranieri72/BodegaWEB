@@ -6,6 +6,8 @@
     <string name="nome">Nome</string>
     <string name="categoria">Categoria</string>
     <string name="subcategoria">Subcategoria</string>
+    <string name="pedido">Pedido</string>
+    <string name="fornecedor">Fornecedor</string>
     <string name="editar">Alterar</string>
     <string name="salvar">Salvar</string>
     <string name="detalhes">Detalhes</string>
