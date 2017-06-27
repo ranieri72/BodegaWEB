@@ -16,6 +16,8 @@
         <activity android:name=".EditarProdutosActivity" />
         <activity android:name=".ListaCategoriasActivity" />
         <activity android:name=".ConfiguracoesActivity" />
+        <activity android:name=".OrderActivity" />
+        <activity android:name=".ProviderActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

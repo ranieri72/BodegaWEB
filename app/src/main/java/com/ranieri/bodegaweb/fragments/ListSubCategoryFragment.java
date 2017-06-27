@@ -60,14 +60,14 @@ public class ListSubCategoryFragment extends Fragment {
     void onItemClicked(int position) {
         Log.v("ListSubCategoryFragment", "onItemClicked");
 
-        SubCategorias subCategoria = (SubCategorias) mAdapter.getItem(position);
-        if (getActivity() instanceof CliqueNaSubCategoriaListener) {
-            CliqueNaSubCategoriaListener listener = (CliqueNaSubCategoriaListener) getActivity();
-            listener.subcategoriaFoiClicada(subCategoria);
+        SubCategorias subCategoria = mAdapter.getItem(position);
+        if (getActivity() instanceof ClickOnSubCategoryListener) {
+            ClickOnSubCategoryListener listener = (ClickOnSubCategoryListener) getActivity();
+            listener.subCategoryClicked(subCategoria);
         }
     }
 
-    public interface CliqueNaSubCategoriaListener {
-        void subcategoriaFoiClicada(SubCategorias subCategoria);
+    public interface ClickOnSubCategoryListener {
+        void subCategoryClicked(SubCategorias subCategoria);
     }
 }

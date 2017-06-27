@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import com.ranieri.bodegaweb.contract.OrderItemsContract;
 import com.ranieri.bodegaweb.database.BodegaHelper;
 import com.ranieri.bodegaweb.model.ListJson;
+import com.ranieri.bodegaweb.model.Order;
 import com.ranieri.bodegaweb.model.OrderItems;
 
 import java.util.ArrayList;
@@ -88,15 +89,35 @@ public class OrderItemsDAO {
         return lista;
     }
 
+    public List<OrderItems> listar(Order order) {
+        BodegaHelper helper = new BodegaHelper(mContext);
+        SQLiteDatabase db = helper.getReadableDatabase();
+        String[] idOrder = new String[]{String.valueOf(order.getId())};
+
+        String sql = "SELECT * FROM " +
+                OrderItemsContract.TABLE_NAME +
+                " WHERE " +
+                OrderItemsContract.ORDER +
+                " = ?";
+
+        Cursor cursor = db.rawQuery(sql, idOrder);
+
+        List<OrderItems> lista = valuesFromCursor(cursor);
+
+        cursor.close();
+        db.close();
+        return lista;
+    }
+
     private List<OrderItems> valuesFromCursor(Cursor cursor) {
         List<OrderItems> lista = new ArrayList<>();
         OrderItems o;
 
-        int indexKeyProdId = cursor.getColumnIndex(OrderItemsContract.PRODUCT);
-        int indexKeyOrderId = cursor.getColumnIndex(OrderItemsContract.ORDER);
-        int indexUnitValue = cursor.getColumnIndex(OrderItemsContract.UNITVALUE);
-        int indexQtd = cursor.getColumnIndex(OrderItemsContract.QTD);
-        int indexUnitMeasu = cursor.getColumnIndex(OrderItemsContract.UNITMEASUREMENT);
+        int indexKeyProdId = cursor.getColumnIndex(OrderItemsContract.COLUMN_PRODUCT);
+        int indexKeyOrderId = cursor.getColumnIndex(OrderItemsContract.COLUMN_ORDER);
+        int indexUnitValue = cursor.getColumnIndex(OrderItemsContract.COLUMN_UNITVALUE);
+        int indexQtd = cursor.getColumnIndex(OrderItemsContract.COLUMN_QTD);
+        int indexUnitMeasu = cursor.getColumnIndex(OrderItemsContract.COLUMN_UNITMEASUREMENT);
 
         while (cursor.moveToNext()) {
 
@@ -113,11 +134,11 @@ public class OrderItemsDAO {
 
     private ContentValues valuesFromOrder(OrderItems orderItem) {
         ContentValues values = new ContentValues();
-        values.put(OrderItemsContract.ORDER, orderItem.getChaveComposta().getOrder().getId());
-        values.put(OrderItemsContract.PRODUCT, orderItem.getChaveComposta().getProdutos().getId());
-        values.put(OrderItemsContract.UNITVALUE, orderItem.getPrecoUnit());
-        values.put(OrderItemsContract.QTD, orderItem.getQtd());
-        values.put(OrderItemsContract.UNITMEASUREMENT, orderItem.getUnidMedida().getId());
+        values.put(OrderItemsContract.COLUMN_ORDER, orderItem.getChaveComposta().getOrder().getId());
+        values.put(OrderItemsContract.COLUMN_PRODUCT, orderItem.getChaveComposta().getProdutos().getId());
+        values.put(OrderItemsContract.COLUMN_UNITVALUE, orderItem.getPrecoUnit());
+        values.put(OrderItemsContract.COLUMN_QTD, orderItem.getQtd());
+        values.put(OrderItemsContract.COLUMN_UNITMEASUREMENT, orderItem.getUnidMedida().getId());
 
         return values;
     }

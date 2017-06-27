@@ -12,10 +12,10 @@ import com.ranieri.bodegaweb.fragments.ListSubCategoryFragment;
  * Created by ranie on 17 de jun.
  */
 
-class PagerAdapter extends FragmentStatePagerAdapter {
+class MainPagerAdapter extends FragmentStatePagerAdapter {
     private int mNumOfTabs;
 
-    PagerAdapter(FragmentManager fm, int NumOfTabs) {
+    MainPagerAdapter(FragmentManager fm, int NumOfTabs) {
         super(fm);
         this.mNumOfTabs = NumOfTabs;
     }

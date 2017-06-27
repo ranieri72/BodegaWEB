@@ -67,7 +67,7 @@ public class ListProviderFragment extends Fragment {
         }
     }
 
-    interface ClickOnProviderListener {
+    public interface ClickOnProviderListener {
         void providerClicked(Provider provider);
     }
 }

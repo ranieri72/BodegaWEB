@@ -67,7 +67,7 @@ public class ListOrderFragment extends Fragment {
         }
     }
 
-    interface ClickOnOrderListener {
+    public interface ClickOnOrderListener {
         void orderClicked(Order order);
     }
 }

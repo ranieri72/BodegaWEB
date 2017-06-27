@@ -7,9 +7,15 @@ package com.ranieri.bodegaweb.contract;
 public interface OrderItemsContract {
     String TABLE_NAME = "orderitems";
 
-    String QTD = "orderitems_qtd";
-    String UNITVALUE = "orderitems_unitvalue";
-    String UNITMEASUREMENT = "orderitems_id_unitmeasurement";
-    String ORDER = "orderitems_id_order";
-    String PRODUCT = "orderitems_id_product";
+    String COLUMN_QTD = TABLE_NAME + "_qtd";
+    String COLUMN_UNITVALUE = TABLE_NAME + "_unitvalue";
+    String COLUMN_UNITMEASUREMENT = TABLE_NAME + "_id_unitmeasurement";
+    String COLUMN_ORDER = TABLE_NAME + "_id_order";
+    String COLUMN_PRODUCT = TABLE_NAME + "_id_product";
+
+    String QTD = TABLE_NAME + "." + COLUMN_QTD;
+    String UNITVALUE = TABLE_NAME + "." + COLUMN_UNITVALUE;
+    String UNITMEASUREMENT = TABLE_NAME + "." + COLUMN_UNITMEASUREMENT;
+    String ORDER = TABLE_NAME + "." + COLUMN_ORDER;
+    String PRODUCT = TABLE_NAME + "." + COLUMN_PRODUCT;
 }
