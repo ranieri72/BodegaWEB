@@ -7,8 +7,13 @@ package com.ranieri.bodegaweb.contract;
 public interface ProviderContract {
     String TABLE_NAME = "provider";
 
-    String ID = "provider_id";
-    String COMPANY = "provider_company";
-    String NAME = "provider_name";
-    String PHONE = "provider_phone";
+    String COLUMN_ID = TABLE_NAME + "_id";
+    String COLUMN_COMPANY = TABLE_NAME + "_company";
+    String COLUMN_NAME = TABLE_NAME + "_name";
+    String COLUMN_PHONE = TABLE_NAME + "_phone";
+
+    String ID = TABLE_NAME + "." + COLUMN_ID;
+    String COMPANY = TABLE_NAME + "." + COLUMN_COMPANY;
+    String NAME = TABLE_NAME + "." + COLUMN_NAME;
+    String PHONE = TABLE_NAME + "." + COLUMN_PHONE;
 }

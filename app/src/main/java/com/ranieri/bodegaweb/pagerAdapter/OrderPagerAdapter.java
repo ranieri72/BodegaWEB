@@ -1,4 +1,4 @@
-package com.ranieri.bodegaweb;
+package com.ranieri.bodegaweb.pagerAdapter;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -11,11 +11,11 @@ import com.ranieri.bodegaweb.model.Order;
  * Created by ranie on 17 de jun.
  */
 
-class OrderPagerAdapter extends FragmentStatePagerAdapter {
+public class OrderPagerAdapter extends FragmentStatePagerAdapter {
     private int mNumOfTabs;
     private Order order;
 
-    OrderPagerAdapter(FragmentManager fm, int NumOfTabs, Order order) {
+    public OrderPagerAdapter(FragmentManager fm, int NumOfTabs, Order order) {
         super(fm);
         this.mNumOfTabs = NumOfTabs;
         this.order = order;

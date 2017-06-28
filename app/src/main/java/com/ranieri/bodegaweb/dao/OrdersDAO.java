@@ -6,11 +6,15 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.ranieri.bodegaweb.contract.OrderContract;
+import com.ranieri.bodegaweb.contract.ProviderContract;
 import com.ranieri.bodegaweb.database.BodegaHelper;
 import com.ranieri.bodegaweb.model.ListJson;
 import com.ranieri.bodegaweb.model.Order;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -20,6 +24,12 @@ import java.util.List;
 public class OrdersDAO {
 
     private Context mContext;
+    private final SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+
+    private int indexId;
+    private int indexOrderDate;
+    private int indexTotalOrder;
+    private int indexProviderId;
 
     public OrdersDAO(Context context) {
         mContext = context;
@@ -77,41 +87,65 @@ public class OrdersDAO {
         BodegaHelper helper = new BodegaHelper(mContext);
         SQLiteDatabase db = helper.getReadableDatabase();
 
-        Cursor cursor = db.rawQuery("SELECT * FROM " + OrderContract.TABLE_NAME, null);
+        String sql = "SELECT " +
+                OrderContract.TABLE_NAME + ".*, " +
+                ProviderContract.COMPANY +
+                " FROM " +
+                OrderContract.TABLE_NAME + ", " +
+                ProviderContract.TABLE_NAME +
+                " WHERE " +
+                OrderContract.PROVIDER +
+                " = " +
+                ProviderContract.ID +
+                " ORDER BY " +
+                OrderContract.ORDERDATE + " DESC";
 
-        List<Order> lista = valuesFromCursor(cursor);
+        Cursor cursor = db.rawQuery(sql, null);
 
+        List<Order> lista = new ArrayList<>();
+        Order order;
+        getColumnIndex(cursor);
+        int indexProviderName = cursor.getColumnIndex(ProviderContract.COLUMN_COMPANY);
+
+        while (cursor.moveToNext()) {
+            order = valuesFromCursor(cursor);
+            order.getFornecedor().setEmpresa(cursor.getString(indexProviderName));
+            lista.add(order);
+        }
         cursor.close();
         db.close();
         return lista;
     }
 
-    private List<Order> valuesFromCursor(Cursor cursor) {
-        List<Order> lista = new ArrayList<>();
-        Order order;
+    private Order valuesFromCursor(Cursor cursor) {
+        Order o = new Order();
+        Date dataFormatada;
+        try {
+            dataFormatada = formato.parse(cursor.getString(indexOrderDate));
 
-        int indexId = cursor.getColumnIndex(OrderContract.ID);
-        //int indexOrderDate = cursor.getColumnIndex(OrderContract.ORDERDATE);
-        int indexTotalOrder = cursor.getColumnIndex(OrderContract.TOTALORDER);
-        int indexProviderId = cursor.getColumnIndex(OrderContract.PROVIDER);
-
-        while (cursor.moveToNext()) {
-            Order o = new Order();
             o.setId(cursor.getLong(indexId));
-            //o.setDataPedido(cursor.getString(indexOrderDate));
+            o.setDataPedido(dataFormatada);
             o.setTotalPedido(cursor.getFloat(indexTotalOrder));
             o.getFornecedor().setId(cursor.getLong(indexProviderId));
-            lista.add(o);
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
-        return lista;
+        return o;
+    }
+
+    private void getColumnIndex(Cursor cursor) {
+        indexId = cursor.getColumnIndex(OrderContract.COLUMN_ID);
+        indexOrderDate = cursor.getColumnIndex(OrderContract.COLUMN_ORDERDATE);
+        indexTotalOrder = cursor.getColumnIndex(OrderContract.COLUMN_TOTALORDER);
+        indexProviderId = cursor.getColumnIndex(OrderContract.COLUMN_PROVIDER);
     }
 
     private ContentValues valuesFromOrder(Order order) {
         ContentValues values = new ContentValues();
-        values.put(OrderContract.ID, order.getId());
-        values.put(OrderContract.ORDERDATE, order.getDataPedido().toString());
-        values.put(OrderContract.TOTALORDER, order.getTotalPedido());
-        values.put(OrderContract.PROVIDER, order.getFornecedor().getId());
+        values.put(OrderContract.COLUMN_ID, order.getId());
+        values.put(OrderContract.COLUMN_ORDERDATE, formato.format(order.getDataPedido()));
+        values.put(OrderContract.COLUMN_TOTALORDER, order.getTotalPedido());
+        values.put(OrderContract.COLUMN_PROVIDER, order.getFornecedor().getId());
 
         return values;
     }

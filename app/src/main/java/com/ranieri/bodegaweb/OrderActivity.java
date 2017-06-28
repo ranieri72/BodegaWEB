@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 import com.ranieri.bodegaweb.model.Order;
+import com.ranieri.bodegaweb.pagerAdapter.OrderPagerAdapter;
 
 import org.parceler.Parcels;
 

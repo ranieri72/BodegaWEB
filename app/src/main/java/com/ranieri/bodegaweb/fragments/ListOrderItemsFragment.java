@@ -28,7 +28,7 @@ import butterknife.Unbinder;
 
 public class ListOrderItemsFragment extends Fragment {
 
-    @BindView(R.id.listProdutos)
+    @BindView(R.id.listOrderItems)
     ListView mListView;
 
     List<OrderItems> mLista;

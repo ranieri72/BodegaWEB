@@ -7,8 +7,13 @@ package com.ranieri.bodegaweb.contract;
 public interface OrderContract {
     String TABLE_NAME = "ordered";
 
-    String ID = "ordered_id";
-    String ORDERDATE = "ordered_orderdate";
-    String TOTALORDER = "ordered_totalorder";
-    String PROVIDER = "ordered_id_provider";
+    String COLUMN_ID = TABLE_NAME + "_id";
+    String COLUMN_ORDERDATE = TABLE_NAME + "_orderdate";
+    String COLUMN_TOTALORDER = TABLE_NAME + "_totalorder";
+    String COLUMN_PROVIDER = TABLE_NAME + "_id_provider";
+
+    String ID = TABLE_NAME + "." + COLUMN_ID;
+    String ORDERDATE = TABLE_NAME + "." + COLUMN_ORDERDATE;
+    String TOTALORDER = TABLE_NAME + "." + COLUMN_TOTALORDER;
+    String PROVIDER = TABLE_NAME + "." + COLUMN_PROVIDER;
 }

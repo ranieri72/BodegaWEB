@@ -49,10 +49,10 @@ public class UnidadeMedidaDAO {
 
     private ContentValues valuesFromUnidadeMedida(UnidadeMedida unidadeMedida) {
         ContentValues values = new ContentValues();
-        values.put(UnidadeMedidaContract.ID, unidadeMedida.getId());
-        values.put(UnidadeMedidaContract.NAME, unidadeMedida.getNome());
-        values.put(UnidadeMedidaContract.ORDER, unidadeMedida.getOrdem());
-        values.put(UnidadeMedidaContract.MULTIPLIER, unidadeMedida.getMultiplicador());
+        values.put(UnidadeMedidaContract.COLUMN_ID, unidadeMedida.getId());
+        values.put(UnidadeMedidaContract.COLUMN_NAME, unidadeMedida.getNome());
+        values.put(UnidadeMedidaContract.COLUMN_ORDER, unidadeMedida.getOrdem());
+        values.put(UnidadeMedidaContract.COLUMN_MULTIPLIER, unidadeMedida.getMultiplicador());
 
         return values;
     }

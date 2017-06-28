@@ -89,10 +89,10 @@ public class ProviderDAO {
         List<Provider> lista = new ArrayList<>();
         Provider provider;
 
-        int indexId = cursor.getColumnIndex(ProviderContract.ID);
-        int indexName = cursor.getColumnIndex(ProviderContract.NAME);
-        int indexPhone = cursor.getColumnIndex(ProviderContract.PHONE);
-        int indexCompany = cursor.getColumnIndex(ProviderContract.COMPANY);
+        int indexId = cursor.getColumnIndex(ProviderContract.COLUMN_ID);
+        int indexName = cursor.getColumnIndex(ProviderContract.COLUMN_NAME);
+        int indexPhone = cursor.getColumnIndex(ProviderContract.COLUMN_PHONE);
+        int indexCompany = cursor.getColumnIndex(ProviderContract.COLUMN_COMPANY);
 
         while (cursor.moveToNext()) {
             Provider p = new Provider();
@@ -107,10 +107,10 @@ public class ProviderDAO {
 
     private ContentValues valuesFromProvider(Provider provider) {
         ContentValues values = new ContentValues();
-        values.put(ProviderContract.ID, provider.getId());
-        values.put(ProviderContract.NAME, provider.getNome());
-        values.put(ProviderContract.PHONE, provider.getFone());
-        values.put(ProviderContract.COMPANY, provider.getEmpresa());
+        values.put(ProviderContract.COLUMN_ID, provider.getId());
+        values.put(ProviderContract.COLUMN_NAME, provider.getNome());
+        values.put(ProviderContract.COLUMN_PHONE, provider.getFone());
+        values.put(ProviderContract.COLUMN_COMPANY, provider.getEmpresa());
 
         return values;
     }

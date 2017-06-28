@@ -19,6 +19,7 @@ import com.ranieri.bodegaweb.model.Order;
 import com.ranieri.bodegaweb.model.Produtos;
 import com.ranieri.bodegaweb.model.Provider;
 import com.ranieri.bodegaweb.model.SubCategorias;
+import com.ranieri.bodegaweb.pagerAdapter.MainPagerAdapter;
 
 import org.parceler.Parcels;
 

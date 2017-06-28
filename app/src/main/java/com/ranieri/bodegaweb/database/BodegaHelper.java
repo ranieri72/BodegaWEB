@@ -45,16 +45,16 @@ public class BodegaHelper extends SQLiteOpenHelper {
                 SubCategoriasContract.COLUMN_NAME + " TEXT NOT NULL); ";
 
         String createOrder = "CREATE TABLE " + OrderContract.TABLE_NAME + " (" +
-                OrderContract.ID + " INTEGER PRIMARY KEY, " +
-                OrderContract.ORDERDATE + " TEXT NOT NULL, " +
-                OrderContract.TOTALORDER + " REAL NOT NULL, " +
-                OrderContract.PROVIDER + " INTEGER NOT NULL); ";
+                OrderContract.COLUMN_ID + " INTEGER PRIMARY KEY, " +
+                OrderContract.COLUMN_ORDERDATE + " TEXT NOT NULL, " +
+                OrderContract.COLUMN_TOTALORDER + " REAL NOT NULL, " +
+                OrderContract.COLUMN_PROVIDER + " INTEGER NOT NULL); ";
 
         String createProvider = "CREATE TABLE " + ProviderContract.TABLE_NAME + " (" +
-                ProviderContract.ID + " INTEGER PRIMARY KEY, " +
-                ProviderContract.COMPANY + " TEXT NOT NULL, " +
-                ProviderContract.NAME + " TEXT NOT NULL, " +
-                ProviderContract.PHONE + " TEXT NOT NULL); ";
+                ProviderContract.COLUMN_ID + " INTEGER PRIMARY KEY, " +
+                ProviderContract.COLUMN_COMPANY + " TEXT NOT NULL, " +
+                ProviderContract.COLUMN_NAME + " TEXT NOT NULL, " +
+                ProviderContract.COLUMN_PHONE + " TEXT NOT NULL); ";
 
         String createOrderItems = "CREATE TABLE " + OrderItemsContract.TABLE_NAME + " (" +
                 OrderItemsContract.COLUMN_QTD + " INTEGER NOT NULL, " +
@@ -65,10 +65,10 @@ public class BodegaHelper extends SQLiteOpenHelper {
                 "PRIMARY KEY (" + OrderItemsContract.COLUMN_ORDER + ", " + OrderItemsContract.COLUMN_PRODUCT + "));";
 
         String createUnidadeMedida = "CREATE TABLE " + UnidadeMedidaContract.TABLE_NAME + " (" +
-                UnidadeMedidaContract.ID + " INTEGER PRIMARY KEY, " +
-                UnidadeMedidaContract.NAME + " TEXT NOT NULL, " +
-                UnidadeMedidaContract.MULTIPLIER + " INTEGER NOT NULL, " +
-                UnidadeMedidaContract.ORDER + " INTEGER NOT NULL); ";
+                UnidadeMedidaContract.COLUMN_ID + " INTEGER PRIMARY KEY, " +
+                UnidadeMedidaContract.COLUMN_NAME + " TEXT NOT NULL, " +
+                UnidadeMedidaContract.COLUMN_MULTIPLIER + " INTEGER NOT NULL, " +
+                UnidadeMedidaContract.COLUMN_ORDER + " INTEGER NOT NULL); ";
 
         db.execSQL(createSubCategorias);
         db.execSQL(createCategorias);
