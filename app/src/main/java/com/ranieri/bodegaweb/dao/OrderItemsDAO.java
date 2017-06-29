@@ -6,6 +6,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.ranieri.bodegaweb.contract.OrderItemsContract;
+import com.ranieri.bodegaweb.contract.ProdutosContract;
+import com.ranieri.bodegaweb.contract.UnidadeMedidaContract;
 import com.ranieri.bodegaweb.database.BodegaHelper;
 import com.ranieri.bodegaweb.model.ListJson;
 import com.ranieri.bodegaweb.model.Order;
@@ -80,7 +82,24 @@ public class OrderItemsDAO {
         BodegaHelper helper = new BodegaHelper(mContext);
         SQLiteDatabase db = helper.getReadableDatabase();
 
-        Cursor cursor = db.rawQuery("SELECT * FROM " + OrderItemsContract.TABLE_NAME, null);
+        String sql = "SELECT " +
+                OrderItemsContract.TABLE_NAME + ".*, " +
+                ProdutosContract.NAME + ", " +
+                UnidadeMedidaContract.NAME +
+                " FROM " +
+                OrderItemsContract.TABLE_NAME + ", " +
+                ProdutosContract.TABLE_NAME + ", " +
+                UnidadeMedidaContract.TABLE_NAME +
+                " WHERE " +
+                OrderItemsContract.PRODUCT +
+                " = " +
+                ProdutosContract.ID +
+                " AND " +
+                OrderItemsContract.UNITMEASUREMENT +
+                " = " +
+                UnidadeMedidaContract.ID;
+
+        Cursor cursor = db.rawQuery(sql, null);
 
         List<OrderItems> lista = valuesFromCursor(cursor);
 
@@ -94,9 +113,24 @@ public class OrderItemsDAO {
         SQLiteDatabase db = helper.getReadableDatabase();
         String[] idOrder = new String[]{String.valueOf(order.getId())};
 
-        String sql = "SELECT * FROM " +
-                OrderItemsContract.TABLE_NAME +
+        String sql = "SELECT " +
+                OrderItemsContract.TABLE_NAME + ".*, " +
+                ProdutosContract.NAME + ", " +
+                UnidadeMedidaContract.NAME + ", " +
+                UnidadeMedidaContract.MULTIPLIER +
+                " FROM " +
+                OrderItemsContract.TABLE_NAME + ", " +
+                ProdutosContract.TABLE_NAME + ", " +
+                UnidadeMedidaContract.TABLE_NAME +
                 " WHERE " +
+                OrderItemsContract.PRODUCT +
+                " = " +
+                ProdutosContract.ID +
+                " AND " +
+                OrderItemsContract.UNITMEASUREMENT +
+                " = " +
+                UnidadeMedidaContract.ID +
+                " AND " +
                 OrderItemsContract.ORDER +
                 " = ?";
 
@@ -114,19 +148,25 @@ public class OrderItemsDAO {
         OrderItems o;
 
         int indexKeyProdId = cursor.getColumnIndex(OrderItemsContract.COLUMN_PRODUCT);
+        int indexKeyProdName = cursor.getColumnIndex(ProdutosContract.COLUMN_NAME);
         int indexKeyOrderId = cursor.getColumnIndex(OrderItemsContract.COLUMN_ORDER);
         int indexUnitValue = cursor.getColumnIndex(OrderItemsContract.COLUMN_UNITVALUE);
         int indexQtd = cursor.getColumnIndex(OrderItemsContract.COLUMN_QTD);
-        int indexUnitMeasu = cursor.getColumnIndex(OrderItemsContract.COLUMN_UNITMEASUREMENT);
+        int indexUnitMeasuId = cursor.getColumnIndex(OrderItemsContract.COLUMN_UNITMEASUREMENT);
+        int indexUnitMeasuName = cursor.getColumnIndex(UnidadeMedidaContract.COLUMN_NAME);
+        int indexUnitMeasuMult = cursor.getColumnIndex(UnidadeMedidaContract.COLUMN_MULTIPLIER);
 
         while (cursor.moveToNext()) {
 
             o = new OrderItems();
             o.getChaveComposta().getProdutos().setId(cursor.getLong(indexKeyProdId));
+            o.getChaveComposta().getProdutos().setNome(cursor.getString(indexKeyProdName));
             o.getChaveComposta().getOrder().setId(cursor.getLong(indexKeyOrderId));
             o.setPrecoUnit(cursor.getDouble(indexUnitValue));
             o.setQtd(cursor.getInt(indexQtd));
-            o.getUnidMedida().setId(cursor.getLong(indexUnitMeasu));
+            o.getUnidMedida().setId(cursor.getLong(indexUnitMeasuId));
+            o.getUnidMedida().setNome(cursor.getString(indexUnitMeasuName));
+            o.getUnidMedida().setMultiplicador(cursor.getInt(indexUnitMeasuMult));
             lista.add(o);
         }
         return lista;

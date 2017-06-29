@@ -50,7 +50,7 @@ public class OrderItemsAdapter extends ArrayAdapter<OrderItems> {
         String unidMedida = orderItems.getUnidMedida().getNome();
         int multi = orderItems.getUnidMedida().getMultiplicador();
         double total = (qtd * multi) * price;
-        vh.txtQtd.setText("R$" + price + " " + qtd + " " + unidMedida + " Total R$" + total);
+        vh.txtQtd.setText("R$" + price + " - QTD:" + qtd + " " + unidMedida + " Total R$" + total);
 
         //4)
         return convertView;
