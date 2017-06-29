@@ -14,6 +14,7 @@ import com.ranieri.bodegaweb.R;
 import com.ranieri.bodegaweb.adapter.ProdutosAdapter;
 import com.ranieri.bodegaweb.dao.ProdutosDAO;
 import com.ranieri.bodegaweb.model.Produtos;
+import com.ranieri.bodegaweb.model.Provider;
 import com.ranieri.bodegaweb.model.SubCategorias;
 
 import org.parceler.Parcels;
@@ -36,11 +37,21 @@ public class ListProductsFragment extends Fragment {
     Unbinder unbinder;
 
     public static ListProductsFragment novaInstancia(SubCategorias subCategoria) {
-        Log.v("ListProductsFragment", "novaInstancia");
+        Log.v("ListProductsFragment", "novaInstancia SubCategorias");
         ListProductsFragment fragment = new ListProductsFragment();
         Bundle args = new Bundle();
         Parcelable parcelable = Parcels.wrap(subCategoria);
         args.putParcelable("subCategoria", parcelable);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    public static ListProductsFragment novaInstancia(Provider provider) {
+        Log.v("ListProductsFragment", "novaInstancia Provider");
+        ListProductsFragment fragment = new ListProductsFragment();
+        Bundle args = new Bundle();
+        Parcelable parcelable = Parcels.wrap(provider);
+        args.putParcelable("provider", parcelable);
         fragment.setArguments(args);
         return fragment;
     }
@@ -50,13 +61,18 @@ public class ListProductsFragment extends Fragment {
         super.onCreate(savedInstanceState);
         Log.v("ListProductsFragment", "onCreate");
         mLista = new ArrayList<>();
-        SubCategorias subCategoria;
 
-        if (getArguments() != null) {
+        if (getArguments() != null && getArguments().getParcelable("subCategoria") != null) {
             Parcelable parcelable = getArguments().getParcelable("subCategoria");
-            subCategoria = Parcels.unwrap(parcelable);
+            SubCategorias subCategoria = Parcels.unwrap(parcelable);
             ProdutosDAO mDAO = new ProdutosDAO(getActivity());
             mLista = mDAO.listar(subCategoria);
+        }
+        if (getArguments() != null && getArguments().getParcelable("provider") != null) {
+            Parcelable parcelable = getArguments().getParcelable("provider");
+            Provider provider = Parcels.unwrap(parcelable);
+            ProdutosDAO mDAO = new ProdutosDAO(getActivity());
+            mLista = mDAO.listar(provider);
         }
     }
 

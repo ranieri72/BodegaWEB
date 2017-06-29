@@ -8,7 +8,10 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
+import com.ranieri.bodegaweb.model.Provider;
 import com.ranieri.bodegaweb.pagerAdapter.ProviderPagerAdapter;
+
+import org.parceler.Parcels;
 
 public class ProviderActivity extends AppCompatActivity {
 
@@ -23,9 +26,11 @@ public class ProviderActivity extends AppCompatActivity {
         tabLayout.addTab(tabLayout.newTab().setText(getResources().getString(R.string.fornecedor)));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
+        Provider provider = Parcels.unwrap(getIntent().getParcelableExtra("provider"));
+
         final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
         final ProviderPagerAdapter adapter = new ProviderPagerAdapter
-                (getSupportFragmentManager(), tabLayout.getTabCount());
+                (getSupportFragmentManager(), tabLayout.getTabCount(), provider);
         viewPager.setAdapter(adapter);
         viewPager.addOnPageChangeListener(new TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.setOnTabSelectedListener(new OnTabSelectedListener() {

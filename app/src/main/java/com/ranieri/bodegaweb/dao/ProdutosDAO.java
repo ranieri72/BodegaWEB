@@ -6,11 +6,15 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.ranieri.bodegaweb.contract.CategoriasContract;
+import com.ranieri.bodegaweb.contract.OrderContract;
+import com.ranieri.bodegaweb.contract.OrderItemsContract;
 import com.ranieri.bodegaweb.contract.ProdutosContract;
+import com.ranieri.bodegaweb.contract.ProviderContract;
 import com.ranieri.bodegaweb.contract.SubCategoriasContract;
 import com.ranieri.bodegaweb.database.BodegaHelper;
 import com.ranieri.bodegaweb.model.ListJson;
 import com.ranieri.bodegaweb.model.Produtos;
+import com.ranieri.bodegaweb.model.Provider;
 import com.ranieri.bodegaweb.model.SubCategorias;
 
 import java.util.ArrayList;
@@ -189,6 +193,53 @@ public class ProdutosDAO {
 
             lista.add(produto);
         }
+        cursor.close();
+        db.close();
+        return lista;
+    }
+
+    public List<Produtos> listar(Provider provider) {
+        BodegaHelper helper = new BodegaHelper(mContext);
+        SQLiteDatabase db = helper.getReadableDatabase();
+        String[] idProvider = new String[]{String.valueOf(provider.getId())};
+
+        String sql = "SELECT DISTINCT " +
+                ProdutosContract.NAME + ", " +
+                ProdutosContract.ID + ", " +
+                ProdutosContract.STOCK + ", " +
+                ProdutosContract.NEWSTOCK + ", " +
+                ProdutosContract.ALTERED + ", " +
+                ProdutosContract.DELETED + ", " +
+                ProdutosContract.PRICE + ", " +
+                ProdutosContract.CATEGORY +
+                " FROM " +
+                OrderItemsContract.TABLE_NAME + ", " +
+                ProdutosContract.TABLE_NAME + ", " +
+                OrderContract.TABLE_NAME + ", " +
+                ProviderContract.TABLE_NAME +
+                " WHERE " +
+                OrderItemsContract.ORDER +
+                " = " +
+                OrderContract.ID +
+                " AND " +
+                OrderItemsContract.PRODUCT +
+                " = " +
+                ProdutosContract.ID +
+                " AND " +
+                OrderContract.ID +
+                " = ?";
+
+        Cursor cursor = db.rawQuery(sql, idProvider);
+
+        List<Produtos> lista = new ArrayList<>();
+        Produtos produto;
+        getColumnIndex(cursor);
+
+        while (cursor.moveToNext()) {
+            produto = valuesFromCursor(cursor);
+            lista.add(produto);
+        }
+
         cursor.close();
         db.close();
         return lista;
