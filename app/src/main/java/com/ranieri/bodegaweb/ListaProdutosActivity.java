@@ -3,27 +3,26 @@ package com.ranieri.bodegaweb;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.widget.ListView;
 
 import com.ranieri.bodegaweb.fragments.ListProductsFragment;
+import com.ranieri.bodegaweb.fragments.ListProductsFragment.CliqueNoProdutoListener;
 import com.ranieri.bodegaweb.model.Produtos;
 import com.ranieri.bodegaweb.model.SubCategorias;
 
 import org.parceler.Parcels;
 
-import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ListaProdutosActivity extends AppCompatActivity implements ListProductsFragment.CliqueNoProdutoListener {
-
-    @BindView(R.id.listProdutos)
-    ListView mListView;
+public class ListaProdutosActivity extends AppCompatActivity implements CliqueNoProdutoListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_produtos);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
         Log.v("ListaProdutosActivity", "onCreate");
         ButterKnife.bind(this);
 

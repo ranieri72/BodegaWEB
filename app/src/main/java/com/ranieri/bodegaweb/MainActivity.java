@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity implements ClickOnSubCategor
         setSupportActionBar(toolbar);
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
-        tabLayout.addTab(tabLayout.newTab().setText(getResources().getString(R.string.categoria)));
+        tabLayout.addTab(tabLayout.newTab().setText(getResources().getString(R.string.produtos)));
         tabLayout.addTab(tabLayout.newTab().setText(getResources().getString(R.string.fornecedor)));
         tabLayout.addTab(tabLayout.newTab().setText(getResources().getString(R.string.pedido)));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);

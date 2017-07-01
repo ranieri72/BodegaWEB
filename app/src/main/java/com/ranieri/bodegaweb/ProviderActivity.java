@@ -29,10 +29,12 @@ public class ProviderActivity extends AppCompatActivity implements CliqueNoProdu
         setSupportActionBar(toolbar);
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
-        tabLayout.addTab(tabLayout.newTab().setText(getResources().getString(R.string.fornecedor)));
+        tabLayout.addTab(tabLayout.newTab().setText(getResources().getString(R.string.produtos)));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
         provider = Parcels.unwrap(getIntent().getParcelableExtra("provider"));
+
+        setTitle(provider.getEmpresa());
 
         final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
         final ProviderPagerAdapter adapter = new ProviderPagerAdapter

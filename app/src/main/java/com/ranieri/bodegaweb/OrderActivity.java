@@ -23,12 +23,14 @@ public class OrderActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
-        tabLayout.addTab(tabLayout.newTab().setText(getResources().getString(R.string.pedido)));
+        tabLayout.addTab(tabLayout.newTab().setText(getResources().getString(R.string.items)));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
         Order order = Parcels.unwrap(getIntent().getParcelableExtra("order"));
 //        Bundle bundle = new Bundle();
 //        bundle.putParcelable("produto", Parcels.wrap(produto));
+
+        setTitle(order.getFornecedor().getEmpresa());
 
         final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
         final OrderPagerAdapter adapter = new OrderPagerAdapter
