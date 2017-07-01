@@ -58,8 +58,7 @@ public class OrderItemsAdapter extends ArrayAdapter<OrderItems> {
                 double qtd = orderItems.getQtd();
                 price = orderItems.getPrecoUnit();
                 String unidMedida = orderItems.getUnidMedida().getNome();
-                multi = orderItems.getUnidMedida().getMultiplicador();
-                total = (qtd * multi) * price;
+                total = qtd * price;
                 vh.txtQtd.setText("R$" + price + " - QTD:" + qtd + " " + unidMedida + " Total R$" + total);
                 break;
             case 2:

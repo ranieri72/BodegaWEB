@@ -98,7 +98,7 @@ public class OrdersDAO {
                 " = " +
                 ProviderContract.ID +
                 " ORDER BY " +
-                OrderContract.ORDERDATE + " DESC";
+                OrderContract.ID + " DESC";
 
         Cursor cursor = db.rawQuery(sql, null);
 

@@ -77,7 +77,12 @@ public class ProviderDAO {
         BodegaHelper helper = new BodegaHelper(mContext);
         SQLiteDatabase db = helper.getReadableDatabase();
 
-        Cursor cursor = db.rawQuery("SELECT * FROM " + ProviderContract.TABLE_NAME, null);
+        String sql = "SELECT * FROM " +
+                ProviderContract.TABLE_NAME +
+                " ORDER BY " +
+                ProviderContract.NAME;
+
+        Cursor cursor = db.rawQuery(sql, null);
 
         List<Provider> lista = valuesFromCursor(cursor);
         cursor.close();
