@@ -15,6 +15,8 @@ import com.ranieri.bodegaweb.adapter.OrderItemsAdapter;
 import com.ranieri.bodegaweb.dao.OrderItemsDAO;
 import com.ranieri.bodegaweb.model.Order;
 import com.ranieri.bodegaweb.model.OrderItems;
+import com.ranieri.bodegaweb.model.Produtos;
+import com.ranieri.bodegaweb.model.Provider;
 
 import org.parceler.Parcels;
 
@@ -34,13 +36,29 @@ public class ListOrderItemsFragment extends Fragment {
     List<OrderItems> mLista;
     OrderItemsAdapter adapter;
     Unbinder unbinder;
+    private int cod;
 
     public static ListOrderItemsFragment novaInstancia(Order order) {
-        Log.v("ListOrderItemsFragment", "novaInstancia");
+        Log.v("ListOrderItemsFragment", "novaInstancia - Order");
         ListOrderItemsFragment fragment = new ListOrderItemsFragment();
         Bundle args = new Bundle();
-        Parcelable parcelable = Parcels.wrap(order);
-        args.putParcelable("order", parcelable);
+
+        args.putParcelable("order", Parcels.wrap(order));
+        args.putParcelable("cod", Parcels.wrap(1));
+
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    public static ListOrderItemsFragment novaInstancia(Provider provider, Produtos produto) {
+        Log.v("ListOrderItemsFragment", "novaInstancia - Provider, Produtos");
+        ListOrderItemsFragment fragment = new ListOrderItemsFragment();
+        Bundle args = new Bundle();
+
+        args.putParcelable("provider", Parcels.wrap(provider));
+        args.putParcelable("produto", Parcels.wrap(produto));
+        args.putParcelable("cod", Parcels.wrap(2));
+
         fragment.setArguments(args);
         return fragment;
     }
@@ -50,13 +68,30 @@ public class ListOrderItemsFragment extends Fragment {
         super.onCreate(savedInstanceState);
         Log.v("ListOrderItemsFragment", "onCreate");
         mLista = new ArrayList<>();
-        Order order;
+        Parcelable parcelable;
+        OrderItemsDAO mDAO;
 
-        if (getArguments() != null) {
-            Parcelable parcelable = getArguments().getParcelable("order");
-            order = Parcels.unwrap(parcelable);
-            OrderItemsDAO mDAO = new OrderItemsDAO(getActivity());
+        if (getArguments() != null && getArguments().getParcelable("order") != null) {
+            parcelable = getArguments().getParcelable("cod");
+            cod = Parcels.unwrap(parcelable);
+            parcelable = getArguments().getParcelable("order");
+            Order order = Parcels.unwrap(parcelable);
+            mDAO = new OrderItemsDAO(getActivity());
             mLista = mDAO.listar(order);
+        }
+
+        if (getArguments() != null && getArguments().getParcelable("provider") != null && getArguments().getParcelable("produto") != null) {
+            parcelable = getArguments().getParcelable("provider");
+            Provider provider = Parcels.unwrap(parcelable);
+
+            parcelable = getArguments().getParcelable("produto");
+            Produtos produto = Parcels.unwrap(parcelable);
+
+            parcelable = getArguments().getParcelable("cod");
+            cod = Parcels.unwrap(parcelable);
+
+            mDAO = new OrderItemsDAO(getActivity());
+            mLista = mDAO.listar(provider, produto);
         }
     }
 
@@ -66,7 +101,7 @@ public class ListOrderItemsFragment extends Fragment {
         Log.v("ListOrderItemsFragment", "onCreateView");
         View layout = inflater.inflate(R.layout.fragment_list_order_items, container, false);
         unbinder = ButterKnife.bind(this, layout);
-        adapter = new OrderItemsAdapter(getActivity(), mLista);
+        adapter = new OrderItemsAdapter(getActivity(), mLista, cod);
         mListView.setAdapter(adapter);
         return layout;
     }

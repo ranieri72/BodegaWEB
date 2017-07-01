@@ -1,5 +1,6 @@
 package com.ranieri.bodegaweb;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.TabLayout.OnTabSelectedListener;
@@ -7,13 +8,18 @@ import android.support.design.widget.TabLayout.TabLayoutOnPageChangeListener;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 
+import com.ranieri.bodegaweb.fragments.ListProductsFragment.CliqueNoProdutoListener;
+import com.ranieri.bodegaweb.model.Produtos;
 import com.ranieri.bodegaweb.model.Provider;
 import com.ranieri.bodegaweb.pagerAdapter.ProviderPagerAdapter;
 
 import org.parceler.Parcels;
 
-public class ProviderActivity extends AppCompatActivity {
+public class ProviderActivity extends AppCompatActivity implements CliqueNoProdutoListener {
+
+    private Provider provider;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +32,7 @@ public class ProviderActivity extends AppCompatActivity {
         tabLayout.addTab(tabLayout.newTab().setText(getResources().getString(R.string.fornecedor)));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
-        Provider provider = Parcels.unwrap(getIntent().getParcelableExtra("provider"));
+        provider = Parcels.unwrap(getIntent().getParcelableExtra("provider"));
 
         final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
         final ProviderPagerAdapter adapter = new ProviderPagerAdapter
@@ -49,5 +55,16 @@ public class ProviderActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    @Override
+    public void produtoFoiClicado(Produtos produto) {
+        Intent it;
+        Log.v("ProviderActivity", "produtoFoiClicado");
+
+        it = new Intent(this, ListOrderItemsActivity.class);
+        it.putExtra("provider", Parcels.wrap(provider));
+        it.putExtra("produto", Parcels.wrap(produto));
+        startActivity(it);
     }
 }
