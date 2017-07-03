@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.ranieri.bodegaweb.dao.UserDAO;
 import com.ranieri.bodegaweb.fragments.ListOrderFragment.ClickOnOrderListener;
 import com.ranieri.bodegaweb.fragments.ListProviderFragment.ClickOnProviderListener;
 import com.ranieri.bodegaweb.fragments.ListSubCategoryFragment.ClickOnSubCategoryListener;
@@ -117,10 +118,19 @@ public class MainActivity extends AppCompatActivity implements ClickOnSubCategor
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         Intent it;
+        UserDAO dao;
+        Bundle bundle;
         switch (item.getItemId()) {
             case R.id.action_configuracoes:
                 it = new Intent(this, ConfiguracoesActivity.class);
                 startActivity(it);
+                break;
+            case R.id.action_logout:
+                dao = new UserDAO(this);
+                dao.setAutoLoginFalse();
+                it = new Intent(this, LoginActivity.class);
+                startActivity(it);
+                finish();
                 break;
         }
         return super.onOptionsItemSelected(item);

@@ -9,15 +9,12 @@ import org.parceler.Parcel;
  */
 
 @Parcel(Parcel.Serialization.BEAN)
-public class Permissions {
+public class Pages {
 
     private long id;
 
-    @SerializedName("usuario")
-    private User user;
-
-    @SerializedName("pagina")
-    private Pages page;
+    @SerializedName("nome")
+    private String name;
 
     public long getId() {
         return id;
@@ -27,11 +24,11 @@ public class Permissions {
         this.id = id;
     }
 
-    public User getUser() {
-        return user;
+    public String getName() {
+        return name;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setName(String name) {
+        this.name = name;
     }
 }

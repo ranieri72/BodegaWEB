@@ -39,15 +39,12 @@ public class LoginTask extends AsyncTask<Bundle, Void, User> {
             ipv4 = "http://192.168.15.12";
         }
 
-        ipv4 += ":8080/bodegaWEB/rest/user/";
+        ipv4 += ":8080/bodegaWEB/rest/login/";
 
         User user = Parcels.unwrap(params[0].getParcelable("user"));
         int cod = (Integer) params[0].get("cod");
 
         switch (cod) {
-            case User.loginAccount:
-                ipv4 += "login";
-                break;
             case User.createAccount:
                 ipv4 += "createuser";
                 break;
@@ -70,7 +67,7 @@ public class LoginTask extends AsyncTask<Bundle, Void, User> {
             return user;
         } catch (Exception e) {
             e.printStackTrace();
-            return null;
+            return user;
         }
     }
 }

@@ -20,5 +20,19 @@
     <string name="atualizarPedidos">Atualizar Pedidos</string>
     <string name="produtosAtualizados">Produtos Atualizados: </string>
     <string name="pedidosAtualizados">Pedidos Atualizados: </string>
-    <string name="erroConexao">Falha na Conexão!</string>
+    <string name="login">Login</string>
+    <string name="logout">Sair</string>
+    <string name="password">Senha</string>
+    <string name="password2">Repita a senha</string>
+    <string name="signin">Fazer login</string>
+    <string name="autoLogin">Login automático</string>
+
+    <!-- Error messages -->
+    <string name="userAndPasswordDoesntMatch">O usuário e a senha não conferem!</string>
+    <string name="userDoesntExist">O usuário não existe!</string>
+    <string name="userAlreadyExists">O usuário já existe!</string>
+    <string name="serverError">Erro de servidor!</string>
+    <string name="connectionError">Erro de conexão!</string>
+    <string name="invalidinputs">Campos inválidos!</string>
+    <string name="errorlogin">Erro de login!</string>
 </resources>

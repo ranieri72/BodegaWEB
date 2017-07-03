@@ -33,8 +33,9 @@ public class CheckingLoginActivity extends AppCompatActivity {
                 bundle = new Bundle();
                 bundle.putParcelable("user", Parcels.wrap(user));
                 bundle.putInt("cod", User.loginAccount);
+                user.setStatusCode(User.loginOk);
                 user = new LoginTask().execute(bundle).get();
-                if (user == null || user.getStatusCode() != 1) {
+                if (user == null || user.getStatusCode() != User.loginOk) {
                     it = new Intent(this, LoginActivity.class);
                 } else {
                     dao.update(user, true);

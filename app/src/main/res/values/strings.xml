@@ -20,5 +20,19 @@
     <string name="atualizarPedidos">Refresh Orders</string>
     <string name="produtosAtualizados">Updated Products: </string>
     <string name="pedidosAtualizados">Updated Orders: </string>
-    <string name="erroConexao">Connection fail!</string>
+    <string name="login">Login</string>
+    <string name="logout">Logout</string>
+    <string name="password">Password</string>
+    <string name="password2">Repeat the password</string>
+    <string name="signin">Sign in</string>
+    <string name="autoLogin">Auto login</string>
+
+    <!-- Error messages -->
+    <string name="userAndPasswordDoesntMatch">User And Password Doesn\'t Match!</string>
+    <string name="userDoesntExist">User Doesn\'t Exist!</string>
+    <string name="userAlreadyExists">User Already Exists!</string>
+    <string name="serverError">Server Error!</string>
+    <string name="connectionError">Connection error!</string>
+    <string name="invalidinputs">Invalid inputs!</string>
+    <string name="errorlogin">Error login!</string>
 </resources>

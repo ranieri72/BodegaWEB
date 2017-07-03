@@ -9,7 +9,9 @@ public interface PermissionsContract {
 
     String COLUMN_ID = TABLE_NAME + "_id";
     String COLUMN_USER = TABLE_NAME + "_user";
+    String COLUMN_PAGE = TABLE_NAME + "_page";
 
     String ID = TABLE_NAME + "." + COLUMN_ID;
     String USER = TABLE_NAME + "." + COLUMN_USER;
+    String PAGE = TABLE_NAME + "." + COLUMN_PAGE;
 }
