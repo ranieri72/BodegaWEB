@@ -14,13 +14,15 @@
         <activity android:name=".ListaProdutosActivity" />
         <activity android:name=".DetalProdutosActivity" />
         <activity android:name=".EditarProdutosActivity" />
+        <activity android:name=".EditStockActivity" />
         <activity android:name=".ListaCategoriasActivity" />
         <activity android:name=".ConfiguracoesActivity" />
         <activity android:name=".OrderActivity" />
         <activity android:name=".ListOrderItemsActivity" />
         <activity android:name=".ProviderActivity" />
         <activity android:name=".MainActivity" />
-        <activity android:name=".CheckingLoginActivity"
+        <activity
+            android:name=".CheckingLoginActivity"
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

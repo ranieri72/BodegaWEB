@@ -42,18 +42,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
 
-                android:text="@string/estoque" />
-
-            <EditText
-                android:id="@+id/edt_estoque"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="number" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-
                 android:text="@string/preco" />
 
             <EditText

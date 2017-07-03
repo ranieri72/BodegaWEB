@@ -53,14 +53,6 @@ public class DetalProdutosActivity extends AppCompatActivity {
         produto = Parcels.unwrap(getIntent().getParcelableExtra("produto"));
         ProdutosDAO mDAO = new ProdutosDAO(this);
         produto = mDAO.selecionar(produto);
-
-        mTxtNome = (TextView) findViewById(R.id.txt_nome);
-        mTxtEstoque = (TextView) findViewById(R.id.txt_estoque);
-        mTxtNovoEstoque = (TextView) findViewById(R.id.txt_novo_estoque);
-        mTxtPreco = (TextView) findViewById(R.id.txt_preco);
-        mTxtCategoria = (TextView) findViewById(R.id.txt_categoria);
-        mTxtSubCategoria = (TextView) findViewById(R.id.txt_subcategoria);
-
         definirTextView();
     }
 
@@ -78,6 +70,13 @@ public class DetalProdutosActivity extends AppCompatActivity {
                 Log.v("Detalhes Produto", "onOptionsItemSelected");
 
                 it = new Intent(DetalProdutosActivity.this, EditarProdutosActivity.class);
+                it.putExtra("produto", Parcels.wrap(produto));
+                startActivityForResult(it, 0);
+                break;
+            case R.id.action_edit_stock:
+                Log.v("Detalhes Produto", "onOptionsItemSelected");
+
+                it = new Intent(DetalProdutosActivity.this, EditStockActivity.class);
                 it.putExtra("produto", Parcels.wrap(produto));
                 startActivityForResult(it, 0);
                 break;

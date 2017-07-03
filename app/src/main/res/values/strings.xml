@@ -2,6 +2,7 @@
     <string name="app_name">Bodega Olinda</string>
     <string name="estoque">Amount</string>
     <string name="novoestoque">Current amount</string>
+    <string name="editstock">Edit stock</string>
     <string name="preco">R$</string>
     <string name="nome">Name</string>
     <string name="categoria">Category</string>

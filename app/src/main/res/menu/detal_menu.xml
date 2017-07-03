@@ -5,6 +5,11 @@
         android:id="@+id/action_editar"
         android:icon="@drawable/ic_mode_edit_black_24dp"
         android:title="@string/editar"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_edit_stock"
+        android:icon="@drawable/ic_mode_edit_black_24dp"
+        android:title="@string/editstock"
         app:showAsAction="always" />
 
 </menu>

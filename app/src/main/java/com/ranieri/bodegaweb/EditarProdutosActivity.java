@@ -27,9 +27,6 @@ public class EditarProdutosActivity extends AppCompatActivity {
     @BindView(R.id.edt_nome)
     EditText mEdtNome;
 
-    @BindView(R.id.edt_estoque)
-    EditText mEdtEstoque;
-
     @BindView(R.id.edt_preco)
     EditText mEdtPreco;
 
@@ -55,7 +52,6 @@ public class EditarProdutosActivity extends AppCompatActivity {
         produto = Parcels.unwrap(getIntent().getParcelableExtra("produto"));
 
         mEdtNome.setText(produto.getNome());
-        mEdtEstoque.setText(String.valueOf(produto.getEstoque()));
         mEdtPreco.setText(String.valueOf(produto.getPrecoSugerido()));
         mBtnCategoria.setText(produto.getCategoria().getNome());
         mBtnSubCategoria.setText(produto.getCategoria().getSubCategoriaProd().getNome());
@@ -100,7 +96,6 @@ public class EditarProdutosActivity extends AppCompatActivity {
                 Log.v("Editar Produto", "onClick - Salvar");
 
                 produto.setNome(mEdtNome.getText().toString());
-                produto.setNovoEstoque(Integer.parseInt(mEdtEstoque.getText().toString()));
                 produto.setPrecoSugerido(Double.parseDouble(mEdtPreco.getText().toString()));
                 produto.setAlterado(true);
 
