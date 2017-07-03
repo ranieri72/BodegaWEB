@@ -9,6 +9,8 @@ import com.ranieri.bodegaweb.dao.ProdutosDAO;
 import com.ranieri.bodegaweb.dao.SubCategoriasDAO;
 import com.ranieri.bodegaweb.model.ListJson;
 
+import java.io.IOException;
+
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -22,15 +24,25 @@ public class RefreshProductsTask extends AsyncTask<Context, Void, Integer> {
     @Override
     protected Integer doInBackground(Context... params) {
         OkHttpClient client = new OkHttpClient();
-        final String ipv4 = "http://192.168.15.7";
-        final String urlProdutos = ipv4 + ":8080/bodegaWEB/rest/products/";
-        final String urlCategorias = ipv4 + ":8080/bodegaWEB/rest/products/categorias";
-        final String urlSubCategorias = ipv4 + ":8080/bodegaWEB/rest/products/subcategorias";
         Request request;
         Response response;
         String jsonString;
         Gson gson;
         ListJson listJson;
+
+        String ipv4 = "http://10.0.0.2";
+        final String urlTest = ipv4 + ":8080/bodegaWEB/rest/test";
+
+        try {
+            request = new Request.Builder().url(urlTest).build();
+            client.newCall(request).execute();
+        } catch (IOException e) {
+            ipv4 = "http://192.168.15.12";
+        }
+
+        final String urlProdutos = ipv4 + ":8080/bodegaWEB/rest/products/";
+        final String urlCategorias = ipv4 + ":8080/bodegaWEB/rest/products/categorias";
+        final String urlSubCategorias = ipv4 + ":8080/bodegaWEB/rest/products/subcategorias";
         try {
             request = new Request.Builder().url(urlSubCategorias).build();
             response = client.newCall(request).execute();
@@ -52,9 +64,8 @@ public class RefreshProductsTask extends AsyncTask<Context, Void, Integer> {
             jsonString = response.body().string();
             listJson = gson.fromJson(jsonString, ListJson.class);
             ProdutosDAO produtosDAO = new ProdutosDAO(params[0]);
-            int qtd = produtosDAO.refreshStock(listJson);
+            return produtosDAO.refreshStock(listJson);
 
-            return qtd;
         } catch (Exception e) {
             e.printStackTrace();
         }

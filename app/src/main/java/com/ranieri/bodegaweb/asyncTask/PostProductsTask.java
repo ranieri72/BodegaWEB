@@ -8,6 +8,8 @@ import com.ranieri.bodegaweb.dao.SubCategoriasDAO;
 import com.ranieri.bodegaweb.model.ListJson;
 import com.ranieri.bodegaweb.model.Produtos;
 
+import java.io.IOException;
+
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -23,8 +25,6 @@ public class PostProductsTask extends AsyncTask<Context, Void, Integer> {
     @Override
     protected Integer doInBackground(Context... params) {
         OkHttpClient client = new OkHttpClient();
-        final String ipv4 = "http://192.168.15.7";
-        final String urlProdutos = ipv4 + ":8080/bodegaWEB/rest/products/";
         Request request;
         Response response;
         String jsonString;
@@ -33,6 +33,18 @@ public class PostProductsTask extends AsyncTask<Context, Void, Integer> {
         RequestBody body;
         Produtos produto;
         MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+
+        String ipv4 = "http://10.0.0.2";
+        final String urlTest = ipv4 + ":8080/bodegaWEB/rest/test";
+
+        try {
+            request = new Request.Builder().url(urlTest).build();
+            client.newCall(request).execute();
+        } catch (IOException e) {
+            ipv4 = "http://192.168.15.12";
+        }
+
+        final String urlProdutos = ipv4 + ":8080/bodegaWEB/rest/products/";
         try {
             gson = new Gson();
             produto = new Produtos();
@@ -45,9 +57,8 @@ public class PostProductsTask extends AsyncTask<Context, Void, Integer> {
             jsonString = response.body().string();
             listJson = gson.fromJson(jsonString, ListJson.class);
             SubCategoriasDAO subCategoriasDAO = new SubCategoriasDAO(params[0]);
-            int qtd = subCategoriasDAO.refreshStock(listJson);
+            return subCategoriasDAO.refreshStock(listJson);
 
-            return qtd;
         } catch (Exception e) {
             e.printStackTrace();
         }
