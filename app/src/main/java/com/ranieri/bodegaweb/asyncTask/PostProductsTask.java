@@ -34,7 +34,7 @@ public class PostProductsTask extends AsyncTask<Context, Void, Integer> {
         Produtos produto;
         MediaType JSON = MediaType.parse("application/json; charset=utf-8");
 
-        String ipv4 = "http://10.0.0.2";
+        String ipv4 = "http://192.168.0.2";
         final String urlTest = ipv4 + ":8080/bodegaWEB/rest/test";
 
         try {

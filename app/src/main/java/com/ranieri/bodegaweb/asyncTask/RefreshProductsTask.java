@@ -30,7 +30,7 @@ public class RefreshProductsTask extends AsyncTask<Context, Void, Integer> {
         Gson gson;
         ListJson listJson;
 
-        String ipv4 = "http://10.0.0.2";
+        String ipv4 = "http://192.168.0.2";
         final String urlTest = ipv4 + ":8080/bodegaWEB/rest/test";
 
         try {
