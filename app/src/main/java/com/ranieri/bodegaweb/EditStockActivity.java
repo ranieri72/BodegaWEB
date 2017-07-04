@@ -53,7 +53,6 @@ public class EditStockActivity extends AppCompatActivity {
                 Log.v("Edit Stock", "onClick - Salvar");
 
                 produto.setNovoEstoque(Integer.parseInt(mEdtStock.getText().toString()));
-                produto.setAlterado(true);
 
                 mDAO = new ProdutosDAO(EditStockActivity.this);
                 mDAO.atualizar(produto);

@@ -97,7 +97,6 @@ public class EditarProdutosActivity extends AppCompatActivity {
 
                 produto.setNome(mEdtNome.getText().toString());
                 produto.setPrecoSugerido(Double.parseDouble(mEdtPreco.getText().toString()));
-                produto.setAlterado(true);
 
                 mDAO = new ProdutosDAO(EditarProdutosActivity.this);
                 mDAO.atualizar(produto);

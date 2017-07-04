@@ -68,6 +68,7 @@ public class ProdutosDAO {
     public int atualizar(Produtos produto) {
         BodegaHelper helper = new BodegaHelper(mContext);
         SQLiteDatabase db = helper.getWritableDatabase();
+        produto.setAlterado(true);
 
         ContentValues values = valuesFromProdutos(produto);
         int rowsAffected = db.update(ProdutosContract.TABLE_NAME, values, ProdutosContract.COLUMN_ID + " = ?", new String[]{String.valueOf(produto.getId())});

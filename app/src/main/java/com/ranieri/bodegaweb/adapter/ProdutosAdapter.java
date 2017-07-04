@@ -1,6 +1,8 @@
 package com.ranieri.bodegaweb.adapter;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -46,8 +48,16 @@ public class ProdutosAdapter extends ArrayAdapter<Produtos> {
         }
 
         vh.txtNome.setText(String.valueOf(produto.getNome()));
-        String estoque = String.valueOf(convertView.getResources().getString(R.string.estoque) + " " + produto.getEstoque());
+        String estoque;
         String preco = String.valueOf(convertView.getResources().getString(R.string.preco) + " " + produto.getPrecoSugerido());
+
+        if (produto.isAlterado()) {
+            convertView.setBackgroundColor(Color.RED);
+            estoque = String.valueOf(convertView.getResources().getString(R.string.novoestoque) + " " + produto.getNovoEstoque());
+        } else {
+            convertView.setBackgroundColor(Color.WHITE);
+            estoque = String.valueOf(convertView.getResources().getString(R.string.estoque) + " " + produto.getEstoque());
+        }
         vh.txtEstoque.setText(estoque + " " + preco + " " + produto.getCategoria().getNome());
 
         //4)
