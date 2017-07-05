@@ -227,7 +227,7 @@ public class ProdutosDAO {
                 " = " +
                 ProdutosContract.ID +
                 " AND " +
-                OrderContract.ID +
+                OrderContract.PROVIDER +
                 " = ?";
 
         Cursor cursor = db.rawQuery(sql, idProvider);
