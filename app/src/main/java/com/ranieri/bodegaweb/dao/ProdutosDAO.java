@@ -262,7 +262,7 @@ public class ProdutosDAO {
         List<Produtos> lista = new ArrayList<>();
         Produtos produto;
         getColumnIndex(cursor);
-        int indexCategoryID = cursor.getColumnIndex(CategoriasContract.COLUMN_ID);
+        int indexCategoryID = cursor.getColumnIndex(ProdutosContract.COLUMN_CATEGORY);
 
         while (cursor.moveToNext()) {
             produto = valuesFromCursor(cursor);
