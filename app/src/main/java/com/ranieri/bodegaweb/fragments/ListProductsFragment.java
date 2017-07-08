@@ -13,6 +13,7 @@ import android.widget.ListView;
 import com.ranieri.bodegaweb.R;
 import com.ranieri.bodegaweb.adapter.ProdutosAdapter;
 import com.ranieri.bodegaweb.dao.ProdutosDAO;
+import com.ranieri.bodegaweb.model.Categorias;
 import com.ranieri.bodegaweb.model.Produtos;
 import com.ranieri.bodegaweb.model.Provider;
 import com.ranieri.bodegaweb.model.SubCategorias;
@@ -35,6 +36,16 @@ public class ListProductsFragment extends Fragment {
     List<Produtos> mLista;
     ProdutosAdapter adapter;
     Unbinder unbinder;
+
+    public static ListProductsFragment novaInstancia(Categorias categoria) {
+        Log.v("ListProductsFragment", "novaInstancia Categorias");
+        ListProductsFragment fragment = new ListProductsFragment();
+        Bundle args = new Bundle();
+        Parcelable parcelable = Parcels.wrap(categoria);
+        args.putParcelable("categoria", parcelable);
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     public static ListProductsFragment novaInstancia(SubCategorias subCategoria) {
         Log.v("ListProductsFragment", "novaInstancia SubCategorias");

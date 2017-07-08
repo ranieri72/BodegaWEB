@@ -13,9 +13,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.ranieri.bodegaweb.dao.UserDAO;
+import com.ranieri.bodegaweb.fragments.ListCategoryFragment;
 import com.ranieri.bodegaweb.fragments.ListOrderFragment.ClickOnOrderListener;
+import com.ranieri.bodegaweb.fragments.ListProductsFragment;
 import com.ranieri.bodegaweb.fragments.ListProviderFragment.ClickOnProviderListener;
+import com.ranieri.bodegaweb.fragments.ListSubCategoryFragment;
 import com.ranieri.bodegaweb.fragments.ListSubCategoryFragment.ClickOnSubCategoryListener;
+import com.ranieri.bodegaweb.model.Categorias;
 import com.ranieri.bodegaweb.model.Order;
 import com.ranieri.bodegaweb.model.Produtos;
 import com.ranieri.bodegaweb.model.Provider;
@@ -27,6 +31,7 @@ import org.parceler.Parcels;
 public class MainActivity extends AppCompatActivity implements ClickOnSubCategoryListener, ClickOnProviderListener, ClickOnOrderListener {
 
     Produtos produto;
+    boolean isPhone;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +39,16 @@ public class MainActivity extends AppCompatActivity implements ClickOnSubCategor
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        isPhone = getResources().getBoolean(R.bool.isPhone);
 
+        if (isPhone) {
+            onCreateViewPhone();
+        } else {
+            onCreateViewTablet();
+        }
+    }
+
+    private void onCreateViewPhone() {
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         tabLayout.addTab(tabLayout.newTab().setText(getResources().getString(R.string.produtos)));
         tabLayout.addTab(tabLayout.newTab().setText(getResources().getString(R.string.fornecedor)));
@@ -68,25 +82,30 @@ public class MainActivity extends AppCompatActivity implements ClickOnSubCategor
         });
     }
 
+    private void onCreateViewTablet() {
+        ListSubCategoryFragment subCategoryFragment = new ListSubCategoryFragment();
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_list_sub_category, subCategoryFragment, "detalhe").commit();
+
+        SubCategorias subCategoria = new SubCategorias();
+        ListCategoryFragment categoryFragment = ListCategoryFragment.novaInstancia(subCategoria);
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_list_category, categoryFragment, "detalhe").commit();
+
+        Categorias categoria = new Categorias();
+        ListProductsFragment productsFragment = ListProductsFragment.novaInstancia(categoria);
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_list_products, productsFragment, "detalhe").commit();
+    }
+
     @Override
     public void subCategoryClicked(SubCategorias subCategoria) {
-        Intent it;
-
-        if (produto == null) {
-            Log.v("MainActivity", "subCategoryClicked - Produto nulo");
-
-            it = new Intent(this, ListaProdutosActivity.class);
+        if (isPhone) {
+            Log.v("MainActivity", "subCategoryClicked - isPhone");
+            Intent it = new Intent(this, ListaProdutosActivity.class);
             it.putExtra("subCategoria", Parcels.wrap(subCategoria));
             startActivity(it);
+        } else {
+            Log.v("MainActivity", "subCategoryClicked - isTablet");
+            //adapter.notifyDataSetChanged();
         }
-//        else {
-//            Log.v("MainActivity", "OnItemClickListener - Produto recebido");
-//
-//            it = new Intent();
-//            it.putExtra("subCategoria", Parcels.wrap(subCategoria));
-//            setResult(RESULT_OK, it);
-//            finish();
-//        }
     }
 
     @Override
