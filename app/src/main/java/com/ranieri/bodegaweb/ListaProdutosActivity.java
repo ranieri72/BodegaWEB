@@ -7,7 +7,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 
 import com.ranieri.bodegaweb.fragments.ListProductsFragment;
-import com.ranieri.bodegaweb.fragments.ListProductsFragment.CliqueNoProdutoListener;
+import com.ranieri.bodegaweb.fragments.ListProductsFragment.ClickOnProductListener;
 import com.ranieri.bodegaweb.model.Produtos;
 import com.ranieri.bodegaweb.model.SubCategorias;
 
@@ -15,7 +15,7 @@ import org.parceler.Parcels;
 
 import butterknife.ButterKnife;
 
-public class ListaProdutosActivity extends AppCompatActivity implements CliqueNoProdutoListener {
+public class ListaProdutosActivity extends AppCompatActivity implements ClickOnProductListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +40,7 @@ public class ListaProdutosActivity extends AppCompatActivity implements CliqueNo
     }
 
     @Override
-    public void produtoFoiClicado(Produtos produto) {
+    public void productClicked(Produtos produto) {
         Log.v("ListaProdutosActivity", "OnItemClickListener");
 
         Intent it = new Intent(ListaProdutosActivity.this, DetalProdutosActivity.class);

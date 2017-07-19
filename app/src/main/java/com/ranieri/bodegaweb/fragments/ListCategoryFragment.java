@@ -2,6 +2,7 @@ package com.ranieri.bodegaweb.fragments;
 
 
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -18,6 +19,7 @@ import com.ranieri.bodegaweb.model.SubCategorias;
 
 import org.parceler.Parcels;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -48,9 +50,20 @@ public class ListCategoryFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.v("ListCategoryFragment", "onCreate");
-        CategoriasDAO mDAO = new CategoriasDAO(getActivity());
-        mCategorias = mDAO.listar();
+        mCategorias = new ArrayList<>();
+
+        if (getArguments() != null && getArguments().getParcelable("subCategoria") != null) {
+            Log.v("ListCategoryFragment", "onCreate - subCategoria");
+            Parcelable parcelable = getArguments().getParcelable("subCategoria");
+            SubCategorias subCategoria = Parcels.unwrap(parcelable);
+            CategoriasDAO mDAO = new CategoriasDAO(getActivity());
+            mCategorias = mDAO.listar(subCategoria);
+        }
+        if (getArguments() == null) {
+            Log.v("ListCategoryFragment", "onCreate");
+            CategoriasDAO mDAO = new CategoriasDAO(getActivity());
+            //mCategorias = mDAO.listar();
+        }
     }
 
     @Override
@@ -62,6 +75,13 @@ public class ListCategoryFragment extends Fragment {
         mAdapter = new CategoriasAdapter(getActivity(), mCategorias);
         mListView.setAdapter(mAdapter);
         return layout;
+    }
+
+    public void notifyDataSetChanged(SubCategorias subCategorias) {
+        CategoriasDAO mDAO = new CategoriasDAO(getActivity());
+        mCategorias = mDAO.listar(subCategorias);
+        mAdapter = new CategoriasAdapter(getActivity(), mCategorias);
+        mListView.setAdapter(mAdapter);
     }
 
     @Override

@@ -12,10 +12,14 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.ranieri.bodegaweb.dao.CategoriasDAO;
+import com.ranieri.bodegaweb.dao.SubCategoriasDAO;
 import com.ranieri.bodegaweb.dao.UserDAO;
 import com.ranieri.bodegaweb.fragments.ListCategoryFragment;
+import com.ranieri.bodegaweb.fragments.ListCategoryFragment.ClickOnCategoryListener;
 import com.ranieri.bodegaweb.fragments.ListOrderFragment.ClickOnOrderListener;
 import com.ranieri.bodegaweb.fragments.ListProductsFragment;
+import com.ranieri.bodegaweb.fragments.ListProductsFragment.ClickOnProductListener;
 import com.ranieri.bodegaweb.fragments.ListProviderFragment.ClickOnProviderListener;
 import com.ranieri.bodegaweb.fragments.ListSubCategoryFragment;
 import com.ranieri.bodegaweb.fragments.ListSubCategoryFragment.ClickOnSubCategoryListener;
@@ -28,10 +32,12 @@ import com.ranieri.bodegaweb.pagerAdapter.MainPagerAdapter;
 
 import org.parceler.Parcels;
 
-public class MainActivity extends AppCompatActivity implements ClickOnSubCategoryListener, ClickOnProviderListener, ClickOnOrderListener {
+public class MainActivity extends AppCompatActivity implements ClickOnSubCategoryListener, ClickOnCategoryListener, ClickOnProviderListener, ClickOnOrderListener, ClickOnProductListener {
 
-    Produtos produto;
+    //Produtos produto;
     boolean isPhone;
+    ListCategoryFragment categoryFragment;
+    ListProductsFragment productsFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,13 +92,21 @@ public class MainActivity extends AppCompatActivity implements ClickOnSubCategor
         ListSubCategoryFragment subCategoryFragment = new ListSubCategoryFragment();
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_list_sub_category, subCategoryFragment, "detalhe").commit();
 
-        SubCategorias subCategoria = new SubCategorias();
-        ListCategoryFragment categoryFragment = ListCategoryFragment.novaInstancia(subCategoria);
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_list_category, categoryFragment, "detalhe").commit();
+        SubCategoriasDAO subCategoriasDAO = new SubCategoriasDAO(this);
+        SubCategorias subCategoria = subCategoriasDAO.selecionarPrimeira();
 
-        Categorias categoria = new Categorias();
-        ListProductsFragment productsFragment = ListProductsFragment.novaInstancia(categoria);
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_list_products, productsFragment, "detalhe").commit();
+        if (subCategoria != null) {
+            categoryFragment = ListCategoryFragment.novaInstancia(subCategoria);
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_list_category, categoryFragment, "detalhe").commit();
+
+            CategoriasDAO categoriasDAO = new CategoriasDAO(this);
+            Categorias categoria = categoriasDAO.selecionarPrimeira(subCategoria);
+
+            if (categoria != null) {
+                productsFragment = ListProductsFragment.novaInstancia(categoria);
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_list_products, productsFragment, "detalhe").commit();
+            }
+        }
     }
 
     @Override
@@ -104,8 +118,24 @@ public class MainActivity extends AppCompatActivity implements ClickOnSubCategor
             startActivity(it);
         } else {
             Log.v("MainActivity", "subCategoryClicked - isTablet");
-            //adapter.notifyDataSetChanged();
+            categoryFragment.notifyDataSetChanged(subCategoria);
+
+            CategoriasDAO categoriasDAO = new CategoriasDAO(this);
+            Categorias categoria = categoriasDAO.selecionarPrimeira(subCategoria);
+            if (categoria != null) {
+                productsFragment.notifyDataSetChanged(categoria);
+            }
         }
+    }
+
+    @Override
+    public void categoryClicked(Categorias categoria) {
+        productsFragment.notifyDataSetChanged(categoria);
+    }
+
+    @Override
+    public void productClicked(Produtos produto) {
+
     }
 
     @Override

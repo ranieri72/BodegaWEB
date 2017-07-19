@@ -10,14 +10,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 
-import com.ranieri.bodegaweb.fragments.ListProductsFragment.CliqueNoProdutoListener;
+import com.ranieri.bodegaweb.fragments.ListProductsFragment.ClickOnProductListener;
 import com.ranieri.bodegaweb.model.Produtos;
 import com.ranieri.bodegaweb.model.Provider;
 import com.ranieri.bodegaweb.pagerAdapter.ProviderPagerAdapter;
 
 import org.parceler.Parcels;
 
-public class ProviderActivity extends AppCompatActivity implements CliqueNoProdutoListener {
+public class ProviderActivity extends AppCompatActivity implements ClickOnProductListener {
 
     private Provider provider;
 
@@ -60,7 +60,7 @@ public class ProviderActivity extends AppCompatActivity implements CliqueNoProdu
     }
 
     @Override
-    public void produtoFoiClicado(Produtos produto) {
+    public void productClicked(Produtos produto) {
         Intent it;
         Log.v("ProviderActivity", "produtoFoiClicado");
 

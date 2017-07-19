@@ -12,6 +12,7 @@ import com.ranieri.bodegaweb.contract.ProdutosContract;
 import com.ranieri.bodegaweb.contract.ProviderContract;
 import com.ranieri.bodegaweb.contract.SubCategoriasContract;
 import com.ranieri.bodegaweb.database.BodegaHelper;
+import com.ranieri.bodegaweb.model.Categorias;
 import com.ranieri.bodegaweb.model.ListJson;
 import com.ranieri.bodegaweb.model.Produtos;
 import com.ranieri.bodegaweb.model.Provider;
@@ -192,6 +193,35 @@ public class ProdutosDAO {
             produto.getCategoria().setId(cursor.getLong(indexCategoryId));
             produto.getCategoria().setNome(cursor.getString(indexCategoryName));
 
+            lista.add(produto);
+        }
+        cursor.close();
+        db.close();
+        return lista;
+    }
+
+    public List<Produtos> listar(Categorias categoria) {
+        BodegaHelper helper = new BodegaHelper(mContext);
+        SQLiteDatabase db = helper.getReadableDatabase();
+        String[] categoriaId = new String[]{String.valueOf(categoria.getId())};
+
+        String sql = "SELECT " +
+                ProdutosContract.TABLE_NAME + ".*" +
+                " FROM " +
+                ProdutosContract.TABLE_NAME +
+                " WHERE " +
+                ProdutosContract.CATEGORY + " = ?" +
+                " ORDER BY " +
+                ProdutosContract.NAME + " ASC;";
+
+        Cursor cursor = db.rawQuery(sql, categoriaId);
+
+        List<Produtos> lista = new ArrayList<>();
+        Produtos produto;
+        getColumnIndex(cursor);
+
+        while (cursor.moveToNext()) {
+            produto = valuesFromCursor(cursor);
             lista.add(produto);
         }
         cursor.close();

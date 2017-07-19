@@ -34,7 +34,7 @@ public class ListProductsFragment extends Fragment {
     ListView mListView;
 
     List<Produtos> mLista;
-    ProdutosAdapter adapter;
+    ProdutosAdapter mAdapter;
     Unbinder unbinder;
 
     public static ListProductsFragment novaInstancia(Categorias categoria) {
@@ -70,16 +70,24 @@ public class ListProductsFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.v("ListProductsFragment", "onCreate");
         mLista = new ArrayList<>();
 
+        if (getArguments() != null && getArguments().getParcelable("categoria") != null) {
+            Log.v("ListProductsFragment", "onCreate - categoria");
+            Parcelable parcelable = getArguments().getParcelable("categoria");
+            Categorias categoria = Parcels.unwrap(parcelable);
+            ProdutosDAO mDAO = new ProdutosDAO(getActivity());
+            mLista = mDAO.listar(categoria);
+        }
         if (getArguments() != null && getArguments().getParcelable("subCategoria") != null) {
+            Log.v("ListProductsFragment", "onCreate - subCategoria");
             Parcelable parcelable = getArguments().getParcelable("subCategoria");
             SubCategorias subCategoria = Parcels.unwrap(parcelable);
             ProdutosDAO mDAO = new ProdutosDAO(getActivity());
             mLista = mDAO.listar(subCategoria);
         }
         if (getArguments() != null && getArguments().getParcelable("provider") != null) {
+            Log.v("ListProductsFragment", "onCreate - provider");
             Parcelable parcelable = getArguments().getParcelable("provider");
             Provider provider = Parcels.unwrap(parcelable);
             ProdutosDAO mDAO = new ProdutosDAO(getActivity());
@@ -93,9 +101,16 @@ public class ListProductsFragment extends Fragment {
         Log.v("ListProductsFragment", "onCreateView");
         View layout = inflater.inflate(R.layout.fragment_list_products, container, false);
         unbinder = ButterKnife.bind(this, layout);
-        adapter = new ProdutosAdapter(getActivity(), mLista);
-        mListView.setAdapter(adapter);
+        mAdapter = new ProdutosAdapter(getActivity(), mLista);
+        mListView.setAdapter(mAdapter);
         return layout;
+    }
+
+    public void notifyDataSetChanged(Categorias categorias) {
+        ProdutosDAO mDAO = new ProdutosDAO(getActivity());
+        mLista = mDAO.listar(categorias);
+        mAdapter = new ProdutosAdapter(getActivity(), mLista);
+        mListView.setAdapter(mAdapter);
     }
 
     @Override
@@ -108,15 +123,15 @@ public class ListProductsFragment extends Fragment {
     void onItemClicked(int position) {
         Log.v("ListProductsFragment", "onItemClicked");
 
-        Produtos produto = (Produtos) adapter.getItem(position);
-        if (getActivity() instanceof ListProductsFragment.CliqueNoProdutoListener) {
-            ListProductsFragment.CliqueNoProdutoListener listener = (ListProductsFragment.CliqueNoProdutoListener) getActivity();
-            listener.produtoFoiClicado(produto);
+        Produtos produto = (Produtos) mAdapter.getItem(position);
+        if (getActivity() instanceof ListProductsFragment.ClickOnProductListener) {
+            ListProductsFragment.ClickOnProductListener listener = (ListProductsFragment.ClickOnProductListener) getActivity();
+            listener.productClicked(produto);
         }
     }
 
-    public interface CliqueNoProdutoListener {
-        void produtoFoiClicado(Produtos produto);
+    public interface ClickOnProductListener {
+        void productClicked(Produtos produto);
     }
 
 }

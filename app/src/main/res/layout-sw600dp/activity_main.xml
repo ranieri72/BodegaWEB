@@ -4,7 +4,7 @@
     android:id="@+id/main_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal"
+    android:orientation="vertical"
     tools:context=".MainActivity">
 
     <android.support.v7.widget.Toolbar
@@ -19,32 +19,63 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="2"
-        android:orientation="vertical">
-
-        <fragment
-            android:id="@+id/fragment_list_sub_category"
-            android:name="com.ranieri.bodegaweb.fragments.ListSubCategoryFragment"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            tools:layout="@layout/fragment_list_sub_category" />
-
-        <fragment
-            android:id="@+id/fragment_list_category"
-            android:name="com.ranieri.bodegaweb.fragments.ListCategoryFragment"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            tools:layout="@layout/fragment_list_category" />
-    </LinearLayout>
-
-    <fragment
-        android:id="@+id/fragment_list_products"
-        android:name="com.ranieri.bodegaweb.fragments.ListProductsFragment"
-        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1"
-        tools:layout="@layout/fragment_list_products" />
+        android:background="#d6d6d6"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="6dp"
+                android:layout_weight="1"
+                android:background="#ffffff">
+
+                <fragment
+                    android:id="@+id/fragment_list_sub_category"
+                    android:name="com.ranieri.bodegaweb.fragments.ListSubCategoryFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    tools:layout="@layout/fragment_list_sub_category" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="6px"
+                android:layout_weight="1"
+                android:background="#ffffff">
+
+                <fragment
+                    android:id="@+id/fragment_list_category"
+                    android:name="com.ranieri.bodegaweb.fragments.ListCategoryFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    tools:layout="@layout/fragment_list_category" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="6px"
+            android:layout_weight="1"
+            android:background="#ffffff">
+
+            <fragment
+                android:id="@+id/fragment_list_products"
+                android:name="com.ranieri.bodegaweb.fragments.ListProductsFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:layout="@layout/fragment_list_products" />
+        </LinearLayout>
+    </LinearLayout>
 </LinearLayout>
+

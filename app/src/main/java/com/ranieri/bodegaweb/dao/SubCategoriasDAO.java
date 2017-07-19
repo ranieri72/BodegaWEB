@@ -73,6 +73,33 @@ public class SubCategoriasDAO {
         return rowsAffected;
     }
 
+    public SubCategorias selecionarPrimeira() {
+        BodegaHelper helper = new BodegaHelper(mContext);
+        SQLiteDatabase db = helper.getReadableDatabase();
+
+        String sql = "SELECT * FROM " +
+                SubCategoriasContract.TABLE_NAME +
+                " ORDER BY " +
+                SubCategoriasContract.ID +
+                " LIMIT 1;";
+
+        Cursor cursor = db.rawQuery(sql, null);
+
+        SubCategorias subCategoria = null;
+        if (cursor.moveToNext()) {
+            int indexId = cursor.getColumnIndex(SubCategoriasContract.COLUMN_ID);
+            int indexName = cursor.getColumnIndex(SubCategoriasContract.COLUMN_NAME);
+            subCategoria = new SubCategorias();
+
+            subCategoria.setId(cursor.getLong(indexId));
+            subCategoria.setNome(cursor.getString(indexName));
+        }
+
+        cursor.close();
+        db.close();
+        return subCategoria;
+    }
+
     public List<SubCategorias> listar() {
         BodegaHelper helper = new BodegaHelper(mContext);
         SQLiteDatabase db = helper.getReadableDatabase();

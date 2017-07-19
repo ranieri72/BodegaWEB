@@ -21,6 +21,10 @@ import java.util.List;
 public class CategoriasDAO {
 
     private Context mContext;
+    private int indexId;
+    private int indexName;
+    private int indexOrder;
+    private int indexSubCatId;
 
     public CategoriasDAO(Context mContext) {
         this.mContext = mContext;
@@ -74,18 +78,54 @@ public class CategoriasDAO {
         return rowsAffected;
     }
 
+    public Categorias selecionarPrimeira(SubCategorias subCategoria) {
+        BodegaHelper helper = new BodegaHelper(mContext);
+        SQLiteDatabase db = helper.getReadableDatabase();
+        String[] subCategoriaID = new String[]{String.valueOf(subCategoria.getId())};
+
+        String sql = "SELECT * FROM " +
+                CategoriasContract.TABLE_NAME +
+                " WHERE " +
+                CategoriasContract.SUBCATEGORY + " = ?" +
+                " ORDER BY " +
+                CategoriasContract.ORDER + " ASC" +
+                " LIMIT 1;";
+
+        Cursor cursor = db.rawQuery(sql, subCategoriaID);
+
+        Categorias categorias = null;
+
+        if (cursor.moveToNext()) {
+            getColumnIndex(cursor);
+            categorias = valuesFromCursor(cursor);
+        }
+        cursor.close();
+        db.close();
+        return categorias;
+    }
+
     public List<Categorias> listar(SubCategorias subCategoria) {
         BodegaHelper helper = new BodegaHelper(mContext);
         SQLiteDatabase db = helper.getReadableDatabase();
         String[] subCategoriaID = new String[]{String.valueOf(subCategoria.getId())};
 
-        Cursor cursor = db.rawQuery("SELECT * FROM " +
+        String sql = "SELECT * FROM " +
                 CategoriasContract.TABLE_NAME +
                 " WHERE " +
-                CategoriasContract.SUBCATEGORY + " = ?", subCategoriaID);
+                CategoriasContract.SUBCATEGORY + " = ?" +
+                " ORDER BY " +
+                CategoriasContract.ORDER + " ASC;";
 
-        List<Categorias> lista = valuesFromCursor(cursor);
+        Cursor cursor = db.rawQuery(sql, subCategoriaID);
 
+        List<Categorias> lista = new ArrayList<>();
+        Categorias categorias;
+        getColumnIndex(cursor);
+
+        while (cursor.moveToNext()) {
+            categorias = valuesFromCursor(cursor);
+            lista.add(categorias);
+        }
         cursor.close();
         db.close();
         return lista;
@@ -97,32 +137,34 @@ public class CategoriasDAO {
 
         Cursor cursor = db.rawQuery("SELECT * FROM " + CategoriasContract.TABLE_NAME, null);
 
-        List<Categorias> lista = valuesFromCursor(cursor);
+        List<Categorias> lista = new ArrayList<>();
+        Categorias categorias;
+        getColumnIndex(cursor);
 
+        while (cursor.moveToNext()) {
+            categorias = valuesFromCursor(cursor);
+            lista.add(categorias);
+        }
         cursor.close();
         db.close();
         return lista;
     }
 
-    private List<Categorias> valuesFromCursor(Cursor cursor) {
-        List<Categorias> lista = new ArrayList<>();
-        Categorias categoria;
+    private Categorias valuesFromCursor(Cursor cursor) {
+        Categorias categoria = new Categorias();
 
-        int indexId = cursor.getColumnIndex(CategoriasContract.COLUMN_ID);
-        int indexName = cursor.getColumnIndex(CategoriasContract.COLUMN_NAME);
-        int indexOrder = cursor.getColumnIndex(CategoriasContract.COLUMN_ORDER);
-        int indexSubCatId = cursor.getColumnIndex(CategoriasContract.COLUMN_SUBCATEGORY);
+        categoria.setId(cursor.getLong(indexId));
+        categoria.setNome(cursor.getString(indexName));
+        categoria.setOrdem(cursor.getInt(indexOrder));
+        categoria.getSubCategoriaProd().setId(cursor.getLong(indexSubCatId));
+        return categoria;
+    }
 
-        while (cursor.moveToNext()) {
-            categoria = new Categorias();
-
-            categoria.setId(cursor.getLong(indexId));
-            categoria.setNome(cursor.getString(indexName));
-            categoria.setOrdem(cursor.getInt(indexOrder));
-            categoria.getSubCategoriaProd().setId(cursor.getLong(indexSubCatId));
-            lista.add(categoria);
-        }
-        return lista;
+    private void getColumnIndex(Cursor cursor) {
+        indexId = cursor.getColumnIndex(CategoriasContract.COLUMN_ID);
+        indexName = cursor.getColumnIndex(CategoriasContract.COLUMN_NAME);
+        indexOrder = cursor.getColumnIndex(CategoriasContract.COLUMN_ORDER);
+        indexSubCatId = cursor.getColumnIndex(CategoriasContract.COLUMN_SUBCATEGORY);
     }
 
     private ContentValues valuesFromCategorias(Categorias categoria) {
