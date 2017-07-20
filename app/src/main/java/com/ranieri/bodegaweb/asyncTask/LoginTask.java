@@ -1,12 +1,12 @@
 package com.ranieri.bodegaweb.asyncTask;
 
 import android.os.AsyncTask;
-import android.os.Bundle;
 
 import com.google.gson.Gson;
+import com.ranieri.bodegaweb.connection.AppSession;
+import com.ranieri.bodegaweb.connection.ConnectionConstants;
+import com.ranieri.bodegaweb.connection.PostRequester;
 import com.ranieri.bodegaweb.model.User;
-
-import org.parceler.Parcels;
 
 import java.io.IOException;
 
@@ -20,54 +20,40 @@ import okhttp3.Response;
  * Created by ranie on 13 de mai.
  */
 
-public class LoginTask extends AsyncTask<Bundle, Void, User> {
+public class LoginTask extends AsyncTask<Integer, Void, Void> {
 
     @Override
-    protected User doInBackground(Bundle... params) {
+    protected Void doInBackground(Integer... params) {
         OkHttpClient client = new OkHttpClient();
         MediaType json = MediaType.parse("application/json; charset=utf-8");
         Gson gson = new Gson();
         Request request;
 
-        String ipv4 = "http://192.168.0.2";
-        final String urlTest = ipv4 + ":8080/bodegaWEB/rest/test";
-
-        try {
-            request = new Request.Builder().url(urlTest).build();
-            client.newCall(request).execute();
-        } catch (IOException e) {
-            ipv4 = "http://192.168.15.12";
-        }
-
-        ipv4 += ":8080/bodegaWEB/rest/login/";
-
-        User user = Parcels.unwrap(params[0].getParcelable("user"));
-        int cod = (Integer) params[0].get("cod");
-
-        switch (cod) {
+        String url = "";
+        switch (params[0]) {
+            case User.loginAccount:
+                url = ConnectionConstants.urlLogin;
+                break;
             case User.createAccount:
-                ipv4 += "createuser";
+                url = ConnectionConstants.urlCreateUser;
                 break;
             case User.updateAccount:
-                ipv4 += "updateuser";
+                url = ConnectionConstants.urlUpdateUser;
                 break;
             case User.deleteAccount:
-                ipv4 += "deleteuser";
+                url = ConnectionConstants.urlDeleteUser;
                 break;
         }
         try {
-            String jsonString = gson.toJson(user, User.class);
+            String jsonString = gson.toJson(AppSession.user, User.class);
 
-            RequestBody body = RequestBody.create(json, jsonString);
-            request = new Request.Builder().url(ipv4).post(body).build();
-            Response response = client.newCall(request).execute();
+            Response response = new PostRequester(client, json, url, jsonString).invoke();
 
             jsonString = response.body().string();
-            user = gson.fromJson(jsonString, User.class);
-            return user;
+            AppSession.user = gson.fromJson(jsonString, User.class);
         } catch (Exception e) {
             e.printStackTrace();
-            return user;
         }
+        return null;
     }
 }

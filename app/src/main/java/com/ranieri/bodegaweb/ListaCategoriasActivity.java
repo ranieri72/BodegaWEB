@@ -7,6 +7,7 @@ import android.util.Log;
 import android.widget.ListView;
 
 import com.ranieri.bodegaweb.adapter.CategoriasAdapter;
+import com.ranieri.bodegaweb.contract.CategoriasContract;
 import com.ranieri.bodegaweb.dao.CategoriasDAO;
 import com.ranieri.bodegaweb.model.Categorias;
 
@@ -35,7 +36,7 @@ public class ListaCategoriasActivity extends AppCompatActivity {
 
         Categorias categoria = Parcels.unwrap(getIntent().getParcelableExtra("categoria"));
 
-        CategoriasDAO mDAO = new CategoriasDAO(this);
+        CategoriasDAO mDAO = new CategoriasDAO(this, CategoriasContract.TABLE_NAME);
         List<Categorias> mCategorias = mDAO.listar(categoria.getSubCategoriaProd());
 
         adapter = new CategoriasAdapter(this, mCategorias);
@@ -44,7 +45,7 @@ public class ListaCategoriasActivity extends AppCompatActivity {
 
     @OnItemClick(R.id.listCategorias)
     void onItemClicked(int position) {
-        Categorias categoria = (Categorias) adapter.getItem(position);
+        Categorias categoria = adapter.getItem(position);
         Intent it;
 
         Log.v("Listar Categorias", "OnItemClickListener - Produto recebido");

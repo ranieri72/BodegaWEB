@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.ranieri.bodegaweb.contract.CategoriasContract;
 import com.ranieri.bodegaweb.dao.CategoriasDAO;
 import com.ranieri.bodegaweb.dao.SubCategoriasDAO;
 import com.ranieri.bodegaweb.dao.UserDAO;
@@ -99,7 +100,7 @@ public class MainActivity extends AppCompatActivity implements ClickOnSubCategor
             categoryFragment = ListCategoryFragment.novaInstancia(subCategoria);
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_list_category, categoryFragment, "detalhe").commit();
 
-            CategoriasDAO categoriasDAO = new CategoriasDAO(this);
+            CategoriasDAO categoriasDAO = new CategoriasDAO(this, CategoriasContract.TABLE_NAME);
             Categorias categoria = categoriasDAO.selecionarPrimeira(subCategoria);
 
             if (categoria != null) {
@@ -120,7 +121,7 @@ public class MainActivity extends AppCompatActivity implements ClickOnSubCategor
             Log.v("MainActivity", "subCategoryClicked - isTablet");
             categoryFragment.notifyDataSetChanged(subCategoria);
 
-            CategoriasDAO categoriasDAO = new CategoriasDAO(this);
+            CategoriasDAO categoriasDAO = new CategoriasDAO(this, CategoriasContract.TABLE_NAME);
             Categorias categoria = categoriasDAO.selecionarPrimeira(subCategoria);
             if (categoria != null) {
                 productsFragment.notifyDataSetChanged(categoria);

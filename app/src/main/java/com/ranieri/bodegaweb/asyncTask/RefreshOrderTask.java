@@ -4,13 +4,15 @@ import android.content.Context;
 import android.os.AsyncTask;
 
 import com.google.gson.Gson;
+import com.ranieri.bodegaweb.connection.ConnectionConstants;
+import com.ranieri.bodegaweb.connection.GetRequester;
+import com.ranieri.bodegaweb.contract.OrderContract;
+import com.ranieri.bodegaweb.contract.OrderItemsContract;
 import com.ranieri.bodegaweb.dao.OrderItemsDAO;
 import com.ranieri.bodegaweb.dao.OrdersDAO;
 import com.ranieri.bodegaweb.dao.ProviderDAO;
 import com.ranieri.bodegaweb.dao.UnidadeMedidaDAO;
 import com.ranieri.bodegaweb.model.ListJson;
-
-import java.io.IOException;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -30,49 +32,21 @@ public class RefreshOrderTask extends AsyncTask<Context, Void, Integer> {
         String jsonString;
         Gson gson = new Gson();
         ListJson listJson;
-
-        String ipv4 = "http://192.168.0.2";
-        final String urlTest = ipv4 + ":8080/bodegaWEB/rest/test";
-
         try {
-            request = new Request.Builder().url(urlTest).build();
-            client.newCall(request).execute();
-        } catch (IOException e) {
-            ipv4 = "http://192.168.15.12";
-        }
-
-        final String urlProvider = ipv4 + ":8080/bodegaWEB/rest/order/provider";
-        final String urlOrder = ipv4 + ":8080/bodegaWEB/rest/order/";
-        final String urlOrderItems = ipv4 + ":8080/bodegaWEB/rest/order/orderitems";
-        final String urlUnitMeasurement = ipv4 + ":8080/bodegaWEB/rest/order/unitmeasurement";
-
-        try {
-            request = new Request.Builder().url(urlProvider).build();
-            response = client.newCall(request).execute();
-            jsonString = response.body().string();
-            listJson = gson.fromJson(jsonString, ListJson.class);
+            listJson = new GetRequester(client, gson, ConnectionConstants.urlProvider).invoke();
             ProviderDAO providerDAO = new ProviderDAO(params[0]);
             providerDAO.refreshOrders(listJson);
 
-            request = new Request.Builder().url(urlOrder).build();
-            response = client.newCall(request).execute();
-            jsonString = response.body().string();
-            listJson = gson.fromJson(jsonString, ListJson.class);
-            OrdersDAO ordersDAO = new OrdersDAO(params[0]);
+            listJson = new GetRequester(client, gson, ConnectionConstants.urlOrder).invoke();
+            OrdersDAO ordersDAO = new OrdersDAO(params[0], OrderContract.TABLE_NAME);
             int qtd = ordersDAO.refreshOrders(listJson);
 
-            request = new Request.Builder().url(urlUnitMeasurement).build();
-            response = client.newCall(request).execute();
-            jsonString = response.body().string();
-            listJson = gson.fromJson(jsonString, ListJson.class);
+            listJson = new GetRequester(client, gson, ConnectionConstants.urlUnitMeasurement).invoke();
             UnidadeMedidaDAO unidadeMedidaDAO = new UnidadeMedidaDAO(params[0]);
             unidadeMedidaDAO.refreshOrders(listJson);
 
-            request = new Request.Builder().url(urlOrderItems).build();
-            response = client.newCall(request).execute();
-            jsonString = response.body().string();
-            listJson = gson.fromJson(jsonString, ListJson.class);
-            OrderItemsDAO orderItemsDAO = new OrderItemsDAO(params[0]);
+            listJson = new GetRequester(client, gson, ConnectionConstants.urlOrderItems).invoke();
+            OrderItemsDAO orderItemsDAO = new OrderItemsDAO(params[0], OrderItemsContract.TABLE_NAME);
             orderItemsDAO.refreshOrders(listJson);
 
             return qtd;

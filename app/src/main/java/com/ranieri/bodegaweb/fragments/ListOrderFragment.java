@@ -12,6 +12,7 @@ import android.widget.ListView;
 
 import com.ranieri.bodegaweb.R;
 import com.ranieri.bodegaweb.adapter.OrderAdapter;
+import com.ranieri.bodegaweb.contract.OrderContract;
 import com.ranieri.bodegaweb.dao.OrdersDAO;
 import com.ranieri.bodegaweb.model.Order;
 
@@ -35,7 +36,7 @@ public class ListOrderFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.v("ListOrderFragment", "onCreate");
-        OrdersDAO mDAO = new OrdersDAO(getActivity());
+        OrdersDAO mDAO = new OrdersDAO(getActivity(), OrderContract.TABLE_NAME);
         mOrder = mDAO.listar();
     }
 

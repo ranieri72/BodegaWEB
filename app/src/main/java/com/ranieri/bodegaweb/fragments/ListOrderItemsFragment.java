@@ -12,6 +12,7 @@ import android.widget.ListView;
 
 import com.ranieri.bodegaweb.R;
 import com.ranieri.bodegaweb.adapter.OrderItemsAdapter;
+import com.ranieri.bodegaweb.contract.OrderItemsContract;
 import com.ranieri.bodegaweb.dao.OrderItemsDAO;
 import com.ranieri.bodegaweb.model.Order;
 import com.ranieri.bodegaweb.model.OrderItems;
@@ -76,7 +77,7 @@ public class ListOrderItemsFragment extends Fragment {
             cod = Parcels.unwrap(parcelable);
             parcelable = getArguments().getParcelable("order");
             Order order = Parcels.unwrap(parcelable);
-            mDAO = new OrderItemsDAO(getActivity());
+            mDAO = new OrderItemsDAO(getActivity(), OrderItemsContract.TABLE_NAME);
             mLista = mDAO.listar(order);
         }
 
@@ -90,7 +91,7 @@ public class ListOrderItemsFragment extends Fragment {
             parcelable = getArguments().getParcelable("cod");
             cod = Parcels.unwrap(parcelable);
 
-            mDAO = new OrderItemsDAO(getActivity());
+            mDAO = new OrderItemsDAO(getActivity(), OrderItemsContract.TABLE_NAME);
             mLista = mDAO.listar(provider, produto);
         }
     }

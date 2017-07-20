@@ -13,6 +13,7 @@ import android.widget.ListView;
 
 import com.ranieri.bodegaweb.R;
 import com.ranieri.bodegaweb.adapter.CategoriasAdapter;
+import com.ranieri.bodegaweb.contract.CategoriasContract;
 import com.ranieri.bodegaweb.dao.CategoriasDAO;
 import com.ranieri.bodegaweb.model.Categorias;
 import com.ranieri.bodegaweb.model.SubCategorias;
@@ -56,12 +57,12 @@ public class ListCategoryFragment extends Fragment {
             Log.v("ListCategoryFragment", "onCreate - subCategoria");
             Parcelable parcelable = getArguments().getParcelable("subCategoria");
             SubCategorias subCategoria = Parcels.unwrap(parcelable);
-            CategoriasDAO mDAO = new CategoriasDAO(getActivity());
+            CategoriasDAO mDAO = new CategoriasDAO(getActivity(), CategoriasContract.TABLE_NAME);
             mCategorias = mDAO.listar(subCategoria);
         }
         if (getArguments() == null) {
             Log.v("ListCategoryFragment", "onCreate");
-            CategoriasDAO mDAO = new CategoriasDAO(getActivity());
+            CategoriasDAO mDAO = new CategoriasDAO(getActivity(), CategoriasContract.TABLE_NAME);
             //mCategorias = mDAO.listar();
         }
     }
@@ -78,7 +79,7 @@ public class ListCategoryFragment extends Fragment {
     }
 
     public void notifyDataSetChanged(SubCategorias subCategorias) {
-        CategoriasDAO mDAO = new CategoriasDAO(getActivity());
+        CategoriasDAO mDAO = new CategoriasDAO(getActivity(), CategoriasContract.TABLE_NAME);
         mCategorias = mDAO.listar(subCategorias);
         mAdapter = new CategoriasAdapter(getActivity(), mCategorias);
         mListView.setAdapter(mAdapter);

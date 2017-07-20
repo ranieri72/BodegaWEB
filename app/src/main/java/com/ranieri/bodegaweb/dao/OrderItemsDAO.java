@@ -26,36 +26,10 @@ import java.util.List;
  * Created by ranie on 16 de mai.
  */
 
-public class OrderItemsDAO {
+public class OrderItemsDAO extends GenericDAO<OrderItems> {
 
-    private Context mContext;
-
-    public OrderItemsDAO(Context context) {
-        mContext = context;
-    }
-
-    public void inserir(OrderItems orderItem) {
-        BodegaHelper helper = new BodegaHelper(mContext);
-        SQLiteDatabase db = helper.getWritableDatabase();
-
-        ContentValues values = valuesFromOrder(orderItem);
-        db.insert(OrderItemsContract.TABLE_NAME, null, values);
-
-        db.close();
-    }
-
-    public int inserir(List<OrderItems> lista) {
-        BodegaHelper helper = new BodegaHelper(mContext);
-        SQLiteDatabase db = helper.getWritableDatabase();
-        int contador = 0;
-
-        for (OrderItems orderItems : lista) {
-            ContentValues values = valuesFromOrder(orderItems);
-            db.insert(OrderItemsContract.TABLE_NAME, null, values);
-            contador++;
-        }
-        db.close();
-        return contador;
+    public OrderItemsDAO(Context mContext, String tableName) {
+        super(mContext, tableName);
     }
 
     public int atualizar(OrderItems orderItem) {
@@ -65,20 +39,10 @@ public class OrderItemsDAO {
         String orderID = String.valueOf(orderItem.getChaveComposta().getOrder().getId());
         String productID = String.valueOf(orderItem.getChaveComposta().getProdutos().getId());
 
-        ContentValues values = valuesFromOrder(orderItem);
+        ContentValues values = valuesFromObject(orderItem);
         int rowsAffected = db.update(OrderItemsContract.TABLE_NAME, values,
                 OrderItemsContract.ORDER + " = ?" + OrderItemsContract.PRODUCT + " = ?",
                 new String[]{orderID, productID});
-
-        db.close();
-        return rowsAffected;
-    }
-
-    public int excluir() {
-        BodegaHelper helper = new BodegaHelper(mContext);
-        SQLiteDatabase db = helper.getWritableDatabase();
-
-        int rowsAffected = db.delete(OrderItemsContract.TABLE_NAME, null, null);
 
         db.close();
         return rowsAffected;
@@ -236,14 +200,14 @@ public class OrderItemsDAO {
         return lista;
     }
 
-    private ContentValues valuesFromOrder(OrderItems orderItem) {
+    @Override
+    protected ContentValues valuesFromObject(OrderItems orderItem) {
         ContentValues values = new ContentValues();
         values.put(OrderItemsContract.COLUMN_ORDER, orderItem.getChaveComposta().getOrder().getId());
         values.put(OrderItemsContract.COLUMN_PRODUCT, orderItem.getChaveComposta().getProdutos().getId());
         values.put(OrderItemsContract.COLUMN_UNITVALUE, orderItem.getPrecoUnit());
         values.put(OrderItemsContract.COLUMN_QTD, orderItem.getQtd());
         values.put(OrderItemsContract.COLUMN_UNITMEASUREMENT, orderItem.getUnidMedida().getId());
-
         return values;
     }
 

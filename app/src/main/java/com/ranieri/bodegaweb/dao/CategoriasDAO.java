@@ -18,42 +18,15 @@ import java.util.List;
  * Created by ranie on 4 de mai.
  */
 
-public class CategoriasDAO {
+public class CategoriasDAO extends GenericDAO<Categorias> {
 
-    private Context mContext;
     private int indexId;
     private int indexName;
     private int indexOrder;
     private int indexSubCatId;
 
-    public CategoriasDAO(Context mContext) {
-        this.mContext = mContext;
-    }
-
-    public Categorias inserir(Categorias categoria) {
-        BodegaHelper helper = new BodegaHelper(mContext);
-        SQLiteDatabase db = helper.getWritableDatabase();
-
-        ContentValues values = valuesFromCategorias(categoria);
-        long id = db.insert(CategoriasContract.TABLE_NAME, null, values);
-        categoria.setId(id);
-
-        db.close();
-        return categoria;
-    }
-
-    public int inserir(List<Categorias> lista) {
-        BodegaHelper helper = new BodegaHelper(mContext);
-        SQLiteDatabase db = helper.getWritableDatabase();
-        int contador = 0;
-
-        for (Categorias c : lista) {
-            ContentValues values = valuesFromCategorias(c);
-            db.insert(CategoriasContract.TABLE_NAME, null, values);
-            contador++;
-        }
-        db.close();
-        return contador;
+    public CategoriasDAO(Context mContext, String tableName) {
+        super(mContext, tableName);
     }
 
     public int atualizar(Categorias categoria) {
@@ -61,18 +34,8 @@ public class CategoriasDAO {
         SQLiteDatabase db = helper.getWritableDatabase();
         String[] categoriaID = new String[]{String.valueOf(categoria.getId())};
 
-        ContentValues values = valuesFromCategorias(categoria);
-        int rowsAffected = db.update(CategoriasContract.TABLE_NAME, values, CategoriasContract.COLUMN_ID + " = ?", categoriaID);
-
-        db.close();
-        return rowsAffected;
-    }
-
-    public int excluir() {
-        BodegaHelper helper = new BodegaHelper(mContext);
-        SQLiteDatabase db = helper.getWritableDatabase();
-
-        int rowsAffected = db.delete(CategoriasContract.TABLE_NAME, null, null);
+        ContentValues values = valuesFromObject(categoria);
+        int rowsAffected = db.update(tableName, values, CategoriasContract.COLUMN_ID + " = ?", categoriaID);
 
         db.close();
         return rowsAffected;
@@ -167,13 +130,13 @@ public class CategoriasDAO {
         indexSubCatId = cursor.getColumnIndex(CategoriasContract.COLUMN_SUBCATEGORY);
     }
 
-    private ContentValues valuesFromCategorias(Categorias categoria) {
+    @Override
+    protected ContentValues valuesFromObject(Categorias categoria) {
         ContentValues values = new ContentValues();
         values.put(CategoriasContract.COLUMN_ID, categoria.getId());
         values.put(CategoriasContract.COLUMN_NAME, categoria.getNome());
         values.put(CategoriasContract.COLUMN_ORDER, categoria.getOrdem());
         values.put(CategoriasContract.COLUMN_SUBCATEGORY, categoria.getSubCategoriaProd().getId());
-
         return values;
     }
 

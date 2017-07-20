@@ -21,9 +21,8 @@ import java.util.List;
  * Created by ranie on 16 de mai.
  */
 
-public class OrdersDAO {
+public class OrdersDAO extends GenericDAO<Order> {
 
-    private Context mContext;
     private final SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
 
     private int indexId;
@@ -31,34 +30,8 @@ public class OrdersDAO {
     private int indexTotalOrder;
     private int indexProviderId;
 
-    public OrdersDAO(Context context) {
-        mContext = context;
-    }
-
-    public Order inserir(Order order) {
-        BodegaHelper helper = new BodegaHelper(mContext);
-        SQLiteDatabase db = helper.getWritableDatabase();
-
-        ContentValues values = valuesFromOrder(order);
-        long id = db.insert(OrderContract.TABLE_NAME, null, values);
-        order.setId(id);
-
-        db.close();
-        return order;
-    }
-
-    public int inserir(List<Order> lista) {
-        BodegaHelper helper = new BodegaHelper(mContext);
-        SQLiteDatabase db = helper.getWritableDatabase();
-        int contador = 0;
-
-        for (Order order : lista) {
-            ContentValues values = valuesFromOrder(order);
-            db.insert(OrderContract.TABLE_NAME, null, values);
-            contador++;
-        }
-        db.close();
-        return contador;
+    public OrdersDAO(Context context, String tableName) {
+        super(context, tableName);
     }
 
     public int atualizar(Order order) {
@@ -66,18 +39,8 @@ public class OrdersDAO {
         SQLiteDatabase db = helper.getWritableDatabase();
         String[] orderID = new String[]{String.valueOf(order.getId())};
 
-        ContentValues values = valuesFromOrder(order);
+        ContentValues values = valuesFromObject(order);
         int rowsAffected = db.update(OrderContract.TABLE_NAME, values, OrderContract.ID + " = ?", orderID);
-
-        db.close();
-        return rowsAffected;
-    }
-
-    public int excluir() {
-        BodegaHelper helper = new BodegaHelper(mContext);
-        SQLiteDatabase db = helper.getWritableDatabase();
-
-        int rowsAffected = db.delete(OrderContract.TABLE_NAME, null, null);
 
         db.close();
         return rowsAffected;
@@ -140,13 +103,13 @@ public class OrdersDAO {
         indexProviderId = cursor.getColumnIndex(OrderContract.COLUMN_PROVIDER);
     }
 
-    private ContentValues valuesFromOrder(Order order) {
+    @Override
+    protected ContentValues valuesFromObject(Order order) {
         ContentValues values = new ContentValues();
         values.put(OrderContract.COLUMN_ID, order.getId());
         values.put(OrderContract.COLUMN_ORDERDATE, formato.format(order.getDataPedido()));
         values.put(OrderContract.COLUMN_TOTALORDER, order.getTotalPedido());
         values.put(OrderContract.COLUMN_PROVIDER, order.getFornecedor().getId());
-
         return values;
     }
 
@@ -154,25 +117,4 @@ public class OrdersDAO {
         excluir();
         return inserir(listJson.getListaOrder());
     }
-
-//    public void refreshOrders(ListJson listJson) {
-//        BodegaHelper helper = new BodegaHelper(mContext);
-//        SQLiteDatabase db = helper.getWritableDatabase();
-//        List<Order> listaBanco = listar();
-//        boolean existe;
-//
-//        for (Order oJson : listJson.getListaOrder()) {
-//            existe = false;
-//            for (Order oBanco : listaBanco) {
-//                if (oJson.getId() == oBanco.getId()) {
-//                    atualizar(oJson);
-//                    existe = true;
-//                    break;
-//                }
-//            }
-//            if (!existe) {
-//                inserir(oJson);
-//            }
-//        }
-//    }
 }
