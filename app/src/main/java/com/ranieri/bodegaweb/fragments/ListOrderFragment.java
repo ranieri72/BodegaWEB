@@ -36,7 +36,7 @@ public class ListOrderFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.v("ListOrderFragment", "onCreate");
-        OrdersDAO mDAO = new OrdersDAO(getActivity(), OrderContract.TABLE_NAME);
+        OrdersDAO mDAO = new OrdersDAO(getActivity());
         mOrder = mDAO.listar();
     }
 

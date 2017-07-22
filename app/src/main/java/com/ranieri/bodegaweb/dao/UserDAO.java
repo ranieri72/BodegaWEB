@@ -16,16 +16,16 @@ import java.util.List;
  * Created by ranie on 1 de jul.
  */
 
-public class UserDAO {
+public class UserDAO extends GenericDAO<User> {
 
-    private Context mContext;
     private int indexID;
     private int indexLogin;
     private int indexPassword;
     private int indexAutologin;
 
     public UserDAO(Context mContext) {
-        this.mContext = mContext;
+        super(mContext);
+        tableName = UserContract.TABLE_NAME;
     }
 
     public User insert(User user, boolean autoLogin) {
@@ -36,7 +36,7 @@ public class UserDAO {
             setAutoLoginFalse();
             user.setAutoLogin(true);
         }
-        ContentValues values = valuesFromUser(user);
+        ContentValues values = valuesFromObject(user);
         long id = db.insert(UserContract.TABLE_NAME, null, values);
         user.setId(id);
 
@@ -53,20 +53,9 @@ public class UserDAO {
             setAutoLoginFalse();
             user.setAutoLogin(true);
         }
-        ContentValues values = valuesFromUser(user);
+        ContentValues values = valuesFromObject(user);
         int rowsAffected = db.update(UserContract.TABLE_NAME, values, UserContract.COLUMN_ID + " = ?", idUser);
 
-        db.close();
-        return rowsAffected;
-    }
-
-    public int delete(User user) {
-        BodegaHelper helper = new BodegaHelper(mContext);
-        SQLiteDatabase db = helper.getWritableDatabase();
-        String[] idUser = new String[]{String.valueOf(user.getId())};
-
-        int rowsAffected = db.delete(UserContract.TABLE_NAME, UserContract.COLUMN_ID + " = ?",
-                idUser);
         db.close();
         return rowsAffected;
     }
@@ -173,7 +162,8 @@ public class UserDAO {
         return list;
     }
 
-    private ContentValues valuesFromUser(User user) {
+    @Override
+    protected ContentValues valuesFromObject(User user) {
         ContentValues values = new ContentValues();
         values.put(UserContract.COLUMN_ID, user.getId());
         values.put(UserContract.COLUMN_LOGIN, user.getLogin());

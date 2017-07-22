@@ -1,6 +1,7 @@
 package com.ranieri.bodegaweb.asyncTask;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.google.gson.Gson;
 import com.ranieri.bodegaweb.connection.AppSession;
@@ -46,6 +47,7 @@ public class LoginTask extends AsyncTask<Integer, Void, Void> {
         }
         try {
             String jsonString = gson.toJson(AppSession.user, User.class);
+            Log.v("LoginTask", "url: " + url);
 
             Response response = new PostRequester(client, json, url, jsonString).invoke();
 

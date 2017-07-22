@@ -57,12 +57,12 @@ public class ListCategoryFragment extends Fragment {
             Log.v("ListCategoryFragment", "onCreate - subCategoria");
             Parcelable parcelable = getArguments().getParcelable("subCategoria");
             SubCategorias subCategoria = Parcels.unwrap(parcelable);
-            CategoriasDAO mDAO = new CategoriasDAO(getActivity(), CategoriasContract.TABLE_NAME);
+            CategoriasDAO mDAO = new CategoriasDAO(getActivity());
             mCategorias = mDAO.listar(subCategoria);
         }
         if (getArguments() == null) {
             Log.v("ListCategoryFragment", "onCreate");
-            CategoriasDAO mDAO = new CategoriasDAO(getActivity(), CategoriasContract.TABLE_NAME);
+            CategoriasDAO mDAO = new CategoriasDAO(getActivity());
             //mCategorias = mDAO.listar();
         }
     }
@@ -79,7 +79,7 @@ public class ListCategoryFragment extends Fragment {
     }
 
     public void notifyDataSetChanged(SubCategorias subCategorias) {
-        CategoriasDAO mDAO = new CategoriasDAO(getActivity(), CategoriasContract.TABLE_NAME);
+        CategoriasDAO mDAO = new CategoriasDAO(getActivity());
         mCategorias = mDAO.listar(subCategorias);
         mAdapter = new CategoriasAdapter(getActivity(), mCategorias);
         mListView.setAdapter(mAdapter);

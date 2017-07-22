@@ -43,7 +43,7 @@ public class RefreshProductsTask extends AsyncTask<Context, Void, Integer> {
             subCategoriasDAO.refreshStock(listJson);
 
             listJson = new GetRequester(client, gson, ConnectionConstants.urlCategory).invoke();
-            CategoriasDAO categoriasDAO = new CategoriasDAO(params[0], CategoriasContract.TABLE_NAME);
+            CategoriasDAO categoriasDAO = new CategoriasDAO(params[0]);
             categoriasDAO.refreshStock(listJson);
 
             listJson = new GetRequester(client, gson, ConnectionConstants.urlProducts).invoke();

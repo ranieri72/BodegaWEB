@@ -17,38 +17,11 @@ import java.util.List;
  * Created by ranie on 4 de mai.
  */
 
-public class SubCategoriasDAO {
-
-    private Context mContext;
+public class SubCategoriasDAO extends GenericDAO<SubCategorias> {
 
     public SubCategoriasDAO(Context mContext) {
-        this.mContext = mContext;
-    }
-
-    public SubCategorias inserir(SubCategorias subCategoria) {
-        BodegaHelper helper = new BodegaHelper(mContext);
-        SQLiteDatabase db = helper.getWritableDatabase();
-
-        ContentValues values = valuesFromSubCategorias(subCategoria);
-        long id = db.insert(SubCategoriasContract.TABLE_NAME, null, values);
-        subCategoria.setId(id);
-
-        db.close();
-        return subCategoria;
-    }
-
-    public int inserir(List<SubCategorias> lista) {
-        BodegaHelper helper = new BodegaHelper(mContext);
-        SQLiteDatabase db = helper.getWritableDatabase();
-        int contador = 0;
-
-        for (SubCategorias s : lista) {
-            ContentValues values = valuesFromSubCategorias(s);
-            db.insert(SubCategoriasContract.TABLE_NAME, null, values);
-            contador++;
-        }
-        db.close();
-        return contador;
+        super(mContext);
+        tableName = SubCategoriasContract.TABLE_NAME;
     }
 
     public int atualizar(SubCategorias subCategoria) {
@@ -56,18 +29,8 @@ public class SubCategoriasDAO {
         SQLiteDatabase db = helper.getWritableDatabase();
         String[] subCategoriaID = new String[]{String.valueOf(subCategoria.getId())};
 
-        ContentValues values = valuesFromSubCategorias(subCategoria);
+        ContentValues values = valuesFromObject(subCategoria);
         int rowsAffected = db.update(SubCategoriasContract.TABLE_NAME, values, SubCategoriasContract.COLUMN_ID + " = ?", subCategoriaID);
-
-        db.close();
-        return rowsAffected;
-    }
-
-    public int excluir() {
-        BodegaHelper helper = new BodegaHelper(mContext);
-        SQLiteDatabase db = helper.getWritableDatabase();
-
-        int rowsAffected = db.delete(SubCategoriasContract.TABLE_NAME, null, null);
 
         db.close();
         return rowsAffected;
@@ -130,11 +93,11 @@ public class SubCategoriasDAO {
         return lista;
     }
 
-    private ContentValues valuesFromSubCategorias(SubCategorias subCategoria) {
+    @Override
+    protected ContentValues valuesFromObject(SubCategorias subCategoria) {
         ContentValues values = new ContentValues();
         values.put(SubCategoriasContract.COLUMN_ID, subCategoria.getId());
         values.put(SubCategoriasContract.COLUMN_NAME, subCategoria.getNome());
-
         return values;
     }
 
@@ -142,25 +105,4 @@ public class SubCategoriasDAO {
         excluir();
         return inserir(lista.getListaSubcategorias());
     }
-
-//    public void refreshStock(ListJson lista) {
-//        BodegaHelper helper = new BodegaHelper(mContext);
-//        SQLiteDatabase db = helper.getWritableDatabase();
-//        List<SubCategorias> listaBanco = listar();
-//        boolean existe;
-//
-//        for (SubCategorias cJson : lista.getListaSubcategorias()) {
-//            existe = false;
-//            for (SubCategorias cBanco : listaBanco) {
-//                if (cJson.getId() == cBanco.getId()) {
-//                    atualizar(cJson);
-//                    existe = true;
-//                    break;
-//                }
-//            }
-//            if (!existe) {
-//                inserir(cJson);
-//            }
-//        }
-//    }
 }

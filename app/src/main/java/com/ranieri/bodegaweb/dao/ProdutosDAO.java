@@ -25,9 +25,8 @@ import java.util.List;
  * Created by ranie on 27 de abr.
  */
 
-public class ProdutosDAO {
+public class ProdutosDAO extends GenericDAO<Produtos> {
 
-    private Context mContext;
     private int indexId;
     private int indexName;
     private int indexStock;
@@ -37,33 +36,8 @@ public class ProdutosDAO {
     private int indexSuggestedPrice;
 
     public ProdutosDAO(Context mContext) {
-        this.mContext = mContext;
-    }
-
-    public Produtos inserir(Produtos produto) {
-        BodegaHelper helper = new BodegaHelper(mContext);
-        SQLiteDatabase db = helper.getWritableDatabase();
-
-        ContentValues values = valuesFromProdutos(produto);
-        long id = db.insert(ProdutosContract.TABLE_NAME, null, values);
-        produto.setId(id);
-
-        db.close();
-        return produto;
-    }
-
-    public int inserir(List<Produtos> lista) {
-        BodegaHelper helper = new BodegaHelper(mContext);
-        SQLiteDatabase db = helper.getWritableDatabase();
-        int contador = 0;
-
-        for (Produtos produto : lista) {
-            ContentValues values = valuesFromProdutos(produto);
-            db.insert(ProdutosContract.TABLE_NAME, null, values);
-            contador++;
-        }
-        db.close();
-        return contador;
+        super(mContext);
+        tableName = ProdutosContract.TABLE_NAME;
     }
 
     public int atualizar(Produtos produto) {
@@ -71,18 +45,8 @@ public class ProdutosDAO {
         SQLiteDatabase db = helper.getWritableDatabase();
         produto.setAlterado(true);
 
-        ContentValues values = valuesFromProdutos(produto);
+        ContentValues values = valuesFromObject(produto);
         int rowsAffected = db.update(ProdutosContract.TABLE_NAME, values, ProdutosContract.COLUMN_ID + " = ?", new String[]{String.valueOf(produto.getId())});
-
-        db.close();
-        return rowsAffected;
-    }
-
-    public int excluir(Produtos produto) {
-        BodegaHelper helper = new BodegaHelper(mContext);
-        SQLiteDatabase db = helper.getWritableDatabase();
-
-        int rowsAffected = db.delete(ProdutosContract.TABLE_NAME, ProdutosContract.COLUMN_ID + " = ?", new String[]{String.valueOf(produto.getId())});
 
         db.close();
         return rowsAffected;
@@ -326,7 +290,8 @@ public class ProdutosDAO {
         return p;
     }
 
-    private ContentValues valuesFromProdutos(Produtos produto) {
+    @Override
+    protected ContentValues valuesFromObject(Produtos produto) {
         ContentValues values = new ContentValues();
         values.put(ProdutosContract.COLUMN_ID, produto.getId());
         values.put(ProdutosContract.COLUMN_NAME, produto.getNome());

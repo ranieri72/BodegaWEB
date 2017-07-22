@@ -77,7 +77,7 @@ public class ListOrderItemsFragment extends Fragment {
             cod = Parcels.unwrap(parcelable);
             parcelable = getArguments().getParcelable("order");
             Order order = Parcels.unwrap(parcelable);
-            mDAO = new OrderItemsDAO(getActivity(), OrderItemsContract.TABLE_NAME);
+            mDAO = new OrderItemsDAO(getActivity());
             mLista = mDAO.listar(order);
         }
 
@@ -91,7 +91,7 @@ public class ListOrderItemsFragment extends Fragment {
             parcelable = getArguments().getParcelable("cod");
             cod = Parcels.unwrap(parcelable);
 
-            mDAO = new OrderItemsDAO(getActivity(), OrderItemsContract.TABLE_NAME);
+            mDAO = new OrderItemsDAO(getActivity());
             mLista = mDAO.listar(provider, produto);
         }
     }

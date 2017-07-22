@@ -28,8 +28,9 @@ import java.util.List;
 
 public class OrderItemsDAO extends GenericDAO<OrderItems> {
 
-    public OrderItemsDAO(Context mContext, String tableName) {
-        super(mContext, tableName);
+    public OrderItemsDAO(Context mContext) {
+        super(mContext);
+        tableName = OrderItemsContract.TABLE_NAME;
     }
 
     public int atualizar(OrderItems orderItem) {
@@ -40,7 +41,7 @@ public class OrderItemsDAO extends GenericDAO<OrderItems> {
         String productID = String.valueOf(orderItem.getChaveComposta().getProdutos().getId());
 
         ContentValues values = valuesFromObject(orderItem);
-        int rowsAffected = db.update(OrderItemsContract.TABLE_NAME, values,
+        int rowsAffected = db.update(tableName, values,
                 OrderItemsContract.ORDER + " = ?" + OrderItemsContract.PRODUCT + " = ?",
                 new String[]{orderID, productID});
 
@@ -215,27 +216,4 @@ public class OrderItemsDAO extends GenericDAO<OrderItems> {
         excluir();
         return inserir(listJson.getListaOrderItems());
     }
-
-//    public int refreshOrders(ListJson listJson) {
-//        BodegaHelper helper = new BodegaHelper(mContext);
-//        SQLiteDatabase db = helper.getWritableDatabase();
-//        List<OrderItems> listaBanco = listar();
-//        boolean existe;
-//
-//        for (OrderItems oJson : listJson.getListaOrderItems()) {
-//            existe = false;
-//            for (OrderItems oBanco : listaBanco) {
-//                if (oJson.getChaveComposta().getOrder().getId() == oBanco.getChaveComposta().getOrder().getId() &&
-//                        oJson.getChaveComposta().getProdutos().getId() == oBanco.getChaveComposta().getProdutos().getId()) {
-//                    atualizar(oJson);
-//                    existe = true;
-//                    break;
-//                }
-//            }
-//            if (!existe) {
-//                inserir(oJson);
-//            }
-//        }
-//        return 0;
-//    }
 }

@@ -36,7 +36,7 @@ public class ListaCategoriasActivity extends AppCompatActivity {
 
         Categorias categoria = Parcels.unwrap(getIntent().getParcelableExtra("categoria"));
 
-        CategoriasDAO mDAO = new CategoriasDAO(this, CategoriasContract.TABLE_NAME);
+        CategoriasDAO mDAO = new CategoriasDAO(this);
         List<Categorias> mCategorias = mDAO.listar(categoria.getSubCategoriaProd());
 
         adapter = new CategoriasAdapter(this, mCategorias);

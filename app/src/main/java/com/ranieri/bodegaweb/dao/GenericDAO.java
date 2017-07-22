@@ -17,9 +17,8 @@ abstract class GenericDAO<T> {
     protected Context mContext;
     protected String tableName;
 
-    public GenericDAO(Context mContext, String tableName) {
+    public GenericDAO(Context mContext) {
         this.mContext = mContext;
-        this.tableName = tableName;
     }
 
     public T inserir(T object) {

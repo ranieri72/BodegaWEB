@@ -30,8 +30,9 @@ public class OrdersDAO extends GenericDAO<Order> {
     private int indexTotalOrder;
     private int indexProviderId;
 
-    public OrdersDAO(Context context, String tableName) {
-        super(context, tableName);
+    public OrdersDAO(Context context) {
+        super(context);
+        tableName = OrderContract.TABLE_NAME;
     }
 
     public int atualizar(Order order) {

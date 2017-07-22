@@ -25,8 +25,9 @@ public class CategoriasDAO extends GenericDAO<Categorias> {
     private int indexOrder;
     private int indexSubCatId;
 
-    public CategoriasDAO(Context mContext, String tableName) {
-        super(mContext, tableName);
+    public CategoriasDAO(Context mContext) {
+        super(mContext);
+        tableName = CategoriasContract.TABLE_NAME;
     }
 
     public int atualizar(Categorias categoria) {
@@ -144,25 +145,4 @@ public class CategoriasDAO extends GenericDAO<Categorias> {
         excluir();
         return inserir(lista.getListaCategorias());
     }
-
-//    public void refreshStock(ListJson lista) {
-//        BodegaHelper helper = new BodegaHelper(mContext);
-//        SQLiteDatabase db = helper.getWritableDatabase();
-//        List<Categorias> listaBanco = listar();
-//        boolean existe;
-//
-//        for (Categorias cJson : lista.getListaCategorias()) {
-//            existe = false;
-//            for (Categorias cBanco : listaBanco) {
-//                if (cJson.getId() == cBanco.getId()) {
-//                    atualizar(cJson);
-//                    existe = true;
-//                    break;
-//                }
-//            }
-//            if (!existe) {
-//                inserir(cJson);
-//            }
-//        }
-//    }
 }

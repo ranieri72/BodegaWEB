@@ -38,7 +38,7 @@ public class RefreshOrderTask extends AsyncTask<Context, Void, Integer> {
             providerDAO.refreshOrders(listJson);
 
             listJson = new GetRequester(client, gson, ConnectionConstants.urlOrder).invoke();
-            OrdersDAO ordersDAO = new OrdersDAO(params[0], OrderContract.TABLE_NAME);
+            OrdersDAO ordersDAO = new OrdersDAO(params[0]);
             int qtd = ordersDAO.refreshOrders(listJson);
 
             listJson = new GetRequester(client, gson, ConnectionConstants.urlUnitMeasurement).invoke();
@@ -46,7 +46,7 @@ public class RefreshOrderTask extends AsyncTask<Context, Void, Integer> {
             unidadeMedidaDAO.refreshOrders(listJson);
 
             listJson = new GetRequester(client, gson, ConnectionConstants.urlOrderItems).invoke();
-            OrderItemsDAO orderItemsDAO = new OrderItemsDAO(params[0], OrderItemsContract.TABLE_NAME);
+            OrderItemsDAO orderItemsDAO = new OrderItemsDAO(params[0]);
             orderItemsDAO.refreshOrders(listJson);
 
             return qtd;

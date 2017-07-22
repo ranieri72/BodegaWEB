@@ -100,7 +100,7 @@ public class MainActivity extends AppCompatActivity implements ClickOnSubCategor
             categoryFragment = ListCategoryFragment.novaInstancia(subCategoria);
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_list_category, categoryFragment, "detalhe").commit();
 
-            CategoriasDAO categoriasDAO = new CategoriasDAO(this, CategoriasContract.TABLE_NAME);
+            CategoriasDAO categoriasDAO = new CategoriasDAO(this);
             Categorias categoria = categoriasDAO.selecionarPrimeira(subCategoria);
 
             if (categoria != null) {
@@ -121,7 +121,7 @@ public class MainActivity extends AppCompatActivity implements ClickOnSubCategor
             Log.v("MainActivity", "subCategoryClicked - isTablet");
             categoryFragment.notifyDataSetChanged(subCategoria);
 
-            CategoriasDAO categoriasDAO = new CategoriasDAO(this, CategoriasContract.TABLE_NAME);
+            CategoriasDAO categoriasDAO = new CategoriasDAO(this);
             Categorias categoria = categoriasDAO.selecionarPrimeira(subCategoria);
             if (categoria != null) {
                 productsFragment.notifyDataSetChanged(categoria);
