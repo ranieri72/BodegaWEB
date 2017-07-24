@@ -5,16 +5,12 @@ import android.os.AsyncTask;
 
 import com.google.gson.Gson;
 import com.ranieri.bodegaweb.connection.ConnectionConstants;
-import com.ranieri.bodegaweb.connection.GetRequester;
-import com.ranieri.bodegaweb.connection.PostRequester;
-import com.ranieri.bodegaweb.contract.CategoriasContract;
+import com.ranieri.bodegaweb.connection.ConnectionRequester;
 import com.ranieri.bodegaweb.dao.CategoriasDAO;
 import com.ranieri.bodegaweb.dao.ProdutosDAO;
 import com.ranieri.bodegaweb.dao.SubCategoriasDAO;
 import com.ranieri.bodegaweb.model.ListJson;
 
-import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
 import okhttp3.Response;
 
 /**
@@ -25,8 +21,6 @@ public class RefreshProductsTask extends AsyncTask<Context, Void, Integer> {
 
     @Override
     protected Integer doInBackground(Context... params) {
-        OkHttpClient client = new OkHttpClient();
-        MediaType json = MediaType.parse("application/json; charset=utf-8");
         String jsonString;
         Gson gson = new Gson();
         ListJson listJson = new ListJson();
@@ -35,18 +29,16 @@ public class RefreshProductsTask extends AsyncTask<Context, Void, Integer> {
             listJson.setListaProdutos(produtosDAO.listar(true));
             jsonString = gson.toJson(listJson, ListJson.class);
 
-            Response response = new PostRequester(client, json, ConnectionConstants.urlPostProducts, jsonString).invoke();
+            Response response = new ConnectionRequester(ConnectionConstants.urlPostProducts, jsonString).postRequester();
             if (!response.isSuccessful()) return null;
 
-            listJson = new GetRequester(client, gson, ConnectionConstants.urlSubCategory).invoke();
-            SubCategoriasDAO subCategoriasDAO = new SubCategoriasDAO(params[0]);
-            subCategoriasDAO.refreshStock(listJson);
+            listJson = new ConnectionRequester(ConnectionConstants.urlSubCategory).getRequester();
+            new SubCategoriasDAO(params[0]).refreshStock(listJson);
 
-            listJson = new GetRequester(client, gson, ConnectionConstants.urlCategory).invoke();
-            CategoriasDAO categoriasDAO = new CategoriasDAO(params[0]);
-            categoriasDAO.refreshStock(listJson);
+            listJson = new ConnectionRequester(ConnectionConstants.urlCategory).getRequester();
+            new CategoriasDAO(params[0]).refreshStock(listJson);
 
-            listJson = new GetRequester(client, gson, ConnectionConstants.urlProducts).invoke();
+            listJson = new ConnectionRequester(ConnectionConstants.urlProducts).getRequester();
             return produtosDAO.refreshStock(listJson);
 
         } catch (Exception e) {

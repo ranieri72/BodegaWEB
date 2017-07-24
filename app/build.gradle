@@ -32,6 +32,9 @@ dependencies {
     // para requisições http
     compile 'com.squareup.okhttp3:okhttp:3.8.0'
 
+    // para requisições http assincronas
+    compile 'com.koushikdutta.ion:ion:2.2.1'
+
     // para conversão json/objeto
     compile 'com.google.code.gson:gson:2.8.0'
 

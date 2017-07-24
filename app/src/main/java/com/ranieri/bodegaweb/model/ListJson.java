@@ -1,6 +1,5 @@
 package com.ranieri.bodegaweb.model;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -16,20 +15,6 @@ public class ListJson {
     private List<Provider> listaProvider;
     private List<OrderItems> listaOrderItems;
     private List<UnidadeMedida> listaUnidadeMedida;
-
-    public ListJson() {
-        listaProdutos = new ArrayList<>();
-        listaCategorias = new ArrayList<>();
-        listaSubcategorias = new ArrayList<>();
-        listaOrder = new ArrayList<>();
-        listaProvider = new ArrayList<>();
-        listaOrderItems = new ArrayList<>();
-        listaUnidadeMedida = new ArrayList<>();
-    }
-
-    public ListJson(List<Produtos> listaProdutos) {
-        this.listaProdutos = listaProdutos;
-    }
 
     public List<Produtos> getListaProdutos() {
         return listaProdutos;

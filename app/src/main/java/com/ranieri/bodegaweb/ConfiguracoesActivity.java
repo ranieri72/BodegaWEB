@@ -5,15 +5,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
 
 import com.ranieri.bodegaweb.asyncTask.RefreshOrderTask;
 import com.ranieri.bodegaweb.asyncTask.RefreshProductsTask;
+import com.ranieri.bodegaweb.connection.AsyncRequest;
+import com.ranieri.bodegaweb.connection.ConnectionConstants;
 
 import java.util.concurrent.ExecutionException;
 
-import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -29,7 +29,7 @@ public class ConfiguracoesActivity extends AppCompatActivity {
         ButterKnife.bind(this);
     }
 
-    @OnClick({R.id.btnAtualizarProdutos, R.id.btnAtualizarPedidos})
+    @OnClick({R.id.btnAtualizarProdutos, R.id.btnAtualizarPedidos, R.id.btnIonTest})
     void onItemClicked(View v) {
         try {
             int qtd;
@@ -44,10 +44,17 @@ public class ConfiguracoesActivity extends AppCompatActivity {
                     qtd = new RefreshOrderTask().execute(this).get();
                     Toast.makeText(this, getResources().getString(R.string.pedidosAtualizados) + qtd, Toast.LENGTH_LONG).show();
                     break;
+                case R.id.btnIonTest:
+                    Log.v("ConfiguracoesActivity", "btnIonTest");
+                    new AsyncRequest(this, ConnectionConstants.urlProducts).getJson();
+                    Toast.makeText(this, "Ion Teste", Toast.LENGTH_LONG).show();
+                    break;
             }
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

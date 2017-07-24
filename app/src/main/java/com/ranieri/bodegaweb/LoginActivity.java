@@ -12,8 +12,6 @@ import com.ranieri.bodegaweb.connection.AppSession;
 import com.ranieri.bodegaweb.dao.UserDAO;
 import com.ranieri.bodegaweb.model.User;
 
-import org.parceler.Parcels;
-
 import java.util.Objects;
 
 import butterknife.BindView;
@@ -51,7 +49,6 @@ public class LoginActivity extends AppCompatActivity {
                     error = true;
                 }
                 if (!error) {
-                    UserDAO dao = new UserDAO(this);
                     AppSession.user = new User();
                     AppSession.user.setLogin(mEdtLogin.getText().toString());
                     AppSession.user.setPassword(mEdtPassword.getText().toString());
@@ -62,7 +59,7 @@ public class LoginActivity extends AppCompatActivity {
                         } else {
                             switch (AppSession.user.getStatusCode()) {
                                 case User.loginOk:
-                                    loginOk(AppSession.user, dao);
+                                    loginOk(AppSession.user);
                                     break;
                                 case User.userAndPasswordDoesntMatch:
                                     messageError(R.string.userAndPasswordDoesntMatch);
@@ -95,7 +92,8 @@ public class LoginActivity extends AppCompatActivity {
         autoLogin = isChecked;
     }
 
-    private void loginOk(User user, UserDAO dao) {
+    private void loginOk(User user) {
+        UserDAO dao = new UserDAO(this);
         Intent it;
         if (dao.count(user) == 0) {
             dao.insert(user, autoLogin);
@@ -103,7 +101,6 @@ public class LoginActivity extends AppCompatActivity {
             dao.update(user, autoLogin);
         }
         it = new Intent(this, MainActivity.class);
-        it.putExtra("user", Parcels.wrap(user));
         startActivity(it);
         finish();
     }

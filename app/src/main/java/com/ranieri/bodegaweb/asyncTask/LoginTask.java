@@ -1,20 +1,13 @@
 package com.ranieri.bodegaweb.asyncTask;
 
 import android.os.AsyncTask;
-import android.util.Log;
 
 import com.google.gson.Gson;
 import com.ranieri.bodegaweb.connection.AppSession;
 import com.ranieri.bodegaweb.connection.ConnectionConstants;
-import com.ranieri.bodegaweb.connection.PostRequester;
+import com.ranieri.bodegaweb.connection.ConnectionRequester;
 import com.ranieri.bodegaweb.model.User;
 
-import java.io.IOException;
-
-import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
 import okhttp3.Response;
 
 /**
@@ -25,10 +18,7 @@ public class LoginTask extends AsyncTask<Integer, Void, Void> {
 
     @Override
     protected Void doInBackground(Integer... params) {
-        OkHttpClient client = new OkHttpClient();
-        MediaType json = MediaType.parse("application/json; charset=utf-8");
         Gson gson = new Gson();
-        Request request;
 
         String url = "";
         switch (params[0]) {
@@ -47,9 +37,8 @@ public class LoginTask extends AsyncTask<Integer, Void, Void> {
         }
         try {
             String jsonString = gson.toJson(AppSession.user, User.class);
-            Log.v("LoginTask", "url: " + url);
 
-            Response response = new PostRequester(client, json, url, jsonString).invoke();
+            Response response = new ConnectionRequester(url, jsonString).postRequester();
 
             jsonString = response.body().string();
             AppSession.user = gson.fromJson(jsonString, User.class);
