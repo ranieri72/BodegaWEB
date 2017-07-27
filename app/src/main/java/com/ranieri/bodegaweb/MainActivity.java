@@ -12,7 +12,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.ranieri.bodegaweb.contract.CategoriasContract;
 import com.ranieri.bodegaweb.dao.CategoriasDAO;
 import com.ranieri.bodegaweb.dao.SubCategoriasDAO;
 import com.ranieri.bodegaweb.dao.UserDAO;
@@ -30,13 +29,12 @@ import com.ranieri.bodegaweb.model.Produtos;
 import com.ranieri.bodegaweb.model.Provider;
 import com.ranieri.bodegaweb.model.SubCategorias;
 import com.ranieri.bodegaweb.pagerAdapter.MainPagerAdapter;
+import com.ranieri.bodegaweb.util.Util;
 
 import org.parceler.Parcels;
 
 public class MainActivity extends AppCompatActivity implements ClickOnSubCategoryListener, ClickOnCategoryListener, ClickOnProviderListener, ClickOnOrderListener, ClickOnProductListener {
 
-    //Produtos produto;
-    boolean isPhone;
     ListCategoryFragment categoryFragment;
     ListProductsFragment productsFragment;
 
@@ -46,9 +44,9 @@ public class MainActivity extends AppCompatActivity implements ClickOnSubCategor
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        isPhone = getResources().getBoolean(R.bool.isPhone);
+        Util.isPhone = getResources().getBoolean(R.bool.isPhone);
 
-        if (isPhone) {
+        if (Util.isPhone) {
             onCreateViewPhone();
         } else {
             onCreateViewTablet();
@@ -112,7 +110,7 @@ public class MainActivity extends AppCompatActivity implements ClickOnSubCategor
 
     @Override
     public void subCategoryClicked(SubCategorias subCategoria) {
-        if (isPhone) {
+        if (Util.isPhone) {
             Log.v("MainActivity", "subCategoryClicked - isPhone");
             Intent it = new Intent(this, ListaProdutosActivity.class);
             it.putExtra("subCategoria", Parcels.wrap(subCategoria));

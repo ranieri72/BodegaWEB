@@ -1,7 +1,6 @@
 package com.ranieri.bodegaweb.adapter;
 
 import android.content.Context;
-import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -12,7 +11,9 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.ranieri.bodegaweb.R;
+import com.ranieri.bodegaweb.connection.AppSession;
 import com.ranieri.bodegaweb.model.Produtos;
+import com.ranieri.bodegaweb.util.Util;
 
 import java.util.List;
 
@@ -48,17 +49,25 @@ public class ProdutosAdapter extends ArrayAdapter<Produtos> {
         }
 
         vh.txtNome.setText(String.valueOf(produto.getNome()));
-        String estoque;
-        String preco = String.valueOf(convertView.getResources().getString(R.string.preco) + " " + produto.getPrecoSugerido());
+        String inf = "";
 
         if (produto.isAlterado()) {
-            convertView.setBackgroundColor(Color.RED);
-            estoque = String.valueOf(convertView.getResources().getString(R.string.novoestoque) + " " + produto.getNovoEstoque());
+            //convertView.setBackgroundColor(Color.RED);
+            vh.txtEstoque.setTextColor(Color.RED);
+            inf += String.valueOf(convertView.getResources().getString(R.string.novoestoque) + " " + produto.getNovoEstoque() + " ");
         } else {
-            convertView.setBackgroundColor(Color.WHITE);
-            estoque = String.valueOf(convertView.getResources().getString(R.string.estoque) + " " + produto.getEstoque());
+            if (AppSession.user.getId() != 3) {
+                //convertView.setBackgroundColor(Color.WHITE);
+                vh.txtEstoque.setTextColor(Color.BLACK);
+                inf += String.valueOf(convertView.getResources().getString(R.string.estoque) + " " + produto.getEstoque() + " ");
+            }
         }
-        vh.txtEstoque.setText(estoque + " " + preco + " " + produto.getCategoria().getNome());
+        inf += Util.moneyFormatter(produto.getPrecoSugerido());
+        if (Util.isPhone) {
+            inf += " " + produto.getCategoria().getNome();
+        }
+
+        vh.txtEstoque.setText(inf);
 
         //4)
         return convertView;
