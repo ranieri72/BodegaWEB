@@ -1,16 +1,20 @@
 package com.ranieri.bodegaweb;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.TabLayout.OnTabSelectedListener;
 import android.support.design.widget.TabLayout.TabLayoutOnPageChangeListener;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.ranieri.bodegaweb.dao.CategoriasDAO;
 import com.ranieri.bodegaweb.dao.SubCategoriasDAO;
@@ -91,15 +95,13 @@ public class MainActivity extends AppCompatActivity implements ClickOnSubCategor
         ListSubCategoryFragment subCategoryFragment = new ListSubCategoryFragment();
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_list_sub_category, subCategoryFragment, "detalhe").commit();
 
-        SubCategoriasDAO subCategoriasDAO = new SubCategoriasDAO(this);
-        SubCategorias subCategoria = subCategoriasDAO.selecionarPrimeira();
+        SubCategorias subCategoria = new SubCategoriasDAO(this).selecionarPrimeira();
 
         if (subCategoria != null) {
             categoryFragment = ListCategoryFragment.novaInstancia(subCategoria);
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_list_category, categoryFragment, "detalhe").commit();
 
-            CategoriasDAO categoriasDAO = new CategoriasDAO(this);
-            Categorias categoria = categoriasDAO.selecionarPrimeira(subCategoria);
+            Categorias categoria = new CategoriasDAO(this).selecionarPrimeira(subCategoria);
 
             if (categoria != null) {
                 productsFragment = ListProductsFragment.novaInstancia(categoria);
@@ -119,8 +121,7 @@ public class MainActivity extends AppCompatActivity implements ClickOnSubCategor
             Log.v("MainActivity", "subCategoryClicked - isTablet");
             categoryFragment.notifyDataSetChanged(subCategoria);
 
-            CategoriasDAO categoriasDAO = new CategoriasDAO(this);
-            Categorias categoria = categoriasDAO.selecionarPrimeira(subCategoria);
+            Categorias categoria = new CategoriasDAO(this).selecionarPrimeira(subCategoria);
             if (categoria != null) {
                 productsFragment.notifyDataSetChanged(categoria);
             }
@@ -134,7 +135,7 @@ public class MainActivity extends AppCompatActivity implements ClickOnSubCategor
 
     @Override
     public void productClicked(Produtos produto) {
-
+        dialogProduct(produto);
     }
 
     @Override
@@ -157,6 +158,42 @@ public class MainActivity extends AppCompatActivity implements ClickOnSubCategor
         startActivity(it);
     }
 
+    private void dialogProduct(Produtos produto) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = getLayoutInflater();
+
+        builder.setView(inflater.inflate(R.layout.alert_dialog_product, null))
+                .setPositiveButton(R.string.signin, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        Toast.makeText(MainActivity.this, "alerta.dismiss()", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        //MainActivity.this.getDialog().cancel();
+                    }
+                });
+        builder.create().show();
+    }
+
+    private void dialogLogout() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(getResources().getString(R.string.logout));
+        builder.setMessage(getResources().getString(R.string.confirmlogout));
+        builder.setPositiveButton(getResources().getString(R.string.yes), new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface arg0, int arg1) {
+                optionLogout();
+            }
+        });
+        builder.setNegativeButton(getResources().getString(R.string.no), new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface arg0, int arg1) {
+            }
+        });
+        AlertDialog alerta = builder.create();
+        alerta.show();
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu, menu);
@@ -165,22 +202,26 @@ public class MainActivity extends AppCompatActivity implements ClickOnSubCategor
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        Intent it;
-        UserDAO dao;
-        Bundle bundle;
         switch (item.getItemId()) {
             case R.id.action_configuracoes:
-                it = new Intent(this, ConfiguracoesActivity.class);
-                startActivity(it);
+                optionConfig();
                 break;
             case R.id.action_logout:
-                dao = new UserDAO(this);
-                dao.setAutoLoginFalse();
-                it = new Intent(this, LoginActivity.class);
-                startActivity(it);
-                finish();
+                dialogLogout();
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void optionConfig() {
+        Intent it = new Intent(this, ConfiguracoesActivity.class);
+        startActivity(it);
+    }
+
+    private void optionLogout() {
+        new UserDAO(this).setAutoLoginFalse();
+        Intent it = new Intent(this, LoginActivity.class);
+        startActivity(it);
+        finish();
     }
 }

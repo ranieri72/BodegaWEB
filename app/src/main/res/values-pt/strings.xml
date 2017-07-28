@@ -23,10 +23,16 @@
     <string name="pedidosAtualizados">Pedidos Atualizados: </string>
     <string name="login">Login</string>
     <string name="logout">Sair</string>
+    <string name="confirmlogout">Tem certeza que deseja sair?</string>
     <string name="password">Senha</string>
     <string name="password2">Repita a senha</string>
     <string name="signin">Fazer login</string>
     <string name="autoLogin">Login automático</string>
+
+    <string name="yes">Sim</string>
+    <string name="no">Não</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancelar</string>
 
     <!-- Error messages -->
     <string name="userAndPasswordDoesntMatch">O usuário e a senha não conferem!</string>

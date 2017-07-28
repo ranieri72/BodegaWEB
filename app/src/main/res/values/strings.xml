@@ -23,10 +23,16 @@
     <string name="pedidosAtualizados">Updated Orders: </string>
     <string name="login">Login</string>
     <string name="logout">Logout</string>
+    <string name="confirmlogout">Are you sure you want to logout?</string>
     <string name="password">Password</string>
     <string name="password2">Repeat the password</string>
     <string name="signin">Sign in</string>
     <string name="autoLogin">Auto login</string>
+
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
 
     <!-- Error messages -->
     <string name="userAndPasswordDoesntMatch">User And Password Doesn\'t Match!</string>

@@ -19,6 +19,9 @@ import butterknife.OnClick;
 
 public class ConfiguracoesActivity extends AppCompatActivity {
 
+//    @BindView(R.id.progress_bar)
+//    ProgressBar progressBar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +36,7 @@ public class ConfiguracoesActivity extends AppCompatActivity {
     void onItemClicked(View v) {
         try {
             int qtd;
+            //progressBar.setIndeterminate(true);
             switch (v.getId()) {
                 case R.id.btnAtualizarProdutos:
                     Log.v("ConfiguracoesActivity", "btnAtualizarProdutos");
@@ -56,6 +60,8 @@ public class ConfiguracoesActivity extends AppCompatActivity {
             e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            //progressBar.setIndeterminate(false);
         }
     }
 }
