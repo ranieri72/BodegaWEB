@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">Bodega Olinda</string>
+    <string name="qtd">Quantidade</string>
     <string name="estoque">Estoque</string>
     <string name="novoestoque">Estoque atual</string>
     <string name="editstock">Alterar estoque</string>
@@ -21,6 +22,8 @@
     <string name="atualizarPedidos">Atualizar Pedidos</string>
     <string name="produtosAtualizados">Produtos Atualizados: </string>
     <string name="pedidosAtualizados">Pedidos Atualizados: </string>
+    <string name="stockMovement">Movimentação do Estoque</string>
+
     <string name="login">Login</string>
     <string name="logout">Sair</string>
     <string name="confirmlogout">Tem certeza que deseja sair?</string>

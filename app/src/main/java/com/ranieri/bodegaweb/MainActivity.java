@@ -10,10 +10,11 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.InputType;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.ranieri.bodegaweb.dao.CategoriasDAO;
@@ -158,23 +159,27 @@ public class MainActivity extends AppCompatActivity implements ClickOnSubCategor
         startActivity(it);
     }
 
-    private void dialogProduct(Produtos produto) {
+    private void dialogProduct(final Produtos produto) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        LayoutInflater inflater = getLayoutInflater();
+        final EditText input = new EditText(this);
+        input.setInputType(InputType.TYPE_CLASS_NUMBER);
 
-        builder.setView(inflater.inflate(R.layout.alert_dialog_product, null))
-                .setPositiveButton(R.string.signin, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-                        Toast.makeText(MainActivity.this, "alerta.dismiss()", Toast.LENGTH_SHORT).show();
-                    }
-                })
-                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        //MainActivity.this.getDialog().cancel();
-                    }
-                });
-        builder.create().show();
+        builder.setTitle(getResources().getString(R.string.stockMovement) + " - " + produto.getNome());
+        builder.setMessage(getResources().getString(R.string.qtd));
+        builder.setView(input);
+        builder.setPositiveButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface arg0, int arg1) {
+                Toast.makeText(MainActivity.this, "qtd " + input.getText().toString(), Toast.LENGTH_SHORT).show();
+                produto.setEstoque(Integer.parseInt(input.getText().toString()));
+                //new ProdutosDAO(MainActivity.this).atualizar(produto);
+            }
+        });
+        builder.setNegativeButton(getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface arg0, int arg1) {
+            }
+        });
+        AlertDialog alerta = builder.create();
+        alerta.show();
     }
 
     private void dialogLogout() {
