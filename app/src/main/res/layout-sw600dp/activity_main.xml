@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".MainActivity">
+    tools:context=".view.MainActivity">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
@@ -38,7 +38,7 @@
 
                 <fragment
                     android:id="@+id/fragment_list_sub_category"
-                    android:name="com.ranieri.bodegaweb.fragments.ListSubCategoryFragment"
+                    android:name="com.ranieri.bodegaweb.view.fragments.ListSubCategoryFragment"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -54,7 +54,7 @@
 
                 <fragment
                     android:id="@+id/fragment_list_category"
-                    android:name="com.ranieri.bodegaweb.fragments.ListCategoryFragment"
+                    android:name="com.ranieri.bodegaweb.view.fragments.ListCategoryFragment"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -71,7 +71,7 @@
 
             <fragment
                 android:id="@+id/fragment_list_products"
-                android:name="com.ranieri.bodegaweb.fragments.ListProductsFragment"
+                android:name="com.ranieri.bodegaweb.view.fragments.ListProductsFragment"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 tools:layout="@layout/fragment_list_products" />

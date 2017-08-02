@@ -3,7 +3,7 @@ package com.ranieri.bodegaweb.dao;
 import android.content.ContentValues;
 import android.content.Context;
 
-import com.ranieri.bodegaweb.contract.UnidadeMedidaContract;
+import com.ranieri.bodegaweb.dao.contract.UnidadeMedidaContract;
 import com.ranieri.bodegaweb.model.ListJson;
 import com.ranieri.bodegaweb.model.UnidadeMedida;
 

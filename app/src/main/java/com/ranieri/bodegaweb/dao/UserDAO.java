@@ -5,8 +5,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.ranieri.bodegaweb.contract.UserContract;
-import com.ranieri.bodegaweb.database.BodegaHelper;
+import com.ranieri.bodegaweb.dao.contract.UserContract;
+import com.ranieri.bodegaweb.dao.database.BodegaHelper;
 import com.ranieri.bodegaweb.model.User;
 
 import java.util.ArrayList;

@@ -5,11 +5,11 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.ranieri.bodegaweb.contract.OrderContract;
-import com.ranieri.bodegaweb.contract.OrderItemsContract;
-import com.ranieri.bodegaweb.contract.ProdutosContract;
-import com.ranieri.bodegaweb.contract.UnidadeMedidaContract;
-import com.ranieri.bodegaweb.database.BodegaHelper;
+import com.ranieri.bodegaweb.dao.contract.OrderContract;
+import com.ranieri.bodegaweb.dao.contract.OrderItemsContract;
+import com.ranieri.bodegaweb.dao.contract.ProdutosContract;
+import com.ranieri.bodegaweb.dao.contract.UnidadeMedidaContract;
+import com.ranieri.bodegaweb.dao.database.BodegaHelper;
 import com.ranieri.bodegaweb.model.ListJson;
 import com.ranieri.bodegaweb.model.Order;
 import com.ranieri.bodegaweb.model.OrderItems;

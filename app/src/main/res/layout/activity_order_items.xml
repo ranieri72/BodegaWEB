@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.ranieri.bodegaweb.ListOrderItemsActivity">
+    tools:context="com.ranieri.bodegaweb.view.ListOrderItemsActivity">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
@@ -19,7 +19,7 @@
 
     <fragment
         android:id="@+id/fragment_list_order_items"
-        android:name="com.ranieri.bodegaweb.fragments.ListOrderItemsFragment"
+        android:name="com.ranieri.bodegaweb.view.fragments.ListOrderItemsFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:layout="@layout/fragment_list_order_items" />

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.ranieri.bodegaweb.ListaProdutosActivity">
+    tools:context="com.ranieri.bodegaweb.view.ListaProdutosActivity">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
@@ -19,7 +19,7 @@
 
     <fragment
         android:id="@+id/fragment_list_products"
-        android:name="com.ranieri.bodegaweb.fragments.ListProductsFragment"
+        android:name="com.ranieri.bodegaweb.view.fragments.ListProductsFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="7dp"

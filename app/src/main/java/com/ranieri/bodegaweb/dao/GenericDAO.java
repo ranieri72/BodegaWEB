@@ -4,7 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.ranieri.bodegaweb.database.BodegaHelper;
+import com.ranieri.bodegaweb.dao.database.BodegaHelper;
 
 import java.util.List;
 

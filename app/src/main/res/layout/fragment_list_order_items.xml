@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.ranieri.bodegaweb.fragments.ListOrderItemsFragment">
+    tools:context="com.ranieri.bodegaweb.view.fragments.ListOrderItemsFragment">
 
     <ListView
         android:id="@+id/listOrderItems"

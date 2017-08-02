@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="7dp"
-    tools:context="com.ranieri.bodegaweb.LoginActivity">
+    tools:context="com.ranieri.bodegaweb.view.LoginActivity">
 
     <EditText
         android:id="@+id/edtLogin"
