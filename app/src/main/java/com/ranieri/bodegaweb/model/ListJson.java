@@ -15,6 +15,7 @@ public class ListJson {
     private List<Provider> listaProvider;
     private List<OrderItems> listaOrderItems;
     private List<UnidadeMedida> listaUnidadeMedida;
+    private List<StockMovement> listaStockMovement;
 
     public List<Produtos> getListaProdutos() {
         return listaProdutos;
@@ -70,5 +71,13 @@ public class ListJson {
 
     public void setListaUnidadeMedida(List<UnidadeMedida> listaUnidadeMedida) {
         this.listaUnidadeMedida = listaUnidadeMedida;
+    }
+
+    public List<StockMovement> getListaStockMovement() {
+        return listaStockMovement;
+    }
+
+    public void setListaStockMovement(List<StockMovement> listaStockMovement) {
+        this.listaStockMovement = listaStockMovement;
     }
 }

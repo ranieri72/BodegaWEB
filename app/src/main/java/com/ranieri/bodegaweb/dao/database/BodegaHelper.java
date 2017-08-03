@@ -11,6 +11,7 @@ import com.ranieri.bodegaweb.dao.contract.PagesContract;
 import com.ranieri.bodegaweb.dao.contract.PermissionsContract;
 import com.ranieri.bodegaweb.dao.contract.ProdutosContract;
 import com.ranieri.bodegaweb.dao.contract.ProviderContract;
+import com.ranieri.bodegaweb.dao.contract.StockMovementContract;
 import com.ranieri.bodegaweb.dao.contract.SubCategoriasContract;
 import com.ranieri.bodegaweb.dao.contract.UnidadeMedidaContract;
 import com.ranieri.bodegaweb.dao.contract.UserContract;
@@ -98,6 +99,16 @@ public class BodegaHelper extends SQLiteOpenHelper {
         createTable = "CREATE TABLE " + PagesContract.TABLE_NAME + " (" +
                 PagesContract.COLUMN_ID + " INTEGER PRIMARY KEY, " +
                 PagesContract.COLUMN_NAME + " TEXT NOT NULL); ";
+        db.execSQL(createTable);
+
+        createTable = "CREATE TABLE " + StockMovementContract.TABLE_NAME + " (" +
+                StockMovementContract.COLUMN_ID + " INTEGER PRIMARY KEY, " +
+                StockMovementContract.COLUMN_QTD + " INTEGER NOT NULL, " +
+                StockMovementContract.COLUMN_HORA + " TEXT NOT NULL, " +
+                StockMovementContract.COLUMN_DATA + " TEXT NOT NULL, " +
+                StockMovementContract.COLUMN_PERDA + " INTEGER DEFAULT 0, " +
+                StockMovementContract.COLUMN_PRODUCT + " INTEGER NOT NULL, " +
+                StockMovementContract.COLUMN_UNITMEASUREMENT + " INTEGER NOT NULL); ";
         db.execSQL(createTable);
     }
 
