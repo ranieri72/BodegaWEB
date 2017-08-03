@@ -10,8 +10,10 @@ import com.ranieri.bodegaweb.dao.database.BodegaHelper;
 import com.ranieri.bodegaweb.model.ListJson;
 import com.ranieri.bodegaweb.model.StockMovement;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -19,6 +21,14 @@ import java.util.List;
  */
 
 public class StockMovementDAO extends GenericDAO<StockMovement> {
+
+    private int indexId;
+    private int indexQtd;
+    private int indexHora;
+    private int indexData;
+    private int indexPerda;
+    private int indexProduto;
+    private int indexUnidMedida;
 
     private final SimpleDateFormat formatoData = new SimpleDateFormat("dd/MM/yyyy");
     private final SimpleDateFormat formatoHora = new SimpleDateFormat("HH:mm");
@@ -48,11 +58,37 @@ public class StockMovementDAO extends GenericDAO<StockMovement> {
         return lista;
     }
 
-    private StockMovement valuesFromCursor(Cursor cursor) {
-        return null;
+    private void getColumnIndex(Cursor cursor) {
+        indexId = cursor.getColumnIndex(StockMovementContract.COLUMN_ID);
+        indexQtd = cursor.getColumnIndex(StockMovementContract.COLUMN_QTD);
+        indexHora = cursor.getColumnIndex(StockMovementContract.COLUMN_HORA);
+        indexData = cursor.getColumnIndex(StockMovementContract.COLUMN_DATA);
+        indexPerda = cursor.getColumnIndex(StockMovementContract.COLUMN_PERDA);
+        indexProduto = cursor.getColumnIndex(StockMovementContract.COLUMN_PRODUCT);
+        indexUnidMedida = cursor.getColumnIndex(StockMovementContract.COLUMN_UNITMEASUREMENT);
     }
 
-    private void getColumnIndex(Cursor cursor) {
+    private StockMovement valuesFromCursor(Cursor cursor) {
+        StockMovement s = new StockMovement();
+        Date dataFormatada;
+        Date horaFormatada;
+        try {
+            s.setId(cursor.getLong(indexId));
+            s.setQtd(cursor.getInt(indexQtd));
+
+            horaFormatada = formatoHora.parse(cursor.getString(indexHora));
+            s.setHora(horaFormatada);
+
+            dataFormatada = formatoData.parse(cursor.getString(indexData));
+            s.setData(dataFormatada);
+
+            s.setPerda((cursor.getInt(indexPerda)) == 1);
+            s.getProduto().setId(cursor.getInt(indexProduto));
+            s.getUnidMedida().setId(cursor.getInt(indexUnidMedida));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return s;
     }
 
     @Override

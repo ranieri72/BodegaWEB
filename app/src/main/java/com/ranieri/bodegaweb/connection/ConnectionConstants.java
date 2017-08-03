@@ -7,7 +7,7 @@ package com.ranieri.bodegaweb.connection;
 public class ConnectionConstants {
 
     //public static final String ipv4 = "http://192.168.0.2:8080/bodegaWEB/rest/";
-    public static final String ipv4 = "http://192.168.15.3:8080/bodegaWEB/rest/";
+    public static final String ipv4 = "http://192.168.15.13:8080/bodegaWEB/rest/";
     public static final String urlTest = ipv4 + "test";
 
     // Login
@@ -25,6 +25,7 @@ public class ConnectionConstants {
     // Products
     public static final String urlProducts = ipv4 + "products/";
     public static final String urlPostProducts = urlProducts + "post";
+    public static final String urlStockMovement = urlProducts + "postStockMovement";
     public static final String urlCategory = urlProducts + "categorias";
     public static final String urlSubCategory = urlProducts + "subcategorias";
 }
