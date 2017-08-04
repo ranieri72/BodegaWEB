@@ -11,12 +11,12 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.ranieri.bodegaweb.R;
-import com.ranieri.bodegaweb.view.adapter.ProdutosAdapter;
 import com.ranieri.bodegaweb.dao.ProdutosDAO;
 import com.ranieri.bodegaweb.model.Categorias;
 import com.ranieri.bodegaweb.model.Produtos;
 import com.ranieri.bodegaweb.model.Provider;
 import com.ranieri.bodegaweb.model.SubCategorias;
+import com.ranieri.bodegaweb.view.adapter.ProdutosAdapter;
 
 import org.parceler.Parcels;
 
@@ -37,32 +37,20 @@ public class ListProductsFragment extends Fragment {
     ProdutosAdapter mAdapter;
     Unbinder unbinder;
 
-    public static ListProductsFragment novaInstancia(Categorias categoria) {
-        Log.v("ListProductsFragment", "novaInstancia Categorias");
+    public static ListProductsFragment novaInstancia(Object object) {
+        String arg = "";
         ListProductsFragment fragment = new ListProductsFragment();
         Bundle args = new Bundle();
-        Parcelable parcelable = Parcels.wrap(categoria);
-        args.putParcelable("categoria", parcelable);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    public static ListProductsFragment novaInstancia(SubCategorias subCategoria) {
-        Log.v("ListProductsFragment", "novaInstancia SubCategorias");
-        ListProductsFragment fragment = new ListProductsFragment();
-        Bundle args = new Bundle();
-        Parcelable parcelable = Parcels.wrap(subCategoria);
-        args.putParcelable("subCategoria", parcelable);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    public static ListProductsFragment novaInstancia(Provider provider) {
-        Log.v("ListProductsFragment", "novaInstancia Provider");
-        ListProductsFragment fragment = new ListProductsFragment();
-        Bundle args = new Bundle();
-        Parcelable parcelable = Parcels.wrap(provider);
-        args.putParcelable("provider", parcelable);
+        Parcelable parcelable = Parcels.wrap(object);
+        if (object instanceof Categorias) {
+            arg = "categoria";
+        } else if (object instanceof SubCategorias) {
+            arg = "subCategoria";
+        } else if (object instanceof Provider) {
+            arg = "provider";
+        }
+        args.putParcelable(arg, parcelable);
+        Log.v("ListProductsFragment", "novaInstancia " + arg);
         fragment.setArguments(args);
         return fragment;
     }
@@ -76,22 +64,19 @@ public class ListProductsFragment extends Fragment {
             Log.v("ListProductsFragment", "onCreate - categoria");
             Parcelable parcelable = getArguments().getParcelable("categoria");
             Categorias categoria = Parcels.unwrap(parcelable);
-            ProdutosDAO mDAO = new ProdutosDAO(getActivity());
-            mLista = mDAO.listar(categoria);
-        }
-        if (getArguments() != null && getArguments().getParcelable("subCategoria") != null) {
+            mLista = new ProdutosDAO(getActivity()).listar(categoria);
+
+        } else if (getArguments() != null && getArguments().getParcelable("subCategoria") != null) {
             Log.v("ListProductsFragment", "onCreate - subCategoria");
             Parcelable parcelable = getArguments().getParcelable("subCategoria");
             SubCategorias subCategoria = Parcels.unwrap(parcelable);
-            ProdutosDAO mDAO = new ProdutosDAO(getActivity());
-            mLista = mDAO.listar(subCategoria);
-        }
-        if (getArguments() != null && getArguments().getParcelable("provider") != null) {
+            mLista = new ProdutosDAO(getActivity()).listar(subCategoria);
+
+        } else if (getArguments() != null && getArguments().getParcelable("provider") != null) {
             Log.v("ListProductsFragment", "onCreate - provider");
             Parcelable parcelable = getArguments().getParcelable("provider");
             Provider provider = Parcels.unwrap(parcelable);
-            ProdutosDAO mDAO = new ProdutosDAO(getActivity());
-            mLista = mDAO.listar(provider);
+            mLista = new ProdutosDAO(getActivity()).listar(provider);
         }
     }
 
