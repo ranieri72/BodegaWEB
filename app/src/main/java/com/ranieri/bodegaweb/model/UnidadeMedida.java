@@ -18,6 +18,10 @@ public class UnidadeMedida {
     public UnidadeMedida() {
     }
 
+    public UnidadeMedida(long id) {
+        this.id = id;
+    }
+
     public long getId() {
         return id;
     }

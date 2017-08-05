@@ -11,10 +11,12 @@ import com.ranieri.bodegaweb.model.ListJson;
 import com.ranieri.bodegaweb.model.StockMovement;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import static com.ranieri.bodegaweb.util.Util.formatoData;
+import static com.ranieri.bodegaweb.util.Util.formatoHora;
 
 /**
  * Created by ranie on 2 de ago.
@@ -29,9 +31,6 @@ public class StockMovementDAO extends GenericDAO<StockMovement> {
     private int indexPerda;
     private int indexProduto;
     private int indexUnidMedida;
-
-    private final SimpleDateFormat formatoData = new SimpleDateFormat("dd/MM/yyyy");
-    private final SimpleDateFormat formatoHora = new SimpleDateFormat("HH:mm");
 
     public StockMovementDAO(Context mContext) {
         super(mContext);

@@ -22,23 +22,22 @@ public class RefreshProductsTask extends AsyncTask<Context, Void, Integer> {
 
     @Override
     protected Integer doInBackground(Context... params) {
-        String jsonProducts;
-        String jsonStockMovementet;
+        String jsonString;
         Gson gson = new Gson();
         Context context = params[0];
         ListJson listJson;
         try {
             listJson = new ListJson();
             listJson.setListaStockMovement(new StockMovementDAO(context).listar());
-            jsonStockMovementet = gson.toJson(listJson, ListJson.class);
-            Response response = new ConnectionRequester(ConnectionConstants.urlStockMovement, jsonStockMovementet).postRequester();
+            jsonString = gson.toJson(listJson, ListJson.class);
+            Response response = new ConnectionRequester(ConnectionConstants.urlStockMovement, jsonString).postRequester();
             if (!response.isSuccessful()) return null;
 
             ProdutosDAO produtosDAO = new ProdutosDAO(context);
             listJson = new ListJson();
             listJson.setListaProdutos(produtosDAO.listar(true));
-            jsonProducts = gson.toJson(listJson, ListJson.class);
-            new ConnectionRequester(ConnectionConstants.urlPostProducts, jsonProducts).postRequester();
+            jsonString = gson.toJson(listJson, ListJson.class);
+            new ConnectionRequester(ConnectionConstants.urlPostProducts, jsonString).postRequester();
 
             listJson = new ConnectionRequester(ConnectionConstants.urlSubCategory).getRequester();
             new SubCategoriasDAO(context).refreshStock(listJson);

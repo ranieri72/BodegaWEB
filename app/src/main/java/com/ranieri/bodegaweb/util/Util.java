@@ -1,6 +1,7 @@
 package com.ranieri.bodegaweb.util;
 
 import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 import java.util.Locale;
 
 /**
@@ -10,6 +11,8 @@ import java.util.Locale;
 public class Util {
 
     private static Locale ptBr = new Locale("pt", "BR");
+    public static final SimpleDateFormat formatoData = new SimpleDateFormat("dd/MM/yyyy", ptBr);
+    public static final SimpleDateFormat formatoHora = new SimpleDateFormat("HH:mm", ptBr);
     public static boolean isPhone;
 
     public static String moneyFormatter(double money) {

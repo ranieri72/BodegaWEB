@@ -19,8 +19,17 @@ import android.widget.Toast;
 
 import com.ranieri.bodegaweb.R;
 import com.ranieri.bodegaweb.dao.CategoriasDAO;
+import com.ranieri.bodegaweb.dao.StockMovementDAO;
 import com.ranieri.bodegaweb.dao.SubCategoriasDAO;
 import com.ranieri.bodegaweb.dao.UserDAO;
+import com.ranieri.bodegaweb.model.Categorias;
+import com.ranieri.bodegaweb.model.Order;
+import com.ranieri.bodegaweb.model.Produtos;
+import com.ranieri.bodegaweb.model.Provider;
+import com.ranieri.bodegaweb.model.StockMovement;
+import com.ranieri.bodegaweb.model.SubCategorias;
+import com.ranieri.bodegaweb.model.UnidadeMedida;
+import com.ranieri.bodegaweb.util.Util;
 import com.ranieri.bodegaweb.view.fragments.ListCategoryFragment;
 import com.ranieri.bodegaweb.view.fragments.ListCategoryFragment.ClickOnCategoryListener;
 import com.ranieri.bodegaweb.view.fragments.ListOrderFragment.ClickOnOrderListener;
@@ -29,13 +38,7 @@ import com.ranieri.bodegaweb.view.fragments.ListProductsFragment.ClickOnProductL
 import com.ranieri.bodegaweb.view.fragments.ListProviderFragment.ClickOnProviderListener;
 import com.ranieri.bodegaweb.view.fragments.ListSubCategoryFragment;
 import com.ranieri.bodegaweb.view.fragments.ListSubCategoryFragment.ClickOnSubCategoryListener;
-import com.ranieri.bodegaweb.model.Categorias;
-import com.ranieri.bodegaweb.model.Order;
-import com.ranieri.bodegaweb.model.Produtos;
-import com.ranieri.bodegaweb.model.Provider;
-import com.ranieri.bodegaweb.model.SubCategorias;
 import com.ranieri.bodegaweb.view.pagerAdapter.MainPagerAdapter;
-import com.ranieri.bodegaweb.util.Util;
 
 import org.parceler.Parcels;
 
@@ -47,11 +50,12 @@ public class MainActivity extends AppCompatActivity implements ClickOnSubCategor
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        Util.isPhone = getResources().getBoolean(R.bool.isPhone);
+        int layout = R.layout.activity_main;
+        if (!Util.isPhone) layout = R.layout.activity_main_tablet;
+        setContentView(layout);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        Util.isPhone = getResources().getBoolean(R.bool.isPhone);
-
         if (Util.isPhone) {
             onCreateViewPhone();
         } else {
@@ -170,9 +174,14 @@ public class MainActivity extends AppCompatActivity implements ClickOnSubCategor
         builder.setView(input);
         builder.setPositiveButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface arg0, int arg1) {
-                Toast.makeText(MainActivity.this, "qtd " + input.getText().toString(), Toast.LENGTH_SHORT).show();
-                produto.setEstoque(Integer.parseInt(input.getText().toString()));
-                //new ProdutosDAO(MainActivity.this).atualizar(produto);
+
+                StockMovement movement = new StockMovement();
+                movement.setQtd(Integer.parseInt(input.getText().toString()));
+                movement.setProduto(produto);
+                movement.setUnidMedida(new UnidadeMedida(1));
+                movement.setPerda(false);
+                Toast.makeText(MainActivity.this, movement.getProduto().getNome() + ": " + movement.getQtd(), Toast.LENGTH_SHORT).show();
+                new StockMovementDAO(MainActivity.this).inserir(movement);
             }
         });
         builder.setNegativeButton(getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {

@@ -11,8 +11,9 @@ import android.widget.TextView;
 
 import com.ranieri.bodegaweb.model.OrderItems;
 
-import java.text.SimpleDateFormat;
 import java.util.List;
+
+import static com.ranieri.bodegaweb.util.Util.formatoData;
 
 /**
  * Created by ranie on 28 de abr.
@@ -21,7 +22,6 @@ import java.util.List;
 public class OrderItemsAdapter extends ArrayAdapter<OrderItems> {
 
     private int cod;
-    private final SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
 
     public OrderItemsAdapter(@NonNull Context context, @NonNull List<OrderItems> objects, int cod) {
         super(context, 0, objects);
@@ -77,7 +77,7 @@ public class OrderItemsAdapter extends ArrayAdapter<OrderItems> {
                     vh2 = (ViewHolder2) convertView.getTag();
                 }
 
-                String data = formato.format(orderItems.getChaveComposta().getOrder().getDataPedido());
+                String data = formatoData.format(orderItems.getChaveComposta().getOrder().getDataPedido());
                 price = orderItems.getPrecoUnit();
                 multi = orderItems.getUnidMedida().getMultiplicador();
                 total = price / multi;

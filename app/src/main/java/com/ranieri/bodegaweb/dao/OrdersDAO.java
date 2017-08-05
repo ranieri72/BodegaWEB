@@ -12,18 +12,17 @@ import com.ranieri.bodegaweb.model.ListJson;
 import com.ranieri.bodegaweb.model.Order;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import static com.ranieri.bodegaweb.util.Util.formatoData;
 
 /**
  * Created by ranie on 16 de mai.
  */
 
 public class OrdersDAO extends GenericDAO<Order> {
-
-    private final SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
 
     private int indexId;
     private int indexOrderDate;
@@ -85,7 +84,7 @@ public class OrdersDAO extends GenericDAO<Order> {
         Order o = new Order();
         Date dataFormatada;
         try {
-            dataFormatada = formato.parse(cursor.getString(indexOrderDate));
+            dataFormatada = formatoData.parse(cursor.getString(indexOrderDate));
 
             o.setId(cursor.getLong(indexId));
             o.setDataPedido(dataFormatada);
@@ -108,7 +107,7 @@ public class OrdersDAO extends GenericDAO<Order> {
     protected ContentValues valuesFromObject(Order order) {
         ContentValues values = new ContentValues();
         values.put(OrderContract.COLUMN_ID, order.getId());
-        values.put(OrderContract.COLUMN_ORDERDATE, formato.format(order.getDataPedido()));
+        values.put(OrderContract.COLUMN_ORDERDATE, formatoData.format(order.getDataPedido()));
         values.put(OrderContract.COLUMN_TOTALORDER, order.getTotalPedido());
         values.put(OrderContract.COLUMN_PROVIDER, order.getFornecedor().getId());
         return values;

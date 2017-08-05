@@ -11,16 +11,15 @@ import android.widget.TextView;
 
 import com.ranieri.bodegaweb.model.Order;
 
-import java.text.SimpleDateFormat;
 import java.util.List;
+
+import static com.ranieri.bodegaweb.util.Util.formatoData;
 
 /**
  * Created by ranie on 28 de abr.
  */
 
 public class OrderAdapter extends ArrayAdapter<Order> {
-
-    private final SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
 
     public OrderAdapter(@NonNull Context context, @NonNull List<Order> objects) {
         super(context, 0, objects);
@@ -48,7 +47,7 @@ public class OrderAdapter extends ArrayAdapter<Order> {
         }
 
         vh.txtEmpresa.setText(order.getFornecedor().getEmpresa());
-        String data = formato.format(order.getDataPedido());
+        String data = formatoData.format(order.getDataPedido());
         float total = order.getTotalPedido();
         vh.txtData.setText(data + " - R$ " + total);
 
