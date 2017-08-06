@@ -46,6 +46,7 @@ import com.ranieri.bodegaweb.view.pagerAdapter.MainPagerAdapter;
 
 import org.parceler.Parcels;
 
+import java.util.Date;
 import java.util.concurrent.ExecutionException;
 
 public class MainActivity extends AppCompatActivity implements ClickOnSubCategoryListener, ClickOnCategoryListener, ClickOnProviderListener, ClickOnOrderListener, ClickOnProductListener {
@@ -189,7 +190,8 @@ public class MainActivity extends AppCompatActivity implements ClickOnSubCategor
                 movement.setProduto(produto);
                 movement.setUnidMedida(new UnidadeMedida(1));
                 movement.setPerda(false);
-                Toast.makeText(MainActivity.this, movement.getProduto().getNome() + ": " + movement.getQtd(), Toast.LENGTH_SHORT).show();
+                movement.setHora(new Date());
+                movement.setData(new Date());
                 new StockMovementDAO(MainActivity.this).inserir(movement);
             }
         });

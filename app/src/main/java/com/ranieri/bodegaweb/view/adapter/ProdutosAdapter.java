@@ -63,7 +63,7 @@ public class ProdutosAdapter extends ArrayAdapter<Produtos> {
             }
         }
         inf += Util.moneyFormatter(produto.getPrecoSugerido());
-        if (Util.isTablet) {
+        if (!Util.isTablet) {
             inf += " - " + produto.getCategoria().getNome();
         }
 

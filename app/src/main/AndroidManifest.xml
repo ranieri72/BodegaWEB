@@ -11,18 +11,39 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".view.ListaProdutosActivity" />
-        <activity android:name=".view.DetalProdutosActivity" />
-        <activity android:name=".view.EditarProdutosActivity" />
-        <activity android:name=".view.EditStockActivity" />
-        <activity android:name=".view.ListaCategoriasActivity" />
-        <activity android:name=".view.ConfiguracoesActivity" />
-        <activity android:name=".view.OrderActivity" />
-        <activity android:name=".view.ListOrderItemsActivity" />
-        <activity android:name=".view.ProviderActivity" />
-        <activity android:name=".view.MainActivity" />
+        <activity
+            android:name=".view.ListaProdutosActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.DetalProdutosActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.EditarProdutosActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.ListaCategoriasActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.ConfiguracoesActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.OrderActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.ListOrderItemsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.ProviderActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.MainActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.LoginActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".view.CheckingLoginActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -30,7 +51,5 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".view.LoginActivity" />
     </application>
-
 </manifest>
