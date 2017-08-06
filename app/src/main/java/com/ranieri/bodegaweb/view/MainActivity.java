@@ -1,7 +1,9 @@
 package com.ranieri.bodegaweb.view;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.TabLayout.OnTabSelectedListener;
@@ -18,6 +20,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.ranieri.bodegaweb.R;
+import com.ranieri.bodegaweb.asyncTask.RefreshOrderTask;
+import com.ranieri.bodegaweb.asyncTask.RefreshProductsTask;
 import com.ranieri.bodegaweb.dao.CategoriasDAO;
 import com.ranieri.bodegaweb.dao.StockMovementDAO;
 import com.ranieri.bodegaweb.dao.SubCategoriasDAO;
@@ -42,6 +46,8 @@ import com.ranieri.bodegaweb.view.pagerAdapter.MainPagerAdapter;
 
 import org.parceler.Parcels;
 
+import java.util.concurrent.ExecutionException;
+
 public class MainActivity extends AppCompatActivity implements ClickOnSubCategoryListener, ClickOnCategoryListener, ClickOnProviderListener, ClickOnOrderListener, ClickOnProductListener {
 
     ListCategoryFragment categoryFragment;
@@ -50,16 +56,19 @@ public class MainActivity extends AppCompatActivity implements ClickOnSubCategor
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Util.isPhone = getResources().getBoolean(R.bool.isPhone);
+        //Util.isTablet = getResources().getBoolean(R.bool.isTablet);
+        SharedPreferences sharedPreferences = getSharedPreferences(Util.tabletViewPreference, Context.MODE_PRIVATE);
+        Util.isTablet = sharedPreferences.getBoolean(Util.tabletViewPreference, true);
+
         int layout = R.layout.activity_main;
-        if (!Util.isPhone) layout = R.layout.activity_main_tablet;
+        if (Util.isTablet) layout = R.layout.activity_main_tablet;
         setContentView(layout);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        if (Util.isPhone) {
-            onCreateViewPhone();
-        } else {
+        if (Util.isTablet) {
             onCreateViewTablet();
+        } else {
+            onCreateViewPhone();
         }
     }
 
@@ -118,12 +127,7 @@ public class MainActivity extends AppCompatActivity implements ClickOnSubCategor
 
     @Override
     public void subCategoryClicked(SubCategorias subCategoria) {
-        if (Util.isPhone) {
-            Log.v("MainActivity", "subCategoryClicked - isPhone");
-            Intent it = new Intent(this, ListaProdutosActivity.class);
-            it.putExtra("subCategoria", Parcels.wrap(subCategoria));
-            startActivity(it);
-        } else {
+        if (Util.isTablet) {
             Log.v("MainActivity", "subCategoryClicked - isTablet");
             categoryFragment.notifyDataSetChanged(subCategoria);
 
@@ -131,6 +135,11 @@ public class MainActivity extends AppCompatActivity implements ClickOnSubCategor
             if (categoria != null) {
                 productsFragment.notifyDataSetChanged(categoria);
             }
+        } else {
+            Log.v("MainActivity", "subCategoryClicked - isTablet");
+            Intent it = new Intent(this, ListaProdutosActivity.class);
+            it.putExtra("subCategoria", Parcels.wrap(subCategoria));
+            startActivity(it);
         }
     }
 
@@ -192,23 +201,6 @@ public class MainActivity extends AppCompatActivity implements ClickOnSubCategor
         alerta.show();
     }
 
-    private void dialogLogout() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(getResources().getString(R.string.logout));
-        builder.setMessage(getResources().getString(R.string.confirmlogout));
-        builder.setPositiveButton(getResources().getString(R.string.yes), new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface arg0, int arg1) {
-                optionLogout();
-            }
-        });
-        builder.setNegativeButton(getResources().getString(R.string.no), new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface arg0, int arg1) {
-            }
-        });
-        AlertDialog alerta = builder.create();
-        alerta.show();
-    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu, menu);
@@ -218,6 +210,9 @@ public class MainActivity extends AppCompatActivity implements ClickOnSubCategor
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.action_update:
+                dialogUpdate();
+                break;
             case R.id.action_configuracoes:
                 optionConfig();
                 break;
@@ -228,12 +223,59 @@ public class MainActivity extends AppCompatActivity implements ClickOnSubCategor
         return super.onOptionsItemSelected(item);
     }
 
+    private void dialogUpdate() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(getResources().getString(R.string.atualizarDados));
+        builder.setMessage("Tem certeza?");
+        builder.setPositiveButton(getResources().getString(R.string.yes), new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface arg0, int arg1) {
+                updateData();
+            }
+        });
+        builder.setNegativeButton(getResources().getString(R.string.no), new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface arg0, int arg1) {
+            }
+        });
+        AlertDialog alerta = builder.create();
+        alerta.show();
+    }
+
+    private void updateData() {
+        try {
+            int qtd = new RefreshProductsTask().execute(this).get();
+            Toast.makeText(this, getResources().getString(R.string.produtosAtualizados) + qtd, Toast.LENGTH_LONG).show();
+            qtd = new RefreshOrderTask().execute(this).get();
+            Toast.makeText(this, getResources().getString(R.string.pedidosAtualizados) + qtd, Toast.LENGTH_LONG).show();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+    }
+
     private void optionConfig() {
         Intent it = new Intent(this, ConfiguracoesActivity.class);
         startActivity(it);
     }
 
-    private void optionLogout() {
+    private void dialogLogout() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(getResources().getString(R.string.logout));
+        builder.setMessage(getResources().getString(R.string.confirmlogout));
+        builder.setPositiveButton(getResources().getString(R.string.yes), new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface arg0, int arg1) {
+                logout();
+            }
+        });
+        builder.setNegativeButton(getResources().getString(R.string.no), new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface arg0, int arg1) {
+            }
+        });
+        AlertDialog alerta = builder.create();
+        alerta.show();
+    }
+
+    private void logout() {
         new UserDAO(this).setAutoLoginFalse();
         Intent it = new Intent(this, LoginActivity.class);
         startActivity(it);

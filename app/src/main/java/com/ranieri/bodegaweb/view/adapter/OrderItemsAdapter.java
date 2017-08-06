@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.ranieri.bodegaweb.model.OrderItems;
+import com.ranieri.bodegaweb.util.Util;
 
 import java.util.List;
 
@@ -59,7 +60,7 @@ public class OrderItemsAdapter extends ArrayAdapter<OrderItems> {
                 price = orderItems.getPrecoUnit();
                 String unidMedida = orderItems.getUnidMedida().getNome();
                 total = qtd * price;
-                vh.txtQtd.setText("R$" + price + " - QTD:" + qtd + " " + unidMedida + " Total R$" + total);
+                vh.txtQtd.setText(Util.moneyFormatter(price) + " - QTD " + qtd + " " + unidMedida + " - Total " + Util.moneyFormatter(total));
                 break;
             case 2:
                 //2)
@@ -82,7 +83,7 @@ public class OrderItemsAdapter extends ArrayAdapter<OrderItems> {
                 multi = orderItems.getUnidMedida().getMultiplicador();
                 total = price / multi;
 
-                vh2.txtPrice.setText("R$ " + total);
+                vh2.txtPrice.setText(Util.moneyFormatter(total));
                 vh2.txtDate.setText(data);
                 break;
             default:

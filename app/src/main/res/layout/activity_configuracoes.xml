@@ -17,21 +17,33 @@
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
-    <Button
-        android:id="@+id/btnAtualizarProdutos"
+    <Switch
+        android:id="@+id/switchTabletView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="7dp"
-        android:layout_marginBottom="10dp"
-        android:text="@string/atualizarProdutos" />
+        android:layout_marginEnd="7dp"
+        android:layout_marginStart="7dp"
+        android:layout_marginTop="10dp"
+        android:text="@string/tabletView" />
+
+    <TextView
+        android:id="@+id/txt_nome"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="7dp"
+        android:layout_marginStart="7dp"
+        android:text="@string/restart"
+        android:textColor="#ff1414" />
 
     <Button
-        android:id="@+id/btnAtualizarPedidos"
+        android:id="@+id/btnSave"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="7dp"
         android:layout_marginBottom="10dp"
-        android:text="@string/atualizarPedidos" />
+        android:layout_marginEnd="7dp"
+        android:layout_marginStart="7dp"
+        android:layout_marginTop="30dp"
+        android:text="@string/salvar" />
 
     <Button
         android:id="@+id/btnIonTest"
@@ -39,12 +51,16 @@
         android:layout_height="wrap_content"
         android:layout_margin="7dp"
         android:layout_marginBottom="10dp"
-        android:text="Ion Teste" />
+        android:text="Ion Teste"
+        android:visibility="invisible"
+        tools:ignore="HardcodedText" />
 
     <ProgressBar
         android:id="@+id/progress_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center" />
+        android:layout_gravity="center"
+        android:visibility="invisible" />
+
 
 </LinearLayout>

@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.ranieri.bodegaweb.model.Order;
+import com.ranieri.bodegaweb.util.Util;
 
 import java.util.List;
 
@@ -49,7 +50,7 @@ public class OrderAdapter extends ArrayAdapter<Order> {
         vh.txtEmpresa.setText(order.getFornecedor().getEmpresa());
         String data = formatoData.format(order.getDataPedido());
         float total = order.getTotalPedido();
-        vh.txtData.setText(data + " - R$ " + total);
+        vh.txtData.setText(data + " - " + Util.moneyFormatter(total));
 
         //4)
         return convertView;

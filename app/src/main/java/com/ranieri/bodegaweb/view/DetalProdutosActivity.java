@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.ranieri.bodegaweb.R;
 import com.ranieri.bodegaweb.dao.ProdutosDAO;
 import com.ranieri.bodegaweb.model.Produtos;
+import com.ranieri.bodegaweb.util.Util;
 
 import org.parceler.Parcels;
 
@@ -104,7 +105,7 @@ public class DetalProdutosActivity extends AppCompatActivity {
         mTxtNome.setText(produto.getNome());
         mTxtEstoque.setText(String.valueOf(produto.getEstoque()));
         mTxtNovoEstoque.setText(String.valueOf(produto.getNovoEstoque()));
-        mTxtPreco.setText(String.valueOf(produto.getPrecoSugerido()));
+        mTxtPreco.setText(Util.moneyFormatter(produto.getPrecoSugerido()));
         mTxtCategoria.setText(produto.getCategoria().getNome());
         mTxtSubCategoria.setText(produto.getCategoria().getSubCategoriaProd().getNome());
     }

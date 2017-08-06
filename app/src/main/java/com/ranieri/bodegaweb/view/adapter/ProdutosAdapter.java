@@ -54,17 +54,17 @@ public class ProdutosAdapter extends ArrayAdapter<Produtos> {
         if (produto.isAlterado()) {
             //convertView.setBackgroundColor(Color.RED);
             vh.txtEstoque.setTextColor(Color.RED);
-            inf += String.valueOf(convertView.getResources().getString(R.string.novoestoque) + " " + produto.getNovoEstoque() + " ");
+            inf += String.valueOf(convertView.getResources().getString(R.string.novoestoque) + " " + produto.getNovoEstoque() + " - ");
         } else {
             if (AppSession.user.getId() != 3) {
                 //convertView.setBackgroundColor(Color.WHITE);
                 vh.txtEstoque.setTextColor(Color.BLACK);
-                inf += String.valueOf(convertView.getResources().getString(R.string.estoque) + " " + produto.getEstoque() + " ");
+                inf += String.valueOf(convertView.getResources().getString(R.string.estoque) + " " + produto.getEstoque() + " - ");
             }
         }
         inf += Util.moneyFormatter(produto.getPrecoSugerido());
-        if (Util.isPhone) {
-            inf += " " + produto.getCategoria().getNome();
+        if (Util.isTablet) {
+            inf += " - " + produto.getCategoria().getNome();
         }
 
         vh.txtEstoque.setText(inf);

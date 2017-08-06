@@ -13,7 +13,9 @@ public class Util {
     private static Locale ptBr = new Locale("pt", "BR");
     public static final SimpleDateFormat formatoData = new SimpleDateFormat("dd/MM/yyyy", ptBr);
     public static final SimpleDateFormat formatoHora = new SimpleDateFormat("HH:mm", ptBr);
-    public static boolean isPhone;
+
+    public static final String tabletViewPreference = "tabletView";
+    public static boolean isTablet;
 
     public static String moneyFormatter(double money) {
         return NumberFormat.getCurrencyInstance(ptBr).format(money);

@@ -4,7 +4,7 @@
     <string name="estoque">Estoque</string>
     <string name="novoestoque">Estoque atual</string>
     <string name="editstock">Alterar estoque</string>
-    <string name="preco">R$</string>
+    <string name="preco">Preço</string>
     <string name="nome">Nome</string>
     <string name="categoria">Categoria</string>
     <string name="subcategoria">Subcategoria</string>
@@ -20,9 +20,13 @@
     <string name="configuracoes">Configurações</string>
     <string name="atualizarProdutos">Atualizar Produtos</string>
     <string name="atualizarPedidos">Atualizar Pedidos</string>
+    <string name="atualizarDados">Atualizar Dados</string>
     <string name="produtosAtualizados">Produtos Atualizados: </string>
     <string name="pedidosAtualizados">Pedidos Atualizados: </string>
     <string name="stockMovement">Movimentação do Estoque</string>
+    <string name="tabletView">Visão de Tablet</string>
+    <string name="restart">Reiniciar o aplicativo para aplicar as mudanças!</string>
+    <string name="areYouSure">Você tem certeza?</string>
 
     <string name="login">Login</string>
     <string name="logout">Sair</string>

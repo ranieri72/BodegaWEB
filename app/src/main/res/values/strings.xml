@@ -4,7 +4,7 @@
     <string name="estoque">Amount</string>
     <string name="novoestoque">Current amount</string>
     <string name="editstock">Edit stock</string>
-    <string name="preco">R$</string>
+    <string name="preco">Price</string>
     <string name="nome">Name</string>
     <string name="categoria">Category</string>
     <string name="subcategoria">Subcategory</string>
@@ -20,9 +20,13 @@
     <string name="configuracoes">Settings</string>
     <string name="atualizarProdutos">Refresh Products</string>
     <string name="atualizarPedidos">Refresh Orders</string>
+    <string name="atualizarDados">Refresh Data</string>
     <string name="produtosAtualizados">Updated Products: </string>
     <string name="pedidosAtualizados">Updated Orders: </string>
     <string name="stockMovement">Stock Movement</string>
+    <string name="tabletView">Tablet View</string>
+    <string name="restart">Restart application to apply changes!</string>
+    <string name="areYouSure">Are you sure?</string>
 
     <string name="login">Login</string>
     <string name="logout">Logout</string>
