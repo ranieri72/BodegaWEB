@@ -102,7 +102,6 @@ public class BodegaHelper extends SQLiteOpenHelper {
         db.execSQL(createTable);
 
         createTable = "CREATE TABLE " + StockMovementContract.TABLE_NAME + " (" +
-                StockMovementContract.COLUMN_ID + " INTEGER PRIMARY KEY, " +
                 StockMovementContract.COLUMN_QTD + " INTEGER NOT NULL, " +
                 StockMovementContract.COLUMN_HORA + " TEXT NOT NULL, " +
                 StockMovementContract.COLUMN_DATA + " TEXT NOT NULL, " +

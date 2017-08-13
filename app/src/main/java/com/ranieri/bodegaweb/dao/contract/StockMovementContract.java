@@ -7,7 +7,6 @@ package com.ranieri.bodegaweb.dao.contract;
 public interface StockMovementContract {
     String TABLE_NAME = "stockmovement";
 
-    String COLUMN_ID = TABLE_NAME + "_id";
     String COLUMN_QTD = TABLE_NAME + "_qtd";
     String COLUMN_HORA = TABLE_NAME + "_hora";
     String COLUMN_DATA = TABLE_NAME + "_data";
@@ -15,7 +14,6 @@ public interface StockMovementContract {
     String COLUMN_PRODUCT = TABLE_NAME + "_id_produto";
     String COLUMN_UNITMEASUREMENT = TABLE_NAME + "_id_unidMedida";
 
-    String ID = TABLE_NAME + "." + COLUMN_ID;
     String QTD = TABLE_NAME + "." + COLUMN_QTD;
     String HORA = TABLE_NAME + "." + COLUMN_HORA;
     String DATA = TABLE_NAME + "." + COLUMN_DATA;

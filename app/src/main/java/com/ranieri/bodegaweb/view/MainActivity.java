@@ -20,8 +20,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.ranieri.bodegaweb.R;
-import com.ranieri.bodegaweb.asyncTask.RefreshOrderTask;
-import com.ranieri.bodegaweb.asyncTask.RefreshProductsTask;
+import com.ranieri.bodegaweb.asyncTask.RefreshDataTask;
 import com.ranieri.bodegaweb.dao.CategoriasDAO;
 import com.ranieri.bodegaweb.dao.StockMovementDAO;
 import com.ranieri.bodegaweb.dao.SubCategoriasDAO;
@@ -228,7 +227,7 @@ public class MainActivity extends AppCompatActivity implements ClickOnSubCategor
     private void dialogUpdate() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(getResources().getString(R.string.atualizarDados));
-        builder.setMessage("Tem certeza?");
+        builder.setMessage(getResources().getString(R.string.areYouSure));
         builder.setPositiveButton(getResources().getString(R.string.yes), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface arg0, int arg1) {
                 updateData();
@@ -244,10 +243,8 @@ public class MainActivity extends AppCompatActivity implements ClickOnSubCategor
 
     private void updateData() {
         try {
-            int qtd = new RefreshProductsTask().execute(this).get();
+            int qtd = new RefreshDataTask().execute(this).get();
             Toast.makeText(this, getResources().getString(R.string.produtosAtualizados) + qtd, Toast.LENGTH_LONG).show();
-            qtd = new RefreshOrderTask().execute(this).get();
-            Toast.makeText(this, getResources().getString(R.string.pedidosAtualizados) + qtd, Toast.LENGTH_LONG).show();
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {

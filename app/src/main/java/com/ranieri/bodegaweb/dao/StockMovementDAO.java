@@ -8,7 +8,9 @@ import android.database.sqlite.SQLiteDatabase;
 import com.ranieri.bodegaweb.dao.contract.StockMovementContract;
 import com.ranieri.bodegaweb.dao.database.BodegaHelper;
 import com.ranieri.bodegaweb.model.ListJson;
+import com.ranieri.bodegaweb.model.Produtos;
 import com.ranieri.bodegaweb.model.StockMovement;
+import com.ranieri.bodegaweb.model.UnidadeMedida;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -24,7 +26,6 @@ import static com.ranieri.bodegaweb.util.Util.formatoHora;
 
 public class StockMovementDAO extends GenericDAO<StockMovement> {
 
-    private int indexId;
     private int indexQtd;
     private int indexHora;
     private int indexData;
@@ -34,6 +35,7 @@ public class StockMovementDAO extends GenericDAO<StockMovement> {
 
     public StockMovementDAO(Context mContext) {
         super(mContext);
+        tableName = StockMovementContract.TABLE_NAME;
     }
 
     public List<StockMovement> listar() {
@@ -58,7 +60,6 @@ public class StockMovementDAO extends GenericDAO<StockMovement> {
     }
 
     private void getColumnIndex(Cursor cursor) {
-        indexId = cursor.getColumnIndex(StockMovementContract.COLUMN_ID);
         indexQtd = cursor.getColumnIndex(StockMovementContract.COLUMN_QTD);
         indexHora = cursor.getColumnIndex(StockMovementContract.COLUMN_HORA);
         indexData = cursor.getColumnIndex(StockMovementContract.COLUMN_DATA);
@@ -72,7 +73,6 @@ public class StockMovementDAO extends GenericDAO<StockMovement> {
         Date dataFormatada;
         Date horaFormatada;
         try {
-            s.setId(cursor.getLong(indexId));
             s.setQtd(cursor.getInt(indexQtd));
 
             horaFormatada = formatoHora.parse(cursor.getString(indexHora));
@@ -82,8 +82,8 @@ public class StockMovementDAO extends GenericDAO<StockMovement> {
             s.setData(dataFormatada);
 
             s.setPerda((cursor.getInt(indexPerda)) == 1);
-            s.getProduto().setId(cursor.getInt(indexProduto));
-            s.getUnidMedida().setId(cursor.getInt(indexUnidMedida));
+            s.setProduto(new Produtos(cursor.getInt(indexProduto)));
+            s.setUnidMedida(new UnidadeMedida(cursor.getInt(indexUnidMedida)));
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -93,7 +93,6 @@ public class StockMovementDAO extends GenericDAO<StockMovement> {
     @Override
     protected ContentValues valuesFromObject(StockMovement stockMovement) {
         ContentValues values = new ContentValues();
-        values.put(StockMovementContract.COLUMN_ID, stockMovement.getId());
         values.put(StockMovementContract.COLUMN_QTD, stockMovement.getQtd());
         values.put(StockMovementContract.COLUMN_HORA, formatoHora.format(stockMovement.getHora()));
         values.put(StockMovementContract.COLUMN_DATA, formatoData.format(stockMovement.getData()));
@@ -101,10 +100,5 @@ public class StockMovementDAO extends GenericDAO<StockMovement> {
         values.put(StockMovementContract.COLUMN_PRODUCT, stockMovement.getProduto().getId());
         values.put(StockMovementContract.COLUMN_UNITMEASUREMENT, stockMovement.getUnidMedida().getId());
         return values;
-    }
-
-    public int refreshOrders(ListJson listJson) {
-        excluir();
-        return inserir(listJson.getListaStockMovement());
     }
 }

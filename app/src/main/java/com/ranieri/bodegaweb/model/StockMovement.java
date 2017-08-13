@@ -11,7 +11,6 @@ import java.util.Date;
 @Parcel(Parcel.Serialization.BEAN)
 public class StockMovement {
 
-    private long id;
     private int qtd;
     private Date hora;
     private Date data;
@@ -20,14 +19,6 @@ public class StockMovement {
     private UnidadeMedida unidMedida;
 
     public StockMovement() {
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
     }
 
     public int getQtd() {

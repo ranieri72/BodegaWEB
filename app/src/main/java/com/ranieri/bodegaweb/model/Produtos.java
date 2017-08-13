@@ -23,6 +23,8 @@ public class Produtos {
         categoria = new Categorias();
     }
 
+    public Produtos(long id) { this.id = id; }
+
     public long getId() {
         return id;
     }
