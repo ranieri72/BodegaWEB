@@ -52,7 +52,7 @@
         android:layout_margin="7dp"
         android:layout_marginBottom="10dp"
         android:text="Ion Teste"
-        android:visibility="invisible"
+        android:visibility="visible"
         tools:ignore="HardcodedText" />
 
     <ProgressBar

@@ -1,6 +1,7 @@
 package com.ranieri.bodegaweb.view;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -10,8 +11,15 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.google.android.gms.security.ProviderInstaller;
 import com.ranieri.bodegaweb.R;
+import com.ranieri.bodegaweb.connection.AsyncRequest;
+import com.ranieri.bodegaweb.connection.ConnectionConstants;
+import com.ranieri.bodegaweb.connection.SyncAdapter;
 import com.ranieri.bodegaweb.util.Util;
+
+import java.security.Security;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -67,8 +75,22 @@ public class ConfiguracoesActivity extends AppCompatActivity {
                 }
                 break;
             case R.id.btnIonTest:
-                //new AsyncRequest(this, ConnectionConstants.urlProducts).getJson();
-                Toast.makeText(this, "Ion Teste", Toast.LENGTH_LONG).show();
+                String errorMsg = "";
+//                if (Security.getProvider(ProviderInstaller.PROVIDER_NAME) != null) {
+//                    //success = true;
+//                    break;
+//                }
+                //new SyncAdapter(this, true).onPerformSync();
+
+                try {
+                    new AsyncRequest(this, ConnectionConstants.urlProducts).getJson();
+                    errorMsg = "Ion Teste Ok";
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    errorMsg = "Ion Teste Fail";
+                } finally {
+                    Toast.makeText(this, errorMsg, Toast.LENGTH_LONG).show();
+                }
                 break;
         }
         //progressBar.setIndeterminate(false);

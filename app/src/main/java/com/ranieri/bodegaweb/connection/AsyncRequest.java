@@ -1,6 +1,7 @@
 package com.ranieri.bodegaweb.connection;
 
 import android.content.Context;
+import android.widget.Toast;
 
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
@@ -8,6 +9,8 @@ import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 import com.ranieri.bodegaweb.dao.ProdutosDAO;
 import com.ranieri.bodegaweb.model.ListJson;
+
+import java.util.List;
 
 /**
  * Created by ranie on 23 de jul.
@@ -27,12 +30,13 @@ public class AsyncRequest {
     public void getJson() throws Exception {
         Ion.with(context)
                 .load(url)
-                .as(new TypeToken<ListJson>() {
-                })
-                .setCallback(new FutureCallback<ListJson>() {
+                .asJsonObject()
+                .setCallback(new FutureCallback<JsonObject>() {
                     @Override
-                    public void onCompleted(Exception e, ListJson produtos) {
-                        new ProdutosDAO(context).refreshStock(produtos);
+                    public void onCompleted(Exception e, JsonObject jsonObject) {
+                        Toast.makeText(context, jsonObject.get("produtos").getAsString(), Toast.LENGTH_LONG).show();
+
+                        //new ProdutosDAO(context).refreshStock(produtos);
                     }
                 });
     }
