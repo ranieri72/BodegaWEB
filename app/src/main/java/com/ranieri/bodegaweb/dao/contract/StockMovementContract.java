@@ -13,6 +13,7 @@ public interface StockMovementContract {
     String COLUMN_PERDA = TABLE_NAME + "_perda";
     String COLUMN_PRODUCT = TABLE_NAME + "_id_produto";
     String COLUMN_UNITMEASUREMENT = TABLE_NAME + "_id_unidMedida";
+    String COLUMN_USER = TABLE_NAME + "_id_user";
 
     String QTD = TABLE_NAME + "." + COLUMN_QTD;
     String HORA = TABLE_NAME + "." + COLUMN_HORA;
@@ -20,4 +21,5 @@ public interface StockMovementContract {
     String PERDA = TABLE_NAME + "." + COLUMN_PERDA;
     String PRODUCT = TABLE_NAME + "." + COLUMN_PRODUCT;
     String UNITMEASUREMENT = TABLE_NAME + "." + COLUMN_UNITMEASUREMENT;
+    String USER = TABLE_NAME + "." + COLUMN_USER;
 }

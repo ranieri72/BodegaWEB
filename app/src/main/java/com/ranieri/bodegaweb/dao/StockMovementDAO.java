@@ -11,6 +11,7 @@ import com.ranieri.bodegaweb.model.ListJson;
 import com.ranieri.bodegaweb.model.Produtos;
 import com.ranieri.bodegaweb.model.StockMovement;
 import com.ranieri.bodegaweb.model.UnidadeMedida;
+import com.ranieri.bodegaweb.model.User;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -32,6 +33,7 @@ public class StockMovementDAO extends GenericDAO<StockMovement> {
     private int indexPerda;
     private int indexProduto;
     private int indexUnidMedida;
+    private int indexUser;
 
     public StockMovementDAO(Context mContext) {
         super(mContext);
@@ -42,7 +44,7 @@ public class StockMovementDAO extends GenericDAO<StockMovement> {
         BodegaHelper helper = new BodegaHelper(mContext);
         SQLiteDatabase db = helper.getReadableDatabase();
 
-        String sql = "SELECT * FROM " + StockMovementContract.TABLE_NAME;
+        String sql = "SELECT * FROM " + tableName;
 
         Cursor cursor = db.rawQuery(sql, null);
 
@@ -66,6 +68,7 @@ public class StockMovementDAO extends GenericDAO<StockMovement> {
         indexPerda = cursor.getColumnIndex(StockMovementContract.COLUMN_PERDA);
         indexProduto = cursor.getColumnIndex(StockMovementContract.COLUMN_PRODUCT);
         indexUnidMedida = cursor.getColumnIndex(StockMovementContract.COLUMN_UNITMEASUREMENT);
+        indexUser = cursor.getColumnIndex(StockMovementContract.COLUMN_USER);
     }
 
     private StockMovement valuesFromCursor(Cursor cursor) {
@@ -84,6 +87,7 @@ public class StockMovementDAO extends GenericDAO<StockMovement> {
             s.setPerda((cursor.getInt(indexPerda)) == 1);
             s.setProduto(new Produtos(cursor.getInt(indexProduto)));
             s.setUnidMedida(new UnidadeMedida(cursor.getInt(indexUnidMedida)));
+            s.setUser(new User(cursor.getInt(indexUser)));
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -99,6 +103,7 @@ public class StockMovementDAO extends GenericDAO<StockMovement> {
         values.put(StockMovementContract.COLUMN_PERDA, (stockMovement.isPerda()) ? 1 : 0);
         values.put(StockMovementContract.COLUMN_PRODUCT, stockMovement.getProduto().getId());
         values.put(StockMovementContract.COLUMN_UNITMEASUREMENT, stockMovement.getUnidMedida().getId());
+        values.put(StockMovementContract.COLUMN_USER, stockMovement.getUser().getId());
         return values;
     }
 }

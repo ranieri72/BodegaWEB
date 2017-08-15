@@ -17,6 +17,7 @@ public class StockMovement {
     private boolean perda;
     private Produtos produto;
     private UnidadeMedida unidMedida;
+    private User user;
 
     public StockMovement() {
     }
@@ -68,4 +69,8 @@ public class StockMovement {
     public void setUnidMedida(UnidadeMedida unidMedida) {
         this.unidMedida = unidMedida;
     }
+
+    public User getUser() { return user; }
+
+    public void setUser(User user) { this.user = user; }
 }

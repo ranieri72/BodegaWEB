@@ -34,12 +34,18 @@ public class User {
     @SerializedName("senha")
     private String password;
 
-    @SerializedName("listaPermissoes")
+    @SerializedName("listaPermissoesApp")
     private List<Permissions> listPermissions;
 
     private boolean autoLogin;
 
     private int statusCode;
+
+    public User() { }
+
+    public User(long id) {
+        this.id = id;
+    }
 
     public long getId() {
         return id;

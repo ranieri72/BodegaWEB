@@ -92,7 +92,8 @@ public class BodegaHelper extends SQLiteOpenHelper {
 
         createTable = "CREATE TABLE " + PermissionsContract.TABLE_NAME + " (" +
                 PermissionsContract.COLUMN_ID + " INTEGER PRIMARY KEY, " +
-                PermissionsContract.COLUMN_PAGE + " TEXT NOT NULL, " +
+                PermissionsContract.COLUMN_NOME + " TEXT NOT NULL, " +
+                PermissionsContract.COLUMN_PERMITIDO + " INTEGER DEFAULT 0, " +
                 PermissionsContract.COLUMN_USER + " INTEGER NOT NULL); ";
         db.execSQL(createTable);
 
@@ -107,6 +108,7 @@ public class BodegaHelper extends SQLiteOpenHelper {
                 StockMovementContract.COLUMN_DATA + " TEXT NOT NULL, " +
                 StockMovementContract.COLUMN_PERDA + " INTEGER DEFAULT 0, " +
                 StockMovementContract.COLUMN_PRODUCT + " INTEGER NOT NULL, " +
+                StockMovementContract.COLUMN_USER + " INTEGER NOT NULL, " +
                 StockMovementContract.COLUMN_UNITMEASUREMENT + " INTEGER NOT NULL); ";
         db.execSQL(createTable);
     }
