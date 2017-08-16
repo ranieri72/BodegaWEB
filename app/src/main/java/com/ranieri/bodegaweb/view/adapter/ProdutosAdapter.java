@@ -52,12 +52,10 @@ public class ProdutosAdapter extends ArrayAdapter<Produtos> {
         String inf = "";
 
         if (produto.isAlterado()) {
-            //convertView.setBackgroundColor(Color.RED);
             vh.txtEstoque.setTextColor(Color.RED);
             inf += String.valueOf(convertView.getResources().getString(R.string.novoestoque) + " " + produto.getNovoEstoque() + " - ");
         } else {
-            if (AppSession.user.getId() != 3) {
-                //convertView.setBackgroundColor(Color.WHITE);
+            if (AppSession.user.isPermiPreco()) {
                 vh.txtEstoque.setTextColor(Color.BLACK);
                 inf += String.valueOf(convertView.getResources().getString(R.string.estoque) + " " + produto.getEstoque() + " - ");
             }

@@ -29,6 +29,19 @@ public class PermissionsDAO extends GenericDAO<Permissions> {
         tableName = PermissionsContract.TABLE_NAME;
     }
 
+    public int excluir(User user) {
+        BodegaHelper helper = new BodegaHelper(mContext);
+        SQLiteDatabase db = helper.getWritableDatabase();
+
+        String where = PermissionsContract.COLUMN_USER + " = ?";
+        String[] userId = new String[]{String.valueOf(user.getId())};
+
+        int rowsAffected = db.delete(tableName, where, userId);
+
+        db.close();
+        return rowsAffected;
+    }
+
     public List<Permissions> listar() {
         BodegaHelper helper = new BodegaHelper(mContext);
         SQLiteDatabase db = helper.getReadableDatabase();

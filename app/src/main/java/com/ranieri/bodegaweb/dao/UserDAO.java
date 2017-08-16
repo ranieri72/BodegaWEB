@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.ranieri.bodegaweb.dao.contract.PermissionsContract;
 import com.ranieri.bodegaweb.dao.contract.UserContract;
 import com.ranieri.bodegaweb.dao.database.BodegaHelper;
 import com.ranieri.bodegaweb.model.User;
@@ -65,10 +66,15 @@ public class UserDAO extends GenericDAO<User> {
         SQLiteDatabase db = helper.getReadableDatabase();
 
         String sql = "SELECT * FROM " +
-                UserContract.TABLE_NAME +
+                UserContract.TABLE_NAME + ", " +
+                PermissionsContract.TABLE_NAME +
                 " WHERE " +
+                PermissionsContract.USER +
+                " = " +
+                UserContract.ID +
+                " AND " +
                 UserContract.AUTOLOGIN +
-                " = 1;";
+                " = 1";
 
         Cursor cursor = db.rawQuery(sql, null);
 

@@ -38,8 +38,8 @@ public class User {
     private List<Permissions> listPermissions;
 
     private boolean autoLogin;
-
     private int statusCode;
+    private boolean permiPreco = false;
 
     public User() { }
 
@@ -94,4 +94,8 @@ public class User {
     public void setStatusCode(int statusCode) {
         this.statusCode = statusCode;
     }
+
+    public boolean isPermiPreco() { return permiPreco; }
+
+    public void setPermiPreco(boolean permiPreco) { this.permiPreco = permiPreco; }
 }

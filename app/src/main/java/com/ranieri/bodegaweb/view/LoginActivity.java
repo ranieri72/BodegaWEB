@@ -21,6 +21,9 @@ import butterknife.ButterKnife;
 import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 
+import static com.ranieri.bodegaweb.util.Util.createUser;
+import static com.ranieri.bodegaweb.util.Util.updateUser;
+
 public class LoginActivity extends AppCompatActivity {
 
     @BindView(R.id.edtLogin)
@@ -46,16 +49,18 @@ public class LoginActivity extends AppCompatActivity {
         switch (view.getId()) {
             case R.id.btnSignIn:
                 boolean error = false;
-                if (Objects.equals(mEdtLogin.getText().toString(), "")) {
+                String login = mEdtLogin.getText().toString();
+                String password = mEdtPassword.getText().toString();
+                if (Objects.equals(login, "")) {
                     error = true;
                 }
-                if (Objects.equals(mEdtPassword.getText().toString(), "")) {
+                if (Objects.equals(password, "")) {
                     error = true;
                 }
                 if (!error) {
                     AppSession.user = new User();
-                    AppSession.user.setLogin(mEdtLogin.getText().toString());
-                    AppSession.user.setPassword(mEdtPassword.getText().toString());
+                    AppSession.user.setLogin(login);
+                    AppSession.user.setPassword(password);
                     try {
                         new LoginTask().execute(User.loginAccount).get();
                         if (AppSession.user == null) {
@@ -63,7 +68,7 @@ public class LoginActivity extends AppCompatActivity {
                         } else {
                             switch (AppSession.user.getStatusCode()) {
                                 case User.loginOk:
-                                    loginOk(AppSession.user);
+                                    loginOk();
                                     break;
                                 case User.userAndPasswordDoesntMatch:
                                     messageError(R.string.userAndPasswordDoesntMatch);
@@ -96,13 +101,13 @@ public class LoginActivity extends AppCompatActivity {
         autoLogin = isChecked;
     }
 
-    private void loginOk(User user) {
+    private void loginOk() {
         UserDAO dao = new UserDAO(this);
         Intent it;
-        if (dao.count(user) == 0) {
-            dao.insert(user, autoLogin);
+        if (dao.count(AppSession.user) == 0) {
+            createUser(this, autoLogin);
         } else {
-            dao.update(user, autoLogin);
+            updateUser(this, autoLogin);
         }
         it = new Intent(this, MainActivity.class);
         startActivity(it);

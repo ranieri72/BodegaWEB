@@ -6,8 +6,11 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.ranieri.bodegaweb.asyncTask.LoginTask;
 import com.ranieri.bodegaweb.connection.AppSession;
+import com.ranieri.bodegaweb.dao.PermissionsDAO;
 import com.ranieri.bodegaweb.dao.UserDAO;
 import com.ranieri.bodegaweb.model.User;
+
+import static com.ranieri.bodegaweb.util.Util.updateUser;
 
 public class CheckingLoginActivity extends AppCompatActivity {
 
@@ -18,7 +21,6 @@ public class CheckingLoginActivity extends AppCompatActivity {
         UserDAO dao = new UserDAO(this);
         AppSession.user = dao.selectAutoLogin();
         Intent it = null;
-        Bundle bundle;
 
         if (AppSession.user == null) {
             it = new Intent(this, LoginActivity.class);
@@ -32,7 +34,7 @@ public class CheckingLoginActivity extends AppCompatActivity {
                 if (AppSession.user == null || AppSession.user.getStatusCode() != User.loginOk) {
                     it = new Intent(this, LoginActivity.class);
                 } else {
-                    dao.update(AppSession.user, true);
+                    updateUser(this, true);
                     it = new Intent(this, MainActivity.class);
                 }
             } catch (Exception e) {
