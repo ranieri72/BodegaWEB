@@ -1,10 +1,7 @@
 package com.ranieri.bodegaweb.model;
 
 import com.google.gson.annotations.SerializedName;
-
 import org.parceler.Parcel;
-
-import java.util.List;
 
 /**
  * Created by ranie on 1 de jul.
@@ -34,12 +31,11 @@ public class User {
     @SerializedName("senha")
     private String password;
 
-    @SerializedName("listaPermissoesApp")
-    private List<Permissions> listPermissions;
+    @SerializedName("permissoesApp")
+    private PermissionsApp permissionsApp;
 
     private boolean autoLogin;
     private int statusCode;
-    private boolean permiPreco = false;
 
     public User() { }
 
@@ -71,14 +67,6 @@ public class User {
         this.password = password;
     }
 
-    public List<Permissions> getListPermissions() {
-        return listPermissions;
-    }
-
-    public void setListPermissions(List<Permissions> listPermissions) {
-        this.listPermissions = listPermissions;
-    }
-
     public boolean isAutoLogin() {
         return autoLogin;
     }
@@ -95,7 +83,7 @@ public class User {
         this.statusCode = statusCode;
     }
 
-    public boolean isPermiPreco() { return permiPreco; }
+    public PermissionsApp getPermissionsApp() { return permissionsApp; }
 
-    public void setPermiPreco(boolean permiPreco) { this.permiPreco = permiPreco; }
+    public void setPermissionsApp(PermissionsApp permissionsApp) { this.permissionsApp = permissionsApp; }
 }

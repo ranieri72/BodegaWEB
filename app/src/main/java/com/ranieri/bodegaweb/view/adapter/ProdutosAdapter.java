@@ -55,7 +55,7 @@ public class ProdutosAdapter extends ArrayAdapter<Produtos> {
             vh.txtEstoque.setTextColor(Color.RED);
             inf += String.valueOf(convertView.getResources().getString(R.string.novoestoque) + " " + produto.getNovoEstoque() + " - ");
         } else {
-            if (AppSession.user.isPermiPreco()) {
+            if (AppSession.user.getPermissionsApp().isVerEstoque()) {
                 vh.txtEstoque.setTextColor(Color.BLACK);
                 inf += String.valueOf(convertView.getResources().getString(R.string.estoque) + " " + produto.getEstoque() + " - ");
             }

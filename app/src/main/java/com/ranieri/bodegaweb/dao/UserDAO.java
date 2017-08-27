@@ -66,13 +66,8 @@ public class UserDAO extends GenericDAO<User> {
         SQLiteDatabase db = helper.getReadableDatabase();
 
         String sql = "SELECT * FROM " +
-                UserContract.TABLE_NAME + ", " +
-                PermissionsContract.TABLE_NAME +
+                UserContract.TABLE_NAME +
                 " WHERE " +
-                PermissionsContract.USER +
-                " = " +
-                UserContract.ID +
-                " AND " +
                 UserContract.AUTOLOGIN +
                 " = 1";
 

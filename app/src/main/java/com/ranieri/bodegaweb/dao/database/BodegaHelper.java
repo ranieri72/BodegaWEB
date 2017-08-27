@@ -92,9 +92,7 @@ public class BodegaHelper extends SQLiteOpenHelper {
 
         createTable = "CREATE TABLE " + PermissionsContract.TABLE_NAME + " (" +
                 PermissionsContract.COLUMN_ID + " INTEGER PRIMARY KEY, " +
-                PermissionsContract.COLUMN_NOME + " TEXT NOT NULL, " +
-                PermissionsContract.COLUMN_PERMITIDO + " INTEGER DEFAULT 0, " +
-                PermissionsContract.COLUMN_USER + " INTEGER NOT NULL); ";
+                PermissionsContract.COLUMN_VER_ESTOQUE + " INTEGER DEFAULT 0); ";
         db.execSQL(createTable);
 
         createTable = "CREATE TABLE " + PagesContract.TABLE_NAME + " (" +

@@ -6,8 +6,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.ranieri.bodegaweb.dao.contract.PermissionsContract;
+import com.ranieri.bodegaweb.dao.contract.UserContract;
 import com.ranieri.bodegaweb.dao.database.BodegaHelper;
-import com.ranieri.bodegaweb.model.Permissions;
+import com.ranieri.bodegaweb.model.PermissionsApp;
 import com.ranieri.bodegaweb.model.User;
 
 import java.util.ArrayList;
@@ -17,12 +18,10 @@ import java.util.List;
  * Created by ranie on 15 de ago.
  */
 
-public class PermissionsDAO extends GenericDAO<Permissions> {
+public class PermissionsDAO extends GenericDAO<PermissionsApp> {
 
     private int indexId;
-    private int indexPermitido;
-    private int indexUser;
-    private int indexName;
+    private int indexVerEstoque;
 
     public PermissionsDAO(Context mContext) {
         super(mContext);
@@ -33,7 +32,7 @@ public class PermissionsDAO extends GenericDAO<Permissions> {
         BodegaHelper helper = new BodegaHelper(mContext);
         SQLiteDatabase db = helper.getWritableDatabase();
 
-        String where = PermissionsContract.COLUMN_USER + " = ?";
+        String where = PermissionsContract.COLUMN_ID + " = ?";
         String[] userId = new String[]{String.valueOf(user.getId())};
 
         int rowsAffected = db.delete(tableName, where, userId);
@@ -42,51 +41,23 @@ public class PermissionsDAO extends GenericDAO<Permissions> {
         return rowsAffected;
     }
 
-    public List<Permissions> listar() {
+    public int update(PermissionsApp permissionsApp) {
         BodegaHelper helper = new BodegaHelper(mContext);
-        SQLiteDatabase db = helper.getReadableDatabase();
+        SQLiteDatabase db = helper.getWritableDatabase();
+        String[] idUser = new String[]{String.valueOf(permissionsApp.getId())};
 
-        String sql = "SELECT * FROM " + tableName;
+        ContentValues values = valuesFromObject(permissionsApp);
+        int rowsAffected = db.update(PermissionsContract.TABLE_NAME, values, PermissionsContract.COLUMN_ID + " = ?", idUser);
 
-        Cursor cursor = db.rawQuery(sql, null);
-
-        List<Permissions> lista = new ArrayList<>();
-        Permissions permissions;
-        getColumnIndex(cursor);
-
-        while (cursor.moveToNext()) {
-            permissions = valuesFromCursor(cursor);
-            lista.add(permissions);
-        }
-        cursor.close();
         db.close();
-        return lista;
-    }
-
-    private void getColumnIndex(Cursor cursor) {
-        indexId = cursor.getColumnIndex(PermissionsContract.COLUMN_ID);
-        indexPermitido = cursor.getColumnIndex(PermissionsContract.COLUMN_PERMITIDO);
-        indexUser = cursor.getColumnIndex(PermissionsContract.COLUMN_USER);
-        indexName = cursor.getColumnIndex(PermissionsContract.COLUMN_NOME);
-    }
-
-    private Permissions valuesFromCursor(Cursor cursor) {
-        Permissions permissions = new Permissions();
-
-        permissions.setId(cursor.getInt(indexId));
-        permissions.setName(cursor.getString(indexName));
-        permissions.setUser(new User(cursor.getInt(indexUser)));
-        permissions.setPermitido((cursor.getInt(indexPermitido)) == 1);
-        return permissions;
+        return rowsAffected;
     }
 
     @Override
-    protected ContentValues valuesFromObject(Permissions permissions) {
+    protected ContentValues valuesFromObject(PermissionsApp permissions) {
         ContentValues values = new ContentValues();
         values.put(PermissionsContract.COLUMN_ID, permissions.getId());
-        values.put(PermissionsContract.COLUMN_NOME, permissions.getName());
-        values.put(PermissionsContract.COLUMN_PERMITIDO, (permissions.isPermitido()) ? 1 : 0);
-        values.put(PermissionsContract.COLUMN_USER, permissions.getUser().getId());
+        values.put(PermissionsContract.COLUMN_VER_ESTOQUE, (permissions.isVerEstoque()) ? 1 : 0);
         return values;
     }
 }
