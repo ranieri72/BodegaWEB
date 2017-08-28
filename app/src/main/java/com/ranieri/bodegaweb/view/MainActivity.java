@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import com.ranieri.bodegaweb.R;
 import com.ranieri.bodegaweb.asyncTask.RefreshDataTask;
+import com.ranieri.bodegaweb.connection.AppSession;
 import com.ranieri.bodegaweb.dao.CategoriasDAO;
 import com.ranieri.bodegaweb.dao.StockMovementDAO;
 import com.ranieri.bodegaweb.dao.SubCategoriasDAO;
@@ -185,6 +186,7 @@ public class MainActivity extends AppCompatActivity implements ClickOnSubCategor
             public void onClick(DialogInterface arg0, int arg1) {
 
                 StockMovement movement = new StockMovement();
+                movement.setUser(AppSession.user);
                 movement.setQtd(Integer.parseInt(input.getText().toString()));
                 movement.setProduto(produto);
                 movement.setUnidMedida(new UnidadeMedida(1));

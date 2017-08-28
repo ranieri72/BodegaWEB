@@ -1,5 +1,7 @@
 package com.ranieri.bodegaweb.model;
 
+import com.google.gson.annotations.SerializedName;
+
 import org.parceler.Parcel;
 
 import java.util.Date;
@@ -17,6 +19,8 @@ public class StockMovement {
     private boolean perda;
     private Produtos produto;
     private UnidadeMedida unidMedida;
+
+    @SerializedName("usuario")
     private User user;
 
     public StockMovement() {
