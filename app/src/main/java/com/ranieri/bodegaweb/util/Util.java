@@ -1,11 +1,14 @@
 package com.ranieri.bodegaweb.util;
 
 import android.content.Context;
+import android.content.Intent;
 
 import com.ranieri.bodegaweb.connection.AppSession;
 import com.ranieri.bodegaweb.dao.PermissionsDAO;
 import com.ranieri.bodegaweb.dao.UserDAO;
 import com.ranieri.bodegaweb.model.PermissionsApp;
+import com.ranieri.bodegaweb.view.MainActivity;
+import com.ranieri.bodegaweb.view.MainTabletActivity;
 
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
@@ -40,5 +43,15 @@ public class Util {
             new UserDAO(context).insert(AppSession.user, autoLogin);
             new PermissionsDAO(context).inserir(AppSession.user.getPermissionsApp());
         }
+    }
+
+    public static void intentToMainActivity(Context context) {
+        Intent it;
+        if (Util.isTablet) {
+            it = new Intent(context, MainTabletActivity.class);
+        } else {
+            it = new Intent(context, MainActivity.class);
+        }
+        context.startActivity(it);
     }
 }

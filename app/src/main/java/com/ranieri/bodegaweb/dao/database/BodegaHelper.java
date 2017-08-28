@@ -7,7 +7,6 @@ import android.database.sqlite.SQLiteOpenHelper;
 import com.ranieri.bodegaweb.dao.contract.CategoriasContract;
 import com.ranieri.bodegaweb.dao.contract.OrderContract;
 import com.ranieri.bodegaweb.dao.contract.OrderItemsContract;
-import com.ranieri.bodegaweb.dao.contract.PagesContract;
 import com.ranieri.bodegaweb.dao.contract.PermissionsContract;
 import com.ranieri.bodegaweb.dao.contract.ProdutosContract;
 import com.ranieri.bodegaweb.dao.contract.ProviderContract;
@@ -93,11 +92,6 @@ public class BodegaHelper extends SQLiteOpenHelper {
         createTable = "CREATE TABLE " + PermissionsContract.TABLE_NAME + " (" +
                 PermissionsContract.COLUMN_ID + " INTEGER PRIMARY KEY, " +
                 PermissionsContract.COLUMN_VER_ESTOQUE + " INTEGER DEFAULT 0); ";
-        db.execSQL(createTable);
-
-        createTable = "CREATE TABLE " + PagesContract.TABLE_NAME + " (" +
-                PagesContract.COLUMN_ID + " INTEGER PRIMARY KEY, " +
-                PagesContract.COLUMN_NAME + " TEXT NOT NULL); ";
         db.execSQL(createTable);
 
         createTable = "CREATE TABLE " + StockMovementContract.TABLE_NAME + " (" +

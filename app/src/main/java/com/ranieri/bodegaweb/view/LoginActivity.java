@@ -13,6 +13,7 @@ import com.ranieri.bodegaweb.asyncTask.LoginTask;
 import com.ranieri.bodegaweb.connection.AppSession;
 import com.ranieri.bodegaweb.dao.UserDAO;
 import com.ranieri.bodegaweb.model.User;
+import com.ranieri.bodegaweb.util.Util;
 
 import java.util.Objects;
 
@@ -109,8 +110,7 @@ public class LoginActivity extends AppCompatActivity {
         } else {
             updateUser(this, autoLogin);
         }
-        it = new Intent(this, MainActivity.class);
-        startActivity(it);
+        Util.intentToMainActivity(this);
         finish();
     }
 }

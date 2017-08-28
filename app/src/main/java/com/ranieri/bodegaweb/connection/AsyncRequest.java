@@ -3,12 +3,14 @@ package com.ranieri.bodegaweb.connection;
 import android.content.Context;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 import com.ranieri.bodegaweb.dao.ProdutosDAO;
 import com.ranieri.bodegaweb.model.ListJson;
+import com.ranieri.bodegaweb.model.Produtos;
 
 import java.util.List;
 
@@ -34,9 +36,10 @@ public class AsyncRequest {
                 .setCallback(new FutureCallback<JsonObject>() {
                     @Override
                     public void onCompleted(Exception e, JsonObject jsonObject) {
-                        Toast.makeText(context, jsonObject.get("produtos").getAsString(), Toast.LENGTH_LONG).show();
 
-                        //new ProdutosDAO(context).refreshStock(produtos);
+                        ListJson listJson = new Gson().fromJson(jsonObject.getAsJsonObject(), ListJson.class);
+                        int i = new ProdutosDAO(context).refreshStock(listJson);
+                        Toast.makeText(context, "Produtos recebidos: " + i, Toast.LENGTH_LONG).show();
                     }
                 });
     }

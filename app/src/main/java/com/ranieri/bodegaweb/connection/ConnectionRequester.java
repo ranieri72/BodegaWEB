@@ -18,18 +18,12 @@ import okhttp3.Response;
 public class ConnectionRequester {
     private MediaType json = MediaType.parse("application/json; charset=utf-8");
     private String url;
-    private String jsonString;
-
-    public ConnectionRequester(String url, String jsonString) {
-        this.url = url;
-        this.jsonString = jsonString;
-    }
 
     public ConnectionRequester(String url) {
         this.url = url;
     }
 
-    public Response postRequester() throws IOException {
+    public Response postRequester(String jsonString) throws IOException {
         RequestBody body = RequestBody.create(json, jsonString);
         Request request = new Request.Builder().url(url).post(body).build();
         return new OkHttpClient().newCall(request).execute();

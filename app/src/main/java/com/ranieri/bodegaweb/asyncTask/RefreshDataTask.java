@@ -35,7 +35,7 @@ public class RefreshDataTask extends AsyncTask<Context, Void, Integer> {
             listJson = new ListJson();
             listJson.setListaStockMovement(movementDAO.listar());
             jsonString = gson.toJson(listJson, ListJson.class);
-            Response response = new ConnectionRequester(ConnectionConstants.urlStockMovement, jsonString).postRequester();
+            Response response = new ConnectionRequester(ConnectionConstants.urlStockMovement).postRequester(jsonString);
             if (!response.isSuccessful()) return null;
             movementDAO.excluir();
 
@@ -43,7 +43,7 @@ public class RefreshDataTask extends AsyncTask<Context, Void, Integer> {
             listJson = new ListJson();
             listJson.setListaProdutos(produtosDAO.listar(true));
             jsonString = gson.toJson(listJson, ListJson.class);
-            new ConnectionRequester(ConnectionConstants.urlPostProducts, jsonString).postRequester();
+            new ConnectionRequester(ConnectionConstants.urlPostProducts).postRequester(jsonString);
 
             listJson = new ConnectionRequester(ConnectionConstants.urlSubCategory).getRequester();
             new SubCategoriasDAO(context).refreshStock(listJson);

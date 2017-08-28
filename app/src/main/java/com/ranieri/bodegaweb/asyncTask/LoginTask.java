@@ -38,7 +38,7 @@ public class LoginTask extends AsyncTask<Integer, Void, Void> {
         try {
             String jsonString = gson.toJson(AppSession.user, User.class);
 
-            Response response = new ConnectionRequester(url, jsonString).postRequester();
+            Response response = new ConnectionRequester(url).postRequester(jsonString);
 
             jsonString = response.body().string();
             AppSession.user = gson.fromJson(jsonString, User.class);
