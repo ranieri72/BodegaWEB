@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import com.ranieri.bodegaweb.dao.contract.PermissionsContract;
 import com.ranieri.bodegaweb.dao.contract.UserContract;
 import com.ranieri.bodegaweb.dao.database.BodegaHelper;
+import com.ranieri.bodegaweb.model.PermissionsApp;
 import com.ranieri.bodegaweb.model.User;
 
 import java.util.ArrayList;
@@ -66,22 +67,34 @@ public class UserDAO extends GenericDAO<User> {
         SQLiteDatabase db = helper.getReadableDatabase();
 
         String sql = "SELECT * FROM " +
-                UserContract.TABLE_NAME +
+                UserContract.TABLE_NAME + ", " +
+                PermissionsContract.TABLE_NAME +
                 " WHERE " +
                 UserContract.AUTOLOGIN +
-                " = 1";
+                " = 1" +
+                " AND " +
+                UserContract.ID +
+                " = " +
+                PermissionsContract.ID + ";";
 
         Cursor cursor = db.rawQuery(sql, null);
 
         User user = null;
         if (cursor.moveToNext()) {
             getColumnIndex(cursor);
+            int indexPermissionsID = cursor.getColumnIndex(PermissionsContract.COLUMN_ID);
+            int indexPermissionsVerEstoque = cursor.getColumnIndex(PermissionsContract.COLUMN_VER_ESTOQUE);
 
             user = new User();
             user.setId(cursor.getLong(indexID));
             user.setLogin(cursor.getString(indexLogin));
             user.setPassword(cursor.getString(indexPassword));
             user.setAutoLogin((cursor.getInt(indexAutologin)) == 1);
+
+            PermissionsApp permission = new PermissionsApp();
+            permission.setId(cursor.getLong(indexPermissionsID));
+            permission.setVerEstoque((cursor.getInt(indexPermissionsVerEstoque)) == 1);
+            user.setPermissionsApp(permission);
         }
 
         cursor.close();

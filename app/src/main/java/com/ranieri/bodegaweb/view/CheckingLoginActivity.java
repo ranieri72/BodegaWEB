@@ -12,8 +12,6 @@ import com.ranieri.bodegaweb.dao.UserDAO;
 import com.ranieri.bodegaweb.model.User;
 import com.ranieri.bodegaweb.util.Util;
 
-import static com.ranieri.bodegaweb.util.Util.updateUser;
-
 public class CheckingLoginActivity extends AppCompatActivity {
 
     @Override
@@ -37,8 +35,9 @@ public class CheckingLoginActivity extends AppCompatActivity {
                 new LoginTask().execute(User.loginAccount).get();
                 if (AppSession.user == null || AppSession.user.getStatusCode() != User.loginOk) {
                     it = new Intent(this, LoginActivity.class);
+                    startActivity(it);
                 } else {
-                    updateUser(this, true);
+                    Util.updateUser(this, true);
                     Util.intentToMainActivity(this);
                 }
             } catch (Exception e) {
