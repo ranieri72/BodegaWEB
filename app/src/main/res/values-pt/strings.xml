@@ -18,6 +18,7 @@
     <string name="gerarsql">Gerar SQL</string>
     <string name="sqlgerado">SQL Gerado</string>
     <string name="configuracoes">Configurações</string>
+    <string name="barcode">Código de barras</string>
     <string name="atualizarProdutos">Atualizar Produtos</string>
     <string name="atualizarPedidos">Atualizar Pedidos</string>
     <string name="atualizarDados">Atualizar Dados</string>
@@ -42,6 +43,7 @@
     <string name="cancel">Cancelar</string>
 
     <!-- Error messages -->
+    <string name="low_storage_error">A detecção de código de barra não pode funcionar devido a pouca mémoria do aparelho</string>
     <string name="userAndPasswordDoesntMatch">O usuário e a senha não conferem!</string>
     <string name="userDoesntExist">O usuário não existe!</string>
     <string name="userAlreadyExists">O usuário já existe!</string>

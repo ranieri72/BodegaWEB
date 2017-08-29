@@ -18,6 +18,7 @@
     <string name="gerarsql">Generate SQL</string>
     <string name="sqlgerado">SQL Generated</string>
     <string name="configuracoes">Settings</string>
+    <string name="barcode">Barcode</string>
     <string name="atualizarProdutos">Refresh Products</string>
     <string name="atualizarPedidos">Refresh Orders</string>
     <string name="atualizarDados">Refresh Data</string>
@@ -42,6 +43,7 @@
     <string name="cancel">Cancel</string>
 
     <!-- Error messages -->
+    <string name="low_storage_error">Barcode detector cannot work due to low device storage</string>
     <string name="userAndPasswordDoesntMatch">User And Password Doesn\'t Match!</string>
     <string name="userDoesntExist">User Doesn\'t Exist!</string>
     <string name="userAlreadyExists">User Already Exists!</string>

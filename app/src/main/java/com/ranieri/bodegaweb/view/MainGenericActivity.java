@@ -4,10 +4,13 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.google.android.gms.common.api.CommonStatusCodes;
+import com.google.android.gms.vision.barcode.Barcode;
 import com.ranieri.bodegaweb.R;
 import com.ranieri.bodegaweb.asyncTask.RefreshDataTask;
 import com.ranieri.bodegaweb.dao.UserDAO;
@@ -16,6 +19,27 @@ import com.ranieri.bodegaweb.view.fragments.ListSubCategoryFragment.ClickOnSubCa
 import java.util.concurrent.ExecutionException;
 
 public abstract class MainGenericActivity extends AppCompatActivity implements ClickOnSubCategoryListener {
+
+    private static final int BARCODE_REQUEST = 1;
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        switch (requestCode) {
+            case BARCODE_REQUEST:
+                if (resultCode == CommonStatusCodes.SUCCESS) {
+                    if (data != null) {
+                        Barcode barcode = data.getParcelableExtra(CameraActivity.BARCODE_RESPONSE);
+                        Toast.makeText(this, barcode.displayValue, Toast.LENGTH_LONG).show();
+                        Log.w("onActivityResult", "Barcode: " + barcode.displayValue);
+                    } else {
+                        Toast.makeText(this, "Error", Toast.LENGTH_LONG).show();
+                    }
+                }
+                break;
+        }
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -28,6 +52,9 @@ public abstract class MainGenericActivity extends AppCompatActivity implements C
         switch (item.getItemId()) {
             case R.id.action_update:
                 dialogUpdate();
+                break;
+            case R.id.action_barcode:
+                barCode();
                 break;
             case R.id.action_configuracoes:
                 optionConfig();
@@ -65,6 +92,11 @@ public abstract class MainGenericActivity extends AppCompatActivity implements C
         } catch (ExecutionException e) {
             e.printStackTrace();
         }
+    }
+
+    private void barCode() {
+        Intent it = new Intent(this, CameraActivity.class);
+        startActivityForResult(it, BARCODE_REQUEST);
     }
 
     private void optionConfig() {
