@@ -10,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 
 import com.ranieri.bodegaweb.R;
+import com.ranieri.bodegaweb.connection.AppSession;
 import com.ranieri.bodegaweb.model.Order;
 import com.ranieri.bodegaweb.model.Provider;
 import com.ranieri.bodegaweb.model.SubCategorias;
@@ -30,9 +31,14 @@ public class MainActivity extends MainGenericActivity implements ClickOnProvider
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         tabLayout.addTab(tabLayout.newTab().setText(getResources().getString(R.string.produtos)));
-        tabLayout.addTab(tabLayout.newTab().setText(getResources().getString(R.string.fornecedor)));
-        tabLayout.addTab(tabLayout.newTab().setText(getResources().getString(R.string.pedido)));
-        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+
+        if (AppSession.user.getPermissionsApp().isVerFornecedores()) {
+            tabLayout.addTab(tabLayout.newTab().setText(getResources().getString(R.string.fornecedor)));
+        }
+        if (AppSession.user.getPermissionsApp().isVerPedidos()) {
+            tabLayout.addTab(tabLayout.newTab().setText(getResources().getString(R.string.pedido)));
+        }
+        tabLayout.setTabGravity(TabLayout.MODE_SCROLLABLE);
 
         final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
         final MainPagerAdapter adapter = new MainPagerAdapter

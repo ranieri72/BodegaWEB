@@ -11,6 +11,8 @@ public class PermissionsApp {
 
     private long id;
     private boolean verEstoque;
+    private boolean verFornecedores;
+    private boolean verPedidos;
 
     public long getId() { return id; }
 
@@ -19,4 +21,12 @@ public class PermissionsApp {
     public boolean isVerEstoque() { return verEstoque; }
 
     public void setVerEstoque(boolean verEstoque) { this.verEstoque = verEstoque; }
+
+    public boolean isVerFornecedores() { return verFornecedores; }
+
+    public void setVerFornecedores(boolean verFornecedores) { this.verFornecedores = verFornecedores; }
+
+    public boolean isVerPedidos() { return verPedidos; }
+
+    public void setVerPedidos(boolean verPedidos) { this.verPedidos = verPedidos; }
 }

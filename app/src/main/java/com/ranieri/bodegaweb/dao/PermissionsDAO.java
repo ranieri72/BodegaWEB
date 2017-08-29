@@ -2,26 +2,18 @@ package com.ranieri.bodegaweb.dao;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.ranieri.bodegaweb.dao.contract.PermissionsContract;
-import com.ranieri.bodegaweb.dao.contract.UserContract;
 import com.ranieri.bodegaweb.dao.database.BodegaHelper;
 import com.ranieri.bodegaweb.model.PermissionsApp;
 import com.ranieri.bodegaweb.model.User;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by ranie on 15 de ago.
  */
 
 public class PermissionsDAO extends GenericDAO<PermissionsApp> {
-
-    private int indexId;
-    private int indexVerEstoque;
 
     public PermissionsDAO(Context mContext) {
         super(mContext);
@@ -58,6 +50,8 @@ public class PermissionsDAO extends GenericDAO<PermissionsApp> {
         ContentValues values = new ContentValues();
         values.put(PermissionsContract.COLUMN_ID, permissions.getId());
         values.put(PermissionsContract.COLUMN_VER_ESTOQUE, (permissions.isVerEstoque()) ? 1 : 0);
+        values.put(PermissionsContract.COLUMN_VER_FORNECEDORES, (permissions.isVerFornecedores()) ? 1 : 0);
+        values.put(PermissionsContract.COLUMN_VER_PEDIDOS, (permissions.isVerPedidos()) ? 1 : 0);
         return values;
     }
 }
