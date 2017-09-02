@@ -9,6 +9,8 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 
+import com.google.firebase.perf.FirebasePerformance;
+import com.google.firebase.perf.metrics.Trace;
 import com.ranieri.bodegaweb.R;
 import com.ranieri.bodegaweb.connection.AppSession;
 import com.ranieri.bodegaweb.model.Order;
@@ -28,6 +30,9 @@ public class MainActivity extends MainGenericActivity implements ClickOnProvider
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        Trace myTrace = FirebasePerformance.getInstance().newTrace("onCreate - PhoneView");
+        myTrace.start();
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         tabLayout.addTab(tabLayout.newTab().setText(getResources().getString(R.string.produtos)));
@@ -61,6 +66,7 @@ public class MainActivity extends MainGenericActivity implements ClickOnProvider
 
             }
         });
+        myTrace.stop();
     }
 
     @Override

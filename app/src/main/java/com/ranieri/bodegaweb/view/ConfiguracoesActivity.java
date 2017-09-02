@@ -10,6 +10,8 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.perf.FirebasePerformance;
+import com.google.firebase.perf.metrics.Trace;
 import com.ranieri.bodegaweb.R;
 import com.ranieri.bodegaweb.connection.AsyncRequest;
 import com.ranieri.bodegaweb.connection.ConnectionConstants;
@@ -42,6 +44,9 @@ public class ConfiguracoesActivity extends AppCompatActivity {
         setTitle(getResources().getString(R.string.configuracoes));
         ButterKnife.bind(this);
 
+        Trace myTrace = FirebasePerformance.getInstance().newTrace("onCreate - Configuracoes");
+        myTrace.start();
+
         sharedPreferences = getSharedPreferences(Util.tabletViewPreference, Context.MODE_PRIVATE);
         isTablet = Util.isTablet;
         mSwitchIsTablet.setChecked(sharedPreferences.getBoolean(Util.tabletViewPreference, true));
@@ -51,6 +56,7 @@ public class ConfiguracoesActivity extends AppCompatActivity {
         } else {
             mTxtAlert.setVisibility(View.VISIBLE);
         }
+        myTrace.stop();
     }
 
     @OnClick({R.id.btnSave, R.id.btnIonTest})

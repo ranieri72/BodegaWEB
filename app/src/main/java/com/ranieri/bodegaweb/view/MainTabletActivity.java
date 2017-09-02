@@ -8,6 +8,8 @@ import android.text.InputType;
 import android.util.Log;
 import android.widget.EditText;
 
+import com.google.firebase.perf.FirebasePerformance;
+import com.google.firebase.perf.metrics.Trace;
 import com.ranieri.bodegaweb.R;
 import com.ranieri.bodegaweb.connection.AppSession;
 import com.ranieri.bodegaweb.dao.CategoriasDAO;
@@ -38,6 +40,9 @@ public class MainTabletActivity extends MainGenericActivity implements ClickOnCa
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        Trace myTrace = FirebasePerformance.getInstance().newTrace("onCreate - TabletView");
+        myTrace.start();
+
         ListSubCategoryFragment subCategoryFragment = new ListSubCategoryFragment();
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_list_sub_category, subCategoryFragment, "detalhe").commit();
 
@@ -54,6 +59,7 @@ public class MainTabletActivity extends MainGenericActivity implements ClickOnCa
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_list_products, productsFragment, "detalhe").commit();
             }
         }
+        myTrace.stop();
     }
 
     @Override

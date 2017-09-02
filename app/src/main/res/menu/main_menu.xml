@@ -3,17 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/action_update"
-        android:icon="@drawable/ic_update_white_24dp"
+        android:icon="@drawable/ic_action_cached"
         android:title="@string/atualizarProdutos"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_barcode"
-        android:icon="@drawable/ic_settings_black_24dp"
         android:title="@string/barcode"
         app:showAsAction="never" />
     <item
         android:id="@+id/action_configuracoes"
-        android:icon="@drawable/ic_settings_black_24dp"
         android:title="@string/configuracoes"
         app:showAsAction="never" />
     <item

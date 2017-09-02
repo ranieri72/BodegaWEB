@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "854282610478",
+    "firebase_url": "https://bodegaweb-a3c19.firebaseio.com",
+    "project_id": "bodegaweb-a3c19",
+    "storage_bucket": "bodegaweb-a3c19.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:854282610478:android:55bc55be90acdadc",
+        "android_client_info": {
+          "package_name": "com.ranieri.bodegaweb"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "854282610478-fo663dpg02ij35loohc5dgpdir7aijb5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDjTFzNzSaDSUGmT5WGAYQzR0w-kNmsWog"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
