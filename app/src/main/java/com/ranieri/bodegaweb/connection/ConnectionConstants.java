@@ -6,8 +6,9 @@ package com.ranieri.bodegaweb.connection;
 
 public class ConnectionConstants {
 
-    //public static final String ipv4 = "http://192.168.0.2:8080/bodegaWEB/rest/";
-    public static final String ipv4 = "http://192.168.15.4:8080/bodegaWEB/rest/";
+    public static final String ipv4 = "http://192.168.0.4:8080/bodegaWEB/rest/";
+    //public static final String ipv4 = "http://10.0.1.36:8080/bodegaWEB/rest/";
+    //public static final String ipv4 = "http://192.168.15.4:8080/bodegaWEB/rest/";
     public static final String urlTest = ipv4 + "test";
 
     // Login
