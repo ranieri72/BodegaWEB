@@ -7,7 +7,6 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.ranieri.bodegaweb.dao.contract.StockMovementContract;
 import com.ranieri.bodegaweb.dao.database.BodegaHelper;
-import com.ranieri.bodegaweb.model.ListJson;
 import com.ranieri.bodegaweb.model.Produtos;
 import com.ranieri.bodegaweb.model.StockMovement;
 import com.ranieri.bodegaweb.model.UnidadeMedida;
@@ -59,6 +58,23 @@ public class StockMovementDAO extends GenericDAO<StockMovement> {
         cursor.close();
         db.close();
         return lista;
+    }
+
+    public int contar() {
+        BodegaHelper helper = new BodegaHelper(mContext);
+        SQLiteDatabase db = helper.getReadableDatabase();
+
+        String sql = "SELECT COUNT(*) FROM " + tableName;
+
+        Cursor cursor = db.rawQuery(sql, null);
+        int quantidade = 0;
+
+        if (cursor.moveToNext()) {
+            quantidade = cursor.getInt(0);
+        }
+        cursor.close();
+        db.close();
+        return quantidade;
     }
 
     private void getColumnIndex(Cursor cursor) {

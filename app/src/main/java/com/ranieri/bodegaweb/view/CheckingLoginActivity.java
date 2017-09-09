@@ -29,16 +29,17 @@ public class CheckingLoginActivity extends AppCompatActivity {
             startActivity(it);
             finish();
         } else {
-            //verifica internet
+            //TODO verifica internet
             try {
-                AppSession.user.setStatusCode(User.loginOk);
                 new LoginTask().execute(User.loginAccount).get();
-                if (AppSession.user == null || AppSession.user.getStatusCode() != User.loginOk) {
+                if (AppSession.user != null && (AppSession.user.getStatusCode() == User.loginOk || AppSession.user.getStatusCode() == User.serverNotFound)) {
+                    if (AppSession.user.getStatusCode() != User.serverNotFound) {
+                        Util.updateUser(this, true);
+                    }
+                    Util.intentToMainActivity(this);
+                } else {
                     it = new Intent(this, LoginActivity.class);
                     startActivity(it);
-                } else {
-                    Util.updateUser(this, true);
-                    Util.intentToMainActivity(this);
                 }
             } catch (Exception e) {
                 e.printStackTrace();

@@ -7,9 +7,8 @@ import android.support.v7.widget.Toolbar;
 import android.text.InputType;
 import android.util.Log;
 import android.widget.EditText;
+import android.widget.Toast;
 
-import com.google.firebase.perf.FirebasePerformance;
-import com.google.firebase.perf.metrics.Trace;
 import com.ranieri.bodegaweb.R;
 import com.ranieri.bodegaweb.connection.AppSession;
 import com.ranieri.bodegaweb.dao.CategoriasDAO;
@@ -27,6 +26,7 @@ import com.ranieri.bodegaweb.view.fragments.ListProductsFragment.ClickOnProductL
 import com.ranieri.bodegaweb.view.fragments.ListSubCategoryFragment;
 
 import java.util.Date;
+import java.util.Objects;
 
 public class MainTabletActivity extends MainGenericActivity implements ClickOnCategoryListener, ClickOnProductListener {
 
@@ -39,9 +39,6 @@ public class MainTabletActivity extends MainGenericActivity implements ClickOnCa
         setContentView(R.layout.activity_main_tablet);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        Trace myTrace = FirebasePerformance.getInstance().newTrace("onCreate - TabletView");
-        myTrace.start();
 
         ListSubCategoryFragment subCategoryFragment = new ListSubCategoryFragment();
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_list_sub_category, subCategoryFragment, "detalhe").commit();
@@ -59,7 +56,6 @@ public class MainTabletActivity extends MainGenericActivity implements ClickOnCa
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_list_products, productsFragment, "detalhe").commit();
             }
         }
-        myTrace.stop();
     }
 
     @Override
@@ -93,16 +89,25 @@ public class MainTabletActivity extends MainGenericActivity implements ClickOnCa
         builder.setView(input);
         builder.setPositiveButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface arg0, int arg1) {
-
-                StockMovement movement = new StockMovement();
-                movement.setUser(AppSession.user);
-                movement.setQtd(Integer.parseInt(input.getText().toString()));
-                movement.setProduto(produto);
-                movement.setUnidMedida(new UnidadeMedida(1));
-                movement.setPerda(false);
-                movement.setHora(new Date());
-                movement.setData(new Date());
-                new StockMovementDAO(MainTabletActivity.this).inserir(movement);
+                try {
+                    if (!Objects.equals(input.getText().toString(), "")) {
+                        StockMovement movement = new StockMovement();
+                        movement.setUser(AppSession.user);
+                        movement.setQtd(Integer.parseInt(input.getText().toString()));
+                        movement.setProduto(produto);
+                        movement.setUnidMedida(new UnidadeMedida(1));
+                        movement.setPerda(false);
+                        movement.setHora(new Date());
+                        movement.setData(new Date());
+                        new StockMovementDAO(MainTabletActivity.this).inserir(movement);
+                        Toast.makeText(MainTabletActivity.this, getResources().getString(R.string.produtosAtualizados) + movement.getQtd(), Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(MainTabletActivity.this, getResources().getString(R.string.invalidinputs), Toast.LENGTH_LONG).show();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Toast.makeText(MainTabletActivity.this, getResources().getString(R.string.error), Toast.LENGTH_LONG).show();
+                }
             }
         });
         builder.setNegativeButton(getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {

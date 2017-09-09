@@ -48,7 +48,10 @@
     <string name="userDoesntExist">O usuário não existe!</string>
     <string name="userAlreadyExists">O usuário já existe!</string>
     <string name="serverError">Erro de servidor!</string>
+    <string name="serverNotFound">Servidor não encontrado!</string>
     <string name="connectionError">Erro de conexão!</string>
     <string name="invalidinputs">Campos inválidos!</string>
     <string name="errorlogin">Erro de login!</string>
+    <string name="wifiOff">WiFi desligado!</string>
+    <string name="error">Erro!</string>
 </resources>

@@ -26,6 +26,7 @@ public class Util {
 
     public static final String tabletViewPreference = "tabletView";
     public static boolean isTablet;
+    public static boolean isConnection;
 
     public static String moneyFormatter(double money) {
         return NumberFormat.getCurrencyInstance(ptBr).format(money);

@@ -2,12 +2,12 @@ apply plugin: 'com.android.application'
 apply plugin: 'com.google.firebase.firebase-perf'
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.3"
+    compileSdkVersion 26
+    buildToolsVersion "26.0.1"
     defaultConfig {
         applicationId "com.ranieri.bodegaweb"
         minSdkVersion 19
-        targetSdkVersion 25
+        targetSdkVersion 26
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -25,8 +25,8 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile 'com.android.support:appcompat-v7:25.3.1'
-    compile 'com.android.support:support-v4:25.3.1'
+    compile 'com.android.support:appcompat-v7:26.0.2'
+    compile 'com.android.support:support-v4:26.0.2'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
 
     // para requisições http
@@ -45,19 +45,19 @@ dependencies {
     compile 'com.jakewharton:butterknife:8.7.0'
     
     // para o Swipe Views com Tabs
-    compile 'com.android.support:design:25.3.1'
+    compile 'com.android.support:design:26.0.2'
 
     //compile 'com.google.android.gms:play-services-safetynet:11.0.4'
     //compile 'com.google.android.gms.security:ProviderInstaller:11.0.4'
 
-    // Firebase Crash
-    compile 'com.google.firebase:firebase-crash:11.0.4'
+    // Firebase Core
+    compile 'com.google.firebase:firebase-core:11.2.2'
 
-    // Firebase Performace
-    compile 'com.google.firebase:firebase-perf:11.0.4'
+    // Firebase Crash
+    compile 'com.google.firebase:firebase-crash:11.2.2'
 
     // para o leitor de código de barras
-    compile 'com.google.android.gms:play-services-vision:11.0.4'
+    compile 'com.google.android.gms:play-services-vision:11.2.2'
 
     testCompile 'junit:junit:4.12'
     annotationProcessor 'org.parceler:parceler:1.1.9'

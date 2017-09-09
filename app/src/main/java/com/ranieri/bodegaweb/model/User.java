@@ -1,6 +1,7 @@
 package com.ranieri.bodegaweb.model;
 
 import com.google.gson.annotations.SerializedName;
+
 import org.parceler.Parcel;
 
 /**
@@ -16,8 +17,9 @@ public class User {
     public static final int userDoesntExist = 3;
     public static final int userAlreadyExists = 4;
     public static final int serverError = 5;
-    public static final int updateOk = 6;
-    public static final int deleteOk = 7;
+    public static final int serverNotFound = 6;
+    public static final int updateOk = 7;
+    public static final int deleteOk = 8;
 
     // Códigos para AsyncTask
     public static final int loginAccount = 1;
@@ -37,7 +39,8 @@ public class User {
     private boolean autoLogin;
     private int statusCode;
 
-    public User() { }
+    public User() {
+    }
 
     public User(long id) {
         this.id = id;
@@ -83,7 +86,11 @@ public class User {
         this.statusCode = statusCode;
     }
 
-    public PermissionsApp getPermissionsApp() { return permissionsApp; }
+    public PermissionsApp getPermissionsApp() {
+        return permissionsApp;
+    }
 
-    public void setPermissionsApp(PermissionsApp permissionsApp) { this.permissionsApp = permissionsApp; }
+    public void setPermissionsApp(PermissionsApp permissionsApp) {
+        this.permissionsApp = permissionsApp;
+    }
 }

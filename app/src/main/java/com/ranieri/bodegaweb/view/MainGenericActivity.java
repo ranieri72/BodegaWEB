@@ -16,11 +16,16 @@ import android.widget.Toast;
 
 import com.google.android.gms.common.api.CommonStatusCodes;
 import com.google.android.gms.vision.barcode.Barcode;
-import com.google.firebase.perf.FirebasePerformance;
-import com.google.firebase.perf.metrics.Trace;
 import com.ranieri.bodegaweb.R;
 import com.ranieri.bodegaweb.asyncTask.RefreshDataTask;
+import com.ranieri.bodegaweb.connection.AppSession;
+import com.ranieri.bodegaweb.connection.ConnectionConstants;
+import com.ranieri.bodegaweb.connection.IonRequester;
+import com.ranieri.bodegaweb.dao.ProdutosDAO;
+import com.ranieri.bodegaweb.dao.StockMovementDAO;
 import com.ranieri.bodegaweb.dao.UserDAO;
+import com.ranieri.bodegaweb.model.User;
+import com.ranieri.bodegaweb.util.Util;
 import com.ranieri.bodegaweb.view.fragments.ListSubCategoryFragment.ClickOnSubCategoryListener;
 
 import java.util.concurrent.ExecutionException;
@@ -31,43 +36,65 @@ public abstract class MainGenericActivity extends AppCompatActivity implements C
     private Handler mHandler;
     private ConnectivityManager connManager;
     private Menu mOptionsMenu;
+    private NetworkInfo mWifi;
+    private int statusIcon;
+    private int qtdDataChanged;
+    private ProdutosDAO produtosDAO;
+    private StockMovementDAO movementDAO;
 
     @Override
     protected void onCreate(Bundle bundle) {
         super.onCreate(bundle);
         connManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-//        mHandler = new Handler();
-//        startRepeatingTask();
+        if (AppSession.user.getStatusCode() == User.serverNotFound) {
+            Toast.makeText(this, getResources().getString(R.string.serverNotFound), Toast.LENGTH_LONG).show();
+            statusIcon = R.drawable.ic_action_off;
+        }
+        produtosDAO = new ProdutosDAO(this);
+        movementDAO = new StockMovementDAO(this);
+
+        mHandler = new Handler();
+        startRepeatingTask();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-//        stopRepeatingTask();
+        stopRepeatingTask();
     }
 
     Runnable mStatusChecker = new Runnable() {
         @Override
         public void run() {
-            try {
-                NetworkInfo mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-                int statusIcon;
-                if (mWifi.isConnected()) {
-                    statusIcon = R.drawable.ic_action_cached;
-                    Toast.makeText(MainGenericActivity.this, "Wifi conectado!", Toast.LENGTH_SHORT).show();
-                } else {
-                    statusIcon = R.drawable.ic_action_off;
-                    Toast.makeText(MainGenericActivity.this, "Wifi desconectado!", Toast.LENGTH_SHORT).show();
-                }
-                if (mOptionsMenu != null) {
-                    mOptionsMenu.findItem(R.id.action_update).setIcon(statusIcon);
-                }
-            } finally {
-                int mInterval = 5000;
-                mHandler.postDelayed(mStatusChecker, mInterval);
-            }
+            checkStatus();
+            int mInterval = 5000;
+            mHandler.postDelayed(mStatusChecker, mInterval);
         }
     };
+
+    private void checkStatus() {
+        try {
+            mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+            statusIcon = R.drawable.ic_action_off;
+            qtdDataChanged = produtosDAO.contar(true) + movementDAO.contar();
+            if (mWifi.isConnected()) {
+
+                new IonRequester(MainGenericActivity.this, ConnectionConstants.urlTest).testConnection();
+                if (Util.isConnection) {
+                    if (qtdDataChanged > 0) {
+                        statusIcon = R.drawable.ic_action_up;
+                    } else {
+                        statusIcon = R.drawable.ic_action_cached;
+                    }
+                }
+            }
+            if (mOptionsMenu != null) {
+                mOptionsMenu.findItem(R.id.action_update).setIcon(statusIcon);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     void startRepeatingTask() {
         mStatusChecker.run();
@@ -100,6 +127,7 @@ public abstract class MainGenericActivity extends AppCompatActivity implements C
     public boolean onCreateOptionsMenu(Menu menu) {
         mOptionsMenu = menu;
         getMenuInflater().inflate(R.menu.main_menu, menu);
+        mOptionsMenu.findItem(R.id.action_update).setIcon(statusIcon);
         return true;
     }
 
@@ -107,7 +135,7 @@ public abstract class MainGenericActivity extends AppCompatActivity implements C
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_update:
-                dialogUpdate();
+                checkUpdate();
                 break;
             case R.id.action_barcode:
                 barCode();
@@ -122,10 +150,23 @@ public abstract class MainGenericActivity extends AppCompatActivity implements C
         return super.onOptionsItemSelected(item);
     }
 
+    private void checkUpdate() {
+        checkStatus();
+        if (Util.isConnection) {
+            if (qtdDataChanged > 0) {
+                dialogUpdate();
+            } else {
+                Toast.makeText(this, "Não a produtos para alterar", Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            Toast.makeText(this, getResources().getString(R.string.serverNotFound), Toast.LENGTH_SHORT).show();
+        }
+    }
+
     private void dialogUpdate() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(getResources().getString(R.string.atualizarDados));
-        builder.setMessage(getResources().getString(R.string.areYouSure));
+        builder.setMessage(getResources().getString(R.string.areYouSure) + " " + qtdDataChanged + " dados para enviar");
         builder.setPositiveButton(getResources().getString(R.string.yes), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface arg0, int arg1) {
                 updateData();
@@ -141,17 +182,14 @@ public abstract class MainGenericActivity extends AppCompatActivity implements C
 
     private void updateData() {
         try {
-            Trace myTrace = FirebasePerformance.getInstance().newTrace("updateData");
-            myTrace.start();
-
             int qtd = new RefreshDataTask().execute(this).get();
             Toast.makeText(this, getResources().getString(R.string.produtosAtualizados) + qtd, Toast.LENGTH_LONG).show();
-
-            myTrace.stop();
         } catch (InterruptedException e) {
             e.printStackTrace();
+            Toast.makeText(this, getResources().getString(R.string.serverError), Toast.LENGTH_LONG).show();
         } catch (ExecutionException e) {
             e.printStackTrace();
+            Toast.makeText(this, getResources().getString(R.string.serverError), Toast.LENGTH_LONG).show();
         }
     }
 

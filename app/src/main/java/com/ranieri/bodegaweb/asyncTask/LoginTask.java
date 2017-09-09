@@ -44,6 +44,7 @@ public class LoginTask extends AsyncTask<Integer, Void, Void> {
             AppSession.user = gson.fromJson(jsonString, User.class);
         } catch (Exception e) {
             e.printStackTrace();
+            AppSession.user.setStatusCode(User.serverNotFound);
         }
         return null;
     }

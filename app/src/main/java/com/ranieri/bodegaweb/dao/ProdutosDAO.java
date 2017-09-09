@@ -46,7 +46,7 @@ public class ProdutosDAO extends GenericDAO<Produtos> {
         produto.setAlterado(true);
 
         ContentValues values = valuesFromObject(produto);
-        int rowsAffected = db.update(ProdutosContract.TABLE_NAME, values, ProdutosContract.COLUMN_ID + " = ?", new String[]{String.valueOf(produto.getId())});
+        int rowsAffected = db.update(tableName, values, ProdutosContract.COLUMN_ID + " = ?", new String[]{String.valueOf(produto.getId())});
 
         db.close();
         return rowsAffected;
@@ -56,7 +56,7 @@ public class ProdutosDAO extends GenericDAO<Produtos> {
         BodegaHelper helper = new BodegaHelper(mContext);
         SQLiteDatabase db = helper.getWritableDatabase();
 
-        int rowsAffected = db.delete(ProdutosContract.TABLE_NAME, null, null);
+        int rowsAffected = db.delete(tableName, null, null);
 
         db.close();
         return rowsAffected;
@@ -106,7 +106,7 @@ public class ProdutosDAO extends GenericDAO<Produtos> {
         BodegaHelper helper = new BodegaHelper(mContext);
         SQLiteDatabase db = helper.getReadableDatabase();
 
-        String sql = "SELECT * FROM " + ProdutosContract.TABLE_NAME;
+        String sql = "SELECT * FROM " + tableName;
 
         Cursor cursor = db.rawQuery(sql, null);
 
@@ -266,6 +266,30 @@ public class ProdutosDAO extends GenericDAO<Produtos> {
         cursor.close();
         db.close();
         return lista;
+    }
+
+    public int contar(boolean alterado) {
+        BodegaHelper helper = new BodegaHelper(mContext);
+        SQLiteDatabase db = helper.getReadableDatabase();
+        String[] estado = alterado ? new String[]{"1"} : new String[]{"0"};
+
+        String sql = "SELECT COUNT(" +
+                ProdutosContract.ID +
+                ") FROM " +
+                ProdutosContract.TABLE_NAME +
+                " WHERE " +
+                ProdutosContract.ALTERED +
+                " = ?";
+
+        Cursor cursor = db.rawQuery(sql, estado);
+        int quantidade = 0;
+
+        if (cursor.moveToNext()) {
+            quantidade = cursor.getInt(0);
+        }
+        cursor.close();
+        db.close();
+        return quantidade;
     }
 
     private void getColumnIndex(Cursor cursor) {
