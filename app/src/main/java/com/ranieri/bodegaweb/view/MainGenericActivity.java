@@ -153,11 +153,11 @@ public abstract class MainGenericActivity extends AppCompatActivity implements C
     private void checkUpdate() {
         checkStatus();
         if (Util.isConnection) {
-            if (qtdDataChanged > 0) {
+//            if (qtdDataChanged > 0) {
                 dialogUpdate();
-            } else {
-                Toast.makeText(this, "Não a produtos para alterar", Toast.LENGTH_SHORT).show();
-            }
+//            } else {
+//                Toast.makeText(this, "Não a produtos para alterar", Toast.LENGTH_SHORT).show();
+//            }
         } else {
             Toast.makeText(this, getResources().getString(R.string.serverNotFound), Toast.LENGTH_SHORT).show();
         }
