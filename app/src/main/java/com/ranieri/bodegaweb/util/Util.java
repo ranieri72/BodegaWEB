@@ -25,7 +25,9 @@ public class Util {
     public static final SimpleDateFormat formatoHora = new SimpleDateFormat("HH:mm", ptBr);
 
     public static final String tabletViewPreference = "tabletView";
+    public static final String countStockPreference = "countStock";
     public static boolean isTablet;
+    public static boolean isCountStock;
     public static boolean isConnection;
 
     public static String moneyFormatter(double money) {

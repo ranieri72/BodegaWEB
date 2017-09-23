@@ -6,9 +6,11 @@ package com.ranieri.bodegaweb.connection;
 
 public class ConnectionConstants {
 
-    //private static String ipv4 = "192.168.0.4:8080";
-    //private static String ipv4 = "10.0.1.36:8080";
-    private static String ipv4 = "192.168.15.10:8080";
+    public static String producao = "192.168.0.4:8080";
+    public static String teste = "10.0.1.36:8080";
+    public static String desenvolvimento = "192.168.15.13:8080";
+
+    public static String ipv4 = desenvolvimento;
 
     private static final String http = "http://";
     private static final String bodegaWEB = "/bodegaWEB/rest/";

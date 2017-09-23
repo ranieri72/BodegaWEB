@@ -35,13 +35,30 @@
         android:text="@string/restart"
         android:textColor="#ff1414" />
 
+    <Switch
+        android:id="@+id/switchCountStock"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="7dp"
+        android:layout_marginStart="7dp"
+        android:text="@string/editstock" />
+
+    <TextView
+        android:id="@+id/txt_ip"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="7dp"
+        android:layout_marginStart="7dp"
+        android:layout_marginTop="20dp"
+        android:text="@string/IPv4"
+        android:textColor="#000000" />
+
     <Spinner
         android:id="@+id/ipv4_spinner"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginEnd="7dp"
-        android:layout_marginStart="7dp"
-        android:layout_marginTop="10dp" />
+        android:layout_marginStart="7dp" />
 
     <Button
         android:id="@+id/btnSave"

@@ -13,11 +13,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ranieri.bodegaweb.R;
-import com.ranieri.bodegaweb.connection.IonRequester;
 import com.ranieri.bodegaweb.connection.ConnectionConstants;
+import com.ranieri.bodegaweb.connection.IonRequester;
 import com.ranieri.bodegaweb.util.Util;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -28,6 +30,9 @@ public class ConfiguracoesActivity extends AppCompatActivity {
 
 //    @BindView(R.id.progress_bar)
 //    ProgressBar progressBar;
+
+    @BindView(R.id.switchCountStock)
+    Switch mSwitchCountStock;
 
     @BindView(R.id.switchTabletView)
     Switch mSwitchIsTablet;
@@ -50,6 +55,12 @@ public class ConfiguracoesActivity extends AppCompatActivity {
         setTitle(getResources().getString(R.string.configuracoes));
         ButterKnife.bind(this);
 
+        onCreateSwitchTablet();
+        onCreateSwitchStock();
+        onCreateSpinner();
+    }
+
+    private void onCreateSwitchTablet() {
         sharedPreferences = getSharedPreferences(Util.tabletViewPreference, Context.MODE_PRIVATE);
         isTablet = Util.isTablet;
         mSwitchIsTablet.setChecked(sharedPreferences.getBoolean(Util.tabletViewPreference, true));
@@ -59,21 +70,38 @@ public class ConfiguracoesActivity extends AppCompatActivity {
         } else {
             mTxtAlert.setVisibility(View.VISIBLE);
         }
+    }
 
-        ArrayList<String> list = new ArrayList<>();
-        list.add("teste");
-        list.add("teste2");
+    private void onCreateSwitchStock() {
+        sharedPreferences = getSharedPreferences(Util.countStockPreference, Context.MODE_PRIVATE);
+        mSwitchCountStock.setChecked(sharedPreferences.getBoolean(Util.countStockPreference, false));
+    }
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(ConfiguracoesActivity.this,
-                android.R.layout.simple_spinner_item, list);
+    private void onCreateSpinner() {
+        Map<String, String> desenvolvimentoMap = new HashMap<>();
+        desenvolvimentoMap.put("Desenv", ConnectionConstants.desenvolvimento);
+
+        Map<String, String> testeMap = new HashMap<>();
+        testeMap.put("Teste", ConnectionConstants.teste);
+
+        Map<String, String> producaoMap = new HashMap<>();
+        producaoMap.put("Producao", ConnectionConstants.producao);
+
+        ArrayList<Map<String, String>> ipList = new ArrayList<>();
+        ipList.add(desenvolvimentoMap);
+        ipList.add(testeMap);
+        ipList.add(producaoMap);
+
+        ArrayAdapter<Map<String, String>> adapter = new ArrayAdapter<>(ConfiguracoesActivity.this,
+                android.R.layout.simple_spinner_item, ipList);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mIpv4Spinner.setAdapter(adapter);
+        mIpv4Spinner.setSelection(0);
     }
 
     @OnItemSelected(R.id.ipv4_spinner)
     public void onItemSelected(Spinner spinner, int pos) {
-        Toast.makeText(this, pos, Toast.LENGTH_LONG).show();
-        // parent.getItemAtPosition(pos)
+        //Toast.makeText(this, spinner.getItemAtPosition(pos).toString(), Toast.LENGTH_LONG).show();
     }
 
     @OnClick({R.id.btnSave, R.id.btnIonTest})

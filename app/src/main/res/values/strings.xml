@@ -26,6 +26,7 @@
     <string name="pedidosAtualizados">Updated Orders: </string>
     <string name="stockMovement">Stock Movement</string>
     <string name="tabletView">Tablet View</string>
+    <string name="IPv4">IPv4</string>
     <string name="restart">Restart application to apply changes!</string>
     <string name="areYouSure">Are you sure?</string>
 

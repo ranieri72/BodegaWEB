@@ -26,6 +26,7 @@
     <string name="pedidosAtualizados">Pedidos Atualizados: </string>
     <string name="stockMovement">Movimentação do Estoque</string>
     <string name="tabletView">Visão de Tablet</string>
+    <string name="IPv4">IPv4</string>
     <string name="restart">Reiniciar o aplicativo para aplicar as mudanças!</string>
     <string name="areYouSure">Você tem certeza?</string>
 
