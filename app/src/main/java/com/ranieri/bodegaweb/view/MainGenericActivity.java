@@ -154,7 +154,7 @@ public abstract class MainGenericActivity extends AppCompatActivity implements C
         checkStatus();
         if (Util.isConnection) {
 //            if (qtdDataChanged > 0) {
-                dialogUpdate();
+            dialogUpdate();
 //            } else {
 //                Toast.makeText(this, "Não a produtos para alterar", Toast.LENGTH_SHORT).show();
 //            }
@@ -166,7 +166,7 @@ public abstract class MainGenericActivity extends AppCompatActivity implements C
     private void dialogUpdate() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(getResources().getString(R.string.atualizarDados));
-        builder.setMessage(getResources().getString(R.string.areYouSure) + " " + qtdDataChanged + " dados para enviar");
+        builder.setMessage(getResources().getQuantityString(R.plurals.areYouSure, qtdDataChanged, qtdDataChanged));
         builder.setPositiveButton(getResources().getString(R.string.yes), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface arg0, int arg1) {
                 updateData();
@@ -183,7 +183,7 @@ public abstract class MainGenericActivity extends AppCompatActivity implements C
     private void updateData() {
         try {
             int qtd = new RefreshDataTask().execute(this).get();
-            Toast.makeText(this, getResources().getString(R.string.produtosAtualizados) + qtd, Toast.LENGTH_LONG).show();
+            Toast.makeText(this, getResources().getQuantityString(R.plurals.produtosAtualizados, qtd, qtd), Toast.LENGTH_LONG).show();
         } catch (InterruptedException e) {
             e.printStackTrace();
             Toast.makeText(this, getResources().getString(R.string.serverError), Toast.LENGTH_LONG).show();

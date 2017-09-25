@@ -6,7 +6,6 @@ import android.content.Intent;
 import com.ranieri.bodegaweb.connection.AppSession;
 import com.ranieri.bodegaweb.dao.PermissionsDAO;
 import com.ranieri.bodegaweb.dao.UserDAO;
-import com.ranieri.bodegaweb.model.PermissionsApp;
 import com.ranieri.bodegaweb.view.MainActivity;
 import com.ranieri.bodegaweb.view.MainTabletActivity;
 
@@ -24,8 +23,10 @@ public class Util {
     public static final SimpleDateFormat formatoData = new SimpleDateFormat("dd/MM/yyyy", ptBr);
     public static final SimpleDateFormat formatoHora = new SimpleDateFormat("HH:mm", ptBr);
 
+    public static final String configPreference = "config";
     public static final String tabletViewPreference = "tabletView";
     public static final String countStockPreference = "countStock";
+
     public static boolean isTablet;
     public static boolean isCountStock;
     public static boolean isConnection;
@@ -50,7 +51,7 @@ public class Util {
 
     public static void intentToMainActivity(Context context) {
         Intent it;
-        if (Util.isTablet) {
+        if (isTablet) {
             it = new Intent(context, MainTabletActivity.class);
         } else {
             it = new Intent(context, MainActivity.class);

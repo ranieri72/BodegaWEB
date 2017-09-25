@@ -3,7 +3,9 @@
     <string name="qtd">Amount</string>
     <string name="estoque">Amount</string>
     <string name="novoestoque">Current amount</string>
-    <string name="editstock">Edit stock</string>
+    <string name="estoqueAtual">Current amount: %d</string>
+    <string name="editstock">Edit stock: %s</string>
+    <string name="editStockOption">Edit stock</string>
     <string name="preco">Price</string>
     <string name="nome">Name</string>
     <string name="categoria">Category</string>
@@ -18,17 +20,28 @@
     <string name="gerarsql">Generate SQL</string>
     <string name="sqlgerado">SQL Generated</string>
     <string name="configuracoes">Settings</string>
+    <string name="configuracoesSalvas">Settings saved successfully!</string>
     <string name="barcode">Barcode</string>
     <string name="atualizarProdutos">Refresh Products</string>
     <string name="atualizarPedidos">Refresh Orders</string>
     <string name="atualizarDados">Refresh Data</string>
-    <string name="produtosAtualizados">Updated Products: </string>
-    <string name="pedidosAtualizados">Updated Orders: </string>
-    <string name="stockMovement">Stock Movement</string>
+    <string name="stockMovement">Stock Movement: %s</string>
     <string name="tabletView">Tablet View</string>
     <string name="IPv4">IPv4</string>
     <string name="restart">Restart application to apply changes!</string>
-    <string name="areYouSure">Are you sure?</string>
+
+    <plurals name="produtosAtualizados">
+        <item quantity="one">%d product updated.</item>
+        <item quantity="other">%d products updated.</item>
+    </plurals>
+    <plurals name="pedidosAtualizados">
+        <item quantity="one">%d order updated.</item>
+        <item quantity="other">%d orders updated.</item>
+    </plurals>
+    <plurals name="areYouSure">
+        <item quantity="one">%d data to send. Are you sure?</item>
+        <item quantity="other">%d data to send. Are you sure?</item>
+    </plurals>
 
     <string name="login">Login</string>
     <string name="logout">Logout</string>

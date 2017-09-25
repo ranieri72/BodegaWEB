@@ -54,6 +54,7 @@ public class ConfiguracoesActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         setTitle(getResources().getString(R.string.configuracoes));
         ButterKnife.bind(this);
+        sharedPreferences = getSharedPreferences(Util.configPreference, Context.MODE_PRIVATE);
 
         onCreateSwitchTablet();
         onCreateSwitchStock();
@@ -61,7 +62,6 @@ public class ConfiguracoesActivity extends AppCompatActivity {
     }
 
     private void onCreateSwitchTablet() {
-        sharedPreferences = getSharedPreferences(Util.tabletViewPreference, Context.MODE_PRIVATE);
         isTablet = Util.isTablet;
         mSwitchIsTablet.setChecked(sharedPreferences.getBoolean(Util.tabletViewPreference, true));
 
@@ -73,7 +73,6 @@ public class ConfiguracoesActivity extends AppCompatActivity {
     }
 
     private void onCreateSwitchStock() {
-        sharedPreferences = getSharedPreferences(Util.countStockPreference, Context.MODE_PRIVATE);
         mSwitchCountStock.setChecked(sharedPreferences.getBoolean(Util.countStockPreference, false));
     }
 
@@ -111,13 +110,16 @@ public class ConfiguracoesActivity extends AppCompatActivity {
             case R.id.btnSave:
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putBoolean(Util.tabletViewPreference, mSwitchIsTablet.isChecked());
+                editor.putBoolean(Util.countStockPreference, mSwitchCountStock.isChecked());
                 editor.apply();
+                Util.isCountStock = sharedPreferences.getBoolean(Util.countStockPreference, false);
 
                 if (mSwitchIsTablet.isChecked() == isTablet) {
                     mTxtAlert.setVisibility(View.INVISIBLE);
                 } else {
                     mTxtAlert.setVisibility(View.VISIBLE);
                 }
+                Toast.makeText(this, getResources().getString(R.string.configuracoesSalvas), Toast.LENGTH_LONG).show();
                 break;
             case R.id.btnIonTest:
                 String errorMsg = "";

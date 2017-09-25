@@ -20,7 +20,7 @@ public class CheckingLoginActivity extends AppCompatActivity {
 
         UserDAO dao = new UserDAO(this);
         AppSession.user = dao.selectAutoLogin();
-        SharedPreferences sharedPreferences = getSharedPreferences(Util.tabletViewPreference, Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getSharedPreferences(Util.configPreference, Context.MODE_PRIVATE);
         Util.isTablet = sharedPreferences.getBoolean(Util.tabletViewPreference, true);
 
         Intent it;

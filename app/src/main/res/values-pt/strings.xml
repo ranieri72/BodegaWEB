@@ -3,7 +3,9 @@
     <string name="qtd">Quantidade</string>
     <string name="estoque">Estoque</string>
     <string name="novoestoque">Estoque atual</string>
-    <string name="editstock">Alterar estoque</string>
+    <string name="estoqueAtual">Estoque atual: %d</string>
+    <string name="editstock">Alterar estoque: %s</string>
+    <string name="editStockOption">Alterar estoque</string>
     <string name="preco">Preço</string>
     <string name="nome">Nome</string>
     <string name="categoria">Categoria</string>
@@ -18,17 +20,28 @@
     <string name="gerarsql">Gerar SQL</string>
     <string name="sqlgerado">SQL Gerado</string>
     <string name="configuracoes">Configurações</string>
+    <string name="configuracoesSalvas">Configurações salvas com sucesso!</string>
     <string name="barcode">Código de barras</string>
     <string name="atualizarProdutos">Atualizar Produtos</string>
     <string name="atualizarPedidos">Atualizar Pedidos</string>
     <string name="atualizarDados">Atualizar Dados</string>
-    <string name="produtosAtualizados">Produtos Atualizados: </string>
-    <string name="pedidosAtualizados">Pedidos Atualizados: </string>
-    <string name="stockMovement">Movimentação do Estoque</string>
+    <string name="stockMovement">Movimentação do Estoque: %s</string>
     <string name="tabletView">Visão de Tablet</string>
     <string name="IPv4">IPv4</string>
     <string name="restart">Reiniciar o aplicativo para aplicar as mudanças!</string>
-    <string name="areYouSure">Você tem certeza?</string>
+
+    <plurals name="produtosAtualizados">
+        <item quantity="one">%d produto atualizado.</item>
+        <item quantity="other">%d produtos atualizados.</item>
+    </plurals>
+    <plurals name="pedidosAtualizados">
+        <item quantity="one">%d pedido atualizado.</item>
+        <item quantity="other">%d pedidos atualizados.</item>
+    </plurals>
+    <plurals name="areYouSure">
+        <item quantity="one">%d dado para enviar. Você tem certeza?</item>
+        <item quantity="other">%d dados para enviar. Você tem certeza?</item>
+    </plurals>
 
     <string name="login">Login</string>
     <string name="logout">Sair</string>
