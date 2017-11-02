@@ -51,7 +51,7 @@
             android:name=".view.ProviderActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".view.MainActivity"
+            android:name=".view.MainPhoneActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".view.LoginActivity"
@@ -70,6 +70,10 @@
             android:name=".view.MainTabletActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".view.CameraActivity" />
+        <activity
+            android:name=".view.MainActivity"
+            android:label="@string/title_activity_main2"
+            android:theme="@style/AppTheme" />
     </application>
 
 </manifest>

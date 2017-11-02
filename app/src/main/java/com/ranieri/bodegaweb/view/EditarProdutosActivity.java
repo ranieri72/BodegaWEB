@@ -75,7 +75,7 @@ public class EditarProdutosActivity extends AppCompatActivity {
 
                 Log.v("Editar Produto", "onClick - Subcategoria");
 
-                it = new Intent(EditarProdutosActivity.this, MainActivity.class);
+                it = new Intent(EditarProdutosActivity.this, MainPhoneActivity.class);
                 it.putExtra("produto", Parcels.wrap(produto));
                 startActivityForResult(it, 1);
                 break;

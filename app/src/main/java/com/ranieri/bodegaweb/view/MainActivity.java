@@ -1,92 +1,75 @@
 package com.ranieri.bodegaweb.view;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
-import android.support.design.widget.TabLayout.OnTabSelectedListener;
-import android.support.design.widget.TabLayout.TabLayoutOnPageChangeListener;
-import android.support.v4.view.ViewPager;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.ranieri.bodegaweb.R;
-import com.ranieri.bodegaweb.connection.AppSession;
-import com.ranieri.bodegaweb.model.Order;
-import com.ranieri.bodegaweb.model.Provider;
-import com.ranieri.bodegaweb.model.SubCategorias;
-import com.ranieri.bodegaweb.view.fragments.ListOrderFragment.ClickOnOrderListener;
-import com.ranieri.bodegaweb.view.fragments.ListProviderFragment.ClickOnProviderListener;
-import com.ranieri.bodegaweb.view.pagerAdapter.MainPagerAdapter;
 
-import org.parceler.Parcels;
-
-public class MainActivity extends MainGenericActivity implements ClickOnProviderListener, ClickOnOrderListener {
+public class MainActivity extends AppCompatActivity
+        implements NavigationView.OnNavigationItemSelectedListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
-        tabLayout.addTab(tabLayout.newTab().setText(getResources().getString(R.string.produtos)));
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.setDrawerListener(toggle);
+        toggle.syncState();
 
-        if (AppSession.user.getPermissionsApp().isVerFornecedores()) {
-            tabLayout.addTab(tabLayout.newTab().setText(getResources().getString(R.string.fornecedor)));
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+    }
+
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
         }
-        if (AppSession.user.getPermissionsApp().isVerPedidos()) {
-            tabLayout.addTab(tabLayout.newTab().setText(getResources().getString(R.string.pedido)));
+    }
+
+    @SuppressWarnings("StatementWithEmptyBody")
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+
+//        View view = findViewById(R.id.content_main);
+//        ViewGroup parent = (ViewGroup) view.getParent();
+//        int index = parent.indexOfChild(view);
+//        parent.removeView(view);
+//        view = getLayoutInflater().inflate(R.id.content_info, parent, false);
+//        parent.addView(view, index);
+
+        switch (item.getItemId()) {
+            case R.id.nav_sales:
+                break;
+            case R.id.nav_order:
+                break;
+            case R.id.nav_info:
+                break;
+            case R.id.nav_movim:
+                break;
+            case R.id.nav_count:
+                break;
+            case R.id.nav_config:
+                break;
         }
-        tabLayout.setTabGravity(TabLayout.MODE_SCROLLABLE);
-
-        final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
-        final MainPagerAdapter adapter = new MainPagerAdapter
-                (getSupportFragmentManager(), tabLayout.getTabCount());
-        viewPager.setAdapter(adapter);
-        viewPager.addOnPageChangeListener(new TabLayoutOnPageChangeListener(tabLayout));
-        tabLayout.setOnTabSelectedListener(new OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                viewPager.setCurrentItem(tab.getPosition());
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
-        });
-    }
-
-    @Override
-    public void subCategoryClicked(SubCategorias subCategoria) {
-        Log.v("MainActivity", "subCategoryClicked");
-
-        Intent it = new Intent(this, ListaProdutosActivity.class);
-        it.putExtra("subCategoria", Parcels.wrap(subCategoria));
-        startActivity(it);
-    }
-
-    @Override
-    public void orderClicked(Order order) {
-        Log.v("MainActivity", "orderClicked");
-
-        Intent it = new Intent(this, OrderActivity.class);
-        it.putExtra("order", Parcels.wrap(order));
-        startActivity(it);
-    }
-
-    @Override
-    public void providerClicked(Provider provider) {
-        Log.v("MainActivity", "providerClicked");
-
-        Intent it = new Intent(this, ProviderActivity.class);
-        it.putExtra("provider", Parcels.wrap(provider));
-        startActivity(it);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
     }
 }

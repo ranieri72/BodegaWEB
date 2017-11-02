@@ -67,7 +67,7 @@ public class MainTabletActivity extends MainGenericActivity implements ClickOnCa
 
     @Override
     public void subCategoryClicked(SubCategorias subCategoria) {
-        Log.v("MainActivity", "subCategoryClicked - isTablet");
+        Log.v("MainPhoneActivity", "subCategoryClicked - isTablet");
         categoryFragment.notifyDataSetChanged(subCategoria);
 
         Categorias categoria = new CategoriasDAO(this).selecionarPrimeira(subCategoria);

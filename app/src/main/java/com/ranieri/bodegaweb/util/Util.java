@@ -7,7 +7,7 @@ import com.ranieri.bodegaweb.connection.AppSession;
 import com.ranieri.bodegaweb.dao.PermissionsDAO;
 import com.ranieri.bodegaweb.dao.UserDAO;
 import com.ranieri.bodegaweb.view.MainActivity;
-import com.ranieri.bodegaweb.view.MainTabletActivity;
+import com.ranieri.bodegaweb.view.MainPhoneActivity;
 
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
@@ -52,9 +52,10 @@ public class Util {
     public static void intentToMainActivity(Context context) {
         Intent it;
         if (isTablet) {
-            it = new Intent(context, MainTabletActivity.class);
-        } else {
+            //it = new Intent(context, MainTabletActivity.class);
             it = new Intent(context, MainActivity.class);
+        } else {
+            it = new Intent(context, MainPhoneActivity.class);
         }
         context.startActivity(it);
     }
